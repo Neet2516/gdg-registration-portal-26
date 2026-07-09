@@ -6,7 +6,7 @@ interface SuccessScreenProps {
     studentNumber: string;
     email: string;
     branch: string;
-    residencyStatus: string;
+    residence: string;
   } | null;
 }
 
@@ -63,7 +63,7 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({ formData }) => {
           </div>
           <div>
             <span className="block text-[#71717A] text-[9px] uppercase tracking-wider">RESIDENCY</span>
-            <span className="text-white font-bold uppercase">{formData?.residencyStatus || 'N/A'}</span>
+            <span className="text-white font-bold uppercase">{formData?.residence || 'N/A'}</span>
           </div>
           <div className="col-span-2">
             <span className="block text-[#71717A] text-[9px] uppercase tracking-wider">INSTITUTIONAL EMAIL</span>

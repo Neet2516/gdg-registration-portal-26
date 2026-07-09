@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CaptchaGate } from './components/CaptchaGate';
 import { RegistrationForm } from './components/RegistrationForm';
+import type { RegistrationData } from './components/RegistrationForm';
 import { OtpVerification } from './components/OtpVerification';
 import { SuccessScreen } from './components/SuccessScreen';
 import { 
@@ -18,26 +19,15 @@ import {
 
 type FormState = 'CAPTCHA_GATE' | 'REGISTRATION_FORM' | 'OTP_VERIFICATION' | 'SUCCESS_SCREEN';
 
-interface ApplicantData {
-  name: string;
-  studentNumber: string;
-  phoneNumber: string;
-  email: string;
-  githubUsername: string;
-  hackerrankUsername: string;
-  branch: string;
-  residencyStatus: string;
-}
-
 function App() {
   const [currentState, setCurrentState] = useState<FormState>('CAPTCHA_GATE');
-  const [formData, setFormData] = useState<ApplicantData | null>(null);
+  const [formData, setFormData] = useState<RegistrationData | null>(null);
 
   const handleCaptchaSuccess = () => {
     setCurrentState('REGISTRATION_FORM');
   };
 
-  const handleRegistrationSuccess = (data: ApplicantData) => {
+  const handleRegistrationSuccess = (data: RegistrationData) => {
     setFormData(data);
     setCurrentState('OTP_VERIFICATION');
   };
@@ -279,6 +269,7 @@ function App() {
             {currentState === 'OTP_VERIFICATION' && (
               <OtpVerification 
                 email={formData?.email || ''} 
+                formData={formData}
                 onSuccess={handleOtpSuccess} 
                 onBack={handleOtpBack}
               />

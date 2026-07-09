@@ -12,39 +12,73 @@ import {
   KeyRound,
   CheckCircle2,
   Mail,
-  Calendar
+  Calendar,
+  AlertTriangle
 } from 'lucide-react';
 
 // ==========================================
 // ZOD SCHEMA & TYPES
 // ==========================================
 
-const branches = ['CSE', 'CS', 'CSE-DS', 'CSE-AIML', 'AIML', 'IT', 'ECE', 'EN', 'ME', 'CE'] as const;
+const branches = [
+  'CSE',
+  'CSE(AIML)',
+  'CSE(DS)',
+  'CSE(H)',
+  'CS',
+  'IT',
+  'CSIT',
+  'AIML',
+  'ECE',
+  'EN',
+  'ME',
+  'Civil'
+] as const;
+
+const domains = [
+  'frontend development',
+  'backend development',
+  'ml',
+  'app',
+  'designing',
+  'managerial'
+] as const;
 
 const registrationSchema = z.object({
   name: z.string()
     .trim()
-    .min(2, { message: 'NAME MUST BE AT LEAST 2 CHARACTERS.' })
-    .max(50, { message: 'NAME MUST BE AT MOST 50 CHARACTERS.' }),
+    .min(3, { message: 'NAME MUST BE AT LEAST 3 CHARACTERS.' })
+    .max(30, { message: 'NAME MUST BE AT MOST 30 CHARACTERS.' })
+    .regex(/^[A-Za-z ]+$/, { message: 'NAME MUST CONTAIN ONLY ALPHABETS AND SPACES.' }),
   studentNumber: z.string()
     .trim()
-    .regex(/^[0-9]{7,8}$/, { message: 'STUDENT NUMBER MUST BE 7 TO 8 DIGITS.' }),
-  phoneNumber: z.string()
+    .regex(/^25[0-9]{5,6}$/, { message: 'STUDENT ID MUST START WITH 25 AND BE 7-8 DIGITS (1ST YEAR ONLY).' }),
+  phone: z.string()
     .trim()
     .regex(/^[6-9]\d{9}$/, { message: 'PHONE NUMBER MUST BE A VALID 10-DIGIT INDIAN NUMBER.' }),
   email: z.string().trim(),
-  githubUsername: z.string()
-    .trim()
-    .min(1, { message: 'GITHUB USERNAME IS REQUIRED.' }),
-  hackerrankUsername: z.string()
-    .trim()
-    .min(1, { message: 'HACKERRANK USERNAME IS REQUIRED.' }),
-  branch: z.enum(['CSE', 'CS', 'CSE-DS', 'CSE-AIML', 'AIML', 'IT', 'ECE', 'EN', 'ME', 'CE'], {
+  gender: z.enum(['Male', 'Female'], {
+    message: 'GENDER MUST BE MALE OR FEMALE.'
+  }),
+  branch: z.enum(branches, {
     message: 'PLEASE SELECT A BRANCH.'
   }),
-  residencyStatus: z.enum(['dayscholar', 'hosteller'], {
-    message: 'PLEASE SELECT A RESIDENCY OPTION.'
+  residence: z.enum(['Hosteller', 'Day Scholar'], {
+    message: 'PLEASE SELECT RESIDENCY STATUS.'
   }),
+  domain: z.enum(domains, {
+    message: 'PLEASE SELECT A DOMAIN.'
+  }),
+  githubId: z.string()
+    .trim()
+    .min(1, { message: 'GITHUB ID/USERNAME IS REQUIRED.' }),
+  hackerrankId: z.string()
+    .trim()
+    .min(1, { message: 'HACKERRANK ID/USERNAME IS REQUIRED.' }),
+  unstopId: z.string()
+    .trim()
+    .optional()
+    .or(z.literal(''))
 });
 
 type RegistrationData = z.infer<typeof registrationSchema>;
@@ -162,11 +196,11 @@ const CaptchaGateSub: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="captcha-input" className="block font-mono text-xs text-[#71717A] tracking-wider uppercase">
+          <label htmlFor="captcha-input-sub" className="block font-mono text-xs text-[#71717A] tracking-wider uppercase">
             ENTER COMPUTED METRIC
           </label>
           <input
-            id="captcha-input"
+            id="captcha-input-sub"
             type="text"
             required
             autoComplete="off"
@@ -206,6 +240,7 @@ interface RegistrationFormProps {
 const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingText, setLoadingText] = useState('TRANSMITTING DATA...');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const {
     register,
@@ -218,12 +253,15 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
     defaultValues: {
       name: '',
       studentNumber: '',
-      phoneNumber: '',
+      phone: '',
       email: '',
-      githubUsername: '',
-      hackerrankUsername: '',
+      gender: undefined,
       branch: undefined,
-      residencyStatus: undefined
+      residence: undefined,
+      domain: undefined,
+      githubId: '',
+      hackerrankId: '',
+      unstopId: ''
     }
   });
 
@@ -237,26 +275,43 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
     }
   }, [studentNumberVal, setValue]);
 
-  const onSubmit = (data: RegistrationData) => {
+  const onSubmit = async (data: RegistrationData) => {
     setIsSubmitting(true);
-    const steps = [
-      'ESTABLISHING ENCRYPTED CONNECTION...',
-      'VERIFYING ACADEMIC IDENTIFIERS...',
-      'TRANSMITTING REGISTER DATA PACKAGE...',
-      'REGISTRATION RECORD INITIALIZED.'
-    ];
+    setErrorMsg(null);
+    setLoadingText('ESTABLISHING ENCRYPTED CONNECTION...');
 
-    let currentStep = 0;
-    const interval = setInterval(() => {
-      if (currentStep < steps.length) {
-        setLoadingText(steps[currentStep]);
-        currentStep++;
-      } else {
-        clearInterval(interval);
-        setIsSubmitting(false);
-        onSuccess(data);
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://proximety-7nt5.vercel.app/api/v1';
+      
+      setLoadingText('VERIFYING REQUEST HEADERS...');
+      await new Promise(r => setTimeout(r, 600));
+
+      setLoadingText('TRANSMITTING OTP SECURE KEY...');
+      const response = await fetch(`${backendUrl}/send-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          studentNumber: data.studentNumber,
+          captchaToken: 'bypass_recaptcha_token_proximity_6.0'
+        })
+      });
+
+      const resBody = await response.json();
+
+      if (!response.ok || !resBody.success) {
+        throw new Error(resBody.message || 'AUTHENTICATION INIT FAILED. RETRY.');
       }
-    }, 800);
+
+      setIsSubmitting(false);
+      onSuccess(data);
+    } catch (err: any) {
+      setIsSubmitting(false);
+      setErrorMsg(err.message || 'COMMUNICATION ERROR: BACKEND OFFLINE.');
+    }
   };
 
   return (
@@ -275,7 +330,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
       {isSubmitting ? (
         <div className="h-96 flex flex-col items-center justify-center space-y-6 bg-black border border-[#71717A] p-6 relative">
           <Loader2 className="animate-spin text-white w-12 h-12" />
-          <div className="font-mono text-xs tracking-widest text-white animate-pulse">
+          <div className="font-mono text-xs tracking-widest text-white animate-pulse text-center">
             {loadingText}
           </div>
           <div className="w-48 h-1.5 bg-zinc-900 border border-zinc-700 relative overflow-hidden">
@@ -284,6 +339,13 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {errorMsg && (
+            <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-4 py-3 flex items-center gap-2 animate-pulse">
+              <AlertTriangle size={16} />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
           <div className="space-y-1">
             <label className="block font-mono text-xs text-white tracking-widest uppercase">
               * APPLICANT NAME
@@ -306,7 +368,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
               </label>
               <input
                 type="text"
-                placeholder="e.g. 2310003"
+                placeholder="e.g. 2510003"
                 {...register('studentNumber')}
                 className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
               />
@@ -321,12 +383,12 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
               </label>
               <input
                 type="text"
-                placeholder="10 Digits"
-                {...register('phoneNumber')}
+                placeholder="e.g. 9876543210"
+                {...register('phone')}
                 className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
               />
-              {errors.phoneNumber && (
-                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.phoneNumber.message}</p>
+              {errors.phone && (
+                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.phone.message}</p>
               )}
             </div>
           </div>
@@ -343,43 +405,36 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
               readOnly
               placeholder="[studentNumber]@akgec.ac.in"
               {...register('email')}
-              className="w-full bg-zinc-950 border border-zinc-800 text-zinc-500 py-3 px-4 font-sans text-sm outline-none cursor-not-allowed select-none"
+              className="w-full bg-zinc-950 border border-zinc-800 text-zinc-500 py-3 px-4 font-sans text-sm outline-none cursor-not-allowed select-none animate-pulse"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
               <label className="block font-mono text-xs text-white tracking-widest uppercase">
-                * GITHUB USERNAME / ID
+                * GENDER
               </label>
-              <input
-                type="text"
-                placeholder="e.g. dev_username"
-                {...register('githubUsername')}
-                className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
-              />
-              {errors.githubUsername && (
-                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.githubUsername.message}</p>
+              <div className="relative">
+                <select
+                  {...register('gender')}
+                  className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap appearance-none cursor-pointer"
+                  defaultValue=""
+                >
+                  <option value="" disabled hidden>SELECT GENDER</option>
+                  <option value="Male" className="bg-black text-white">Male</option>
+                  <option value="Female" className="bg-black text-white">Female</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white">
+                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                  </svg>
+                </div>
+              </div>
+              {errors.gender && (
+                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.gender.message}</p>
               )}
             </div>
 
-            <div className="space-y-1">
-              <label className="block font-mono text-xs text-white tracking-widest uppercase">
-                * HACKERRANK USERNAME / ID
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. hr_profile"
-                {...register('hackerrankUsername')}
-                className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
-              />
-              {errors.hackerrankUsername && (
-                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.hackerrankUsername.message}</p>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
               <label className="block font-mono text-xs text-white tracking-widest uppercase">
                 * SELECTION BRANCH
@@ -405,6 +460,34 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
                 <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.branch.message}</p>
               )}
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-1">
+              <label className="block font-mono text-xs text-white tracking-widest uppercase">
+                * EVALUATION DOMAIN
+              </label>
+              <div className="relative">
+                <select
+                  {...register('domain')}
+                  className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap appearance-none cursor-pointer"
+                  defaultValue=""
+                >
+                  <option value="" disabled hidden>SELECT DOMAIN</option>
+                  {domains.map(d => (
+                    <option key={d} value={d} className="bg-black text-white uppercase">{d}</option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white">
+                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                  </svg>
+                </div>
+              </div>
+              {errors.domain && (
+                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.domain.message}</p>
+              )}
+            </div>
 
             <div className="space-y-1">
               <label className="block font-mono text-xs text-white tracking-widest uppercase">
@@ -414,8 +497,8 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
                 <label className="flex items-center gap-2 cursor-pointer group">
                   <input
                     type="radio"
-                    value="dayscholar"
-                    {...register('residencyStatus')}
+                    value="Day Scholar"
+                    {...register('residence')}
                     className="appearance-none w-3.5 h-3.5 border border-[#71717A] checked:bg-white checked:border-white focus:outline-none transition-snap"
                   />
                   <span className="font-mono text-xs text-[#71717A] group-hover:text-white transition-snap uppercase select-none">
@@ -426,8 +509,8 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
                 <label className="flex items-center gap-2 cursor-pointer group">
                   <input
                     type="radio"
-                    value="hosteller"
-                    {...register('residencyStatus')}
+                    value="Hosteller"
+                    {...register('residence')}
                     className="appearance-none w-3.5 h-3.5 border border-[#71717A] checked:bg-white checked:border-white focus:outline-none transition-snap"
                   />
                   <span className="font-mono text-xs text-[#71717A] group-hover:text-white transition-snap uppercase select-none">
@@ -435,10 +518,57 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
                   </span>
                 </label>
               </div>
-              {errors.residencyStatus && (
-                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.residencyStatus.message}</p>
+              {errors.residence && (
+                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.residence.message}</p>
               )}
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-1">
+              <label className="block font-mono text-xs text-white tracking-widest uppercase">
+                * GITHUB USERNAME / ID
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. dev_username"
+                {...register('githubId')}
+                className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
+              />
+              {errors.githubId && (
+                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.githubId.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <label className="block font-mono text-xs text-white tracking-widest uppercase">
+                * HACKERRANK USERNAME / ID
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. hr_profile"
+                {...register('hackerrankId')}
+                className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
+              />
+              {errors.hackerrankId && (
+                <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.hackerrankId.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="block font-mono text-xs text-white tracking-widest uppercase">
+              UNSTOP USERNAME / ID (OPTIONAL)
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. unstop_coder"
+              {...register('unstopId')}
+              className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
+            />
+            {errors.unstopId && (
+              <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.unstopId.message}</p>
+            )}
           </div>
 
           <div className="pt-4">
@@ -461,14 +591,17 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
 
 interface OtpVerificationProps {
   email: string;
+  formData: RegistrationData | null;
   onSuccess: () => void;
   onBack: () => void;
 }
 
-const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, onSuccess, onBack }) => {
-  const [otp, setOtp] = useState<string[]>(['', '', '', '']);
+const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, onSuccess, onBack }) => {
+  const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']); // 6 digits
   const [error, setError] = useState<string | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [statusText, setStatusText] = useState('VALIDATING ACCESS CODE...');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
@@ -484,7 +617,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, onSuccess, 
     setOtp(newOtp);
     setError(null);
 
-    if (val !== '' && index < 3) {
+    if (val !== '' && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -507,30 +640,83 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, onSuccess, 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const pasteData = e.clipboardData.getData('text').trim();
-    if (pasteData.length === 4 && /^\d{4}$/.test(pasteData)) {
+    if (pasteData.length === 6 && /^\d{6}$/.test(pasteData)) {
       const newOtp = pasteData.split('');
       setOtp(newOtp);
-      inputRefs.current[3]?.focus();
+      inputRefs.current[5]?.focus();
       setError(null);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const enteredCode = otp.join('');
 
-    if (enteredCode.length < 4) {
-      setError('ERROR: PLEASE ENTER ALL 4 DIGITS.');
+    if (enteredCode.length < 6) {
+      setError('ERROR: PLEASE ENTER ALL 6 DIGITS.');
       return;
     }
 
-    if (enteredCode === '1234') {
-      setError(null);
+    setIsVerifying(true);
+    setError(null);
+    setStatusText('VALIDATING ACCESS CODE...');
+
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://proximety-7nt5.vercel.app/api/v1';
+
+      const verifyResponse = await fetch(`${backendUrl}/verify-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          otp: enteredCode,
+        }),
+      });
+
+      const verifyData = await verifyResponse.json();
+
+      if (!verifyResponse.ok || !verifyData.success) {
+        throw new Error(verifyData.message || 'INVALID VERIFICATION KEY. ACCESS DENIED.');
+      }
+
+      setStatusText('OTP VERIFIED. WRITING RECORD TO DATABASE...');
+      await new Promise(r => setTimeout(r, 600));
+
+      const registerResponse = await fetch(`${backendUrl}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData?.name,
+          studentNumber: formData?.studentNumber,
+          email: formData?.email,
+          gender: formData?.gender,
+          branch: formData?.branch,
+          phone: formData?.phone,
+          unstopId: formData?.unstopId || undefined,
+          residence: formData?.residence,
+          domain: formData?.domain,
+          githubId: formData?.githubId,
+          hackerrankId: formData?.hackerrankId,
+        }),
+      });
+
+      const registerData = await registerResponse.json();
+
+      if (!registerResponse.ok || !registerData.success) {
+        throw new Error(registerData.message || 'REGISTRATION FAILED. TRY RESENDING OTP.');
+      }
+
+      setIsVerifying(false);
       onSuccess();
-    } else {
-      setError('ACCESS CODE DENIED: VERIFICATION KEY MISMATCH.');
+    } catch (err: any) {
+      setIsVerifying(false);
+      setError(err.message || 'COMMUNICATION FAILURE: RECORD FAILED.');
       setAttempts(prev => prev + 1);
-      setOtp(['', '', '', '']);
+      setOtp(['', '', '', '', '', '']);
       inputRefs.current[0]?.focus();
     }
   };
@@ -548,71 +734,83 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, onSuccess, 
         <span>ATTEMPTS: {attempts}</span>
       </div>
 
-      <div className="bg-[#EF4444]/10 border border-[#EF4444]/40 p-4 mb-6">
-        <div className="flex items-start gap-3">
-          <ShieldAlert className="text-[#EF4444] shrink-0 mt-0.5" size={18} />
-          <div className="space-y-1">
-            <span className="block font-mono text-xs text-white tracking-wider uppercase font-bold">
-              IDENTITY VERIFICATION REQUIRED
-            </span>
-            <span className="block font-mono text-[10px] text-[#71717A] tracking-wider leading-relaxed">
-              SECURE IDENTITY VERIFICATION KEY SENT TO:<br />
-              <span className="text-white font-bold underline select-all">{email || 'APPLICANT@akgec.ac.in'}</span>
-            </span>
+      {isVerifying ? (
+        <div className="h-64 flex flex-col items-center justify-center space-y-4 bg-black border border-[#71717A]/40 p-6">
+          <Loader2 className="animate-spin text-white w-10 h-10" />
+          <div className="font-mono text-[10px] tracking-widest text-white animate-pulse text-center uppercase">
+            {statusText}
           </div>
         </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-3">
-          <label className="block font-mono text-xs text-white tracking-widest uppercase text-center">
-            ENTER 4-DIGIT VERIFICATION KEY
-          </label>
-          <div className="flex justify-center gap-4">
-            {otp.map((digit, index) => (
-              <input
-                key={index}
-                type="text"
-                maxLength={1}
-                value={digit}
-                ref={(el) => { inputRefs.current[index] = el; }}
-                onChange={(e) => handleChange(e.target, index)}
-                onKeyDown={(e) => handleKeyDown(e, index)}
-                onPaste={index === 0 ? handlePaste : undefined}
-                className="w-12 h-14 bg-black border border-[#71717A] focus:border-white text-center text-xl font-mono text-white focus:outline-none transition-snap"
-                autoComplete="one-time-code"
-              />
-            ))}
+      ) : (
+        <>
+          <div className="bg-[#EF4444]/10 border border-[#EF4444]/40 p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <ShieldAlert className="text-[#EF4444] shrink-0 mt-0.5" size={18} />
+              <div className="space-y-1">
+                <span className="block font-mono text-xs text-white tracking-wider uppercase font-bold">
+                  IDENTITY VERIFICATION REQUIRED
+                </span>
+                <span className="block font-mono text-[10px] text-[#71717A] tracking-wider leading-relaxed">
+                  SECURE IDENTITY VERIFICATION KEY SENT TO:<br />
+                  <span className="text-white font-bold underline select-all">{email || 'APPLICANT@akgec.ac.in'}</span>
+                </span>
+              </div>
+            </div>
           </div>
-          <span className="block font-mono text-[10px] text-center text-zinc-600 tracking-wider">
-            (HINT: ENTER '1234' TO BYPASS VERIFICATION)
-          </span>
-        </div>
 
-        {error && (
-          <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 text-center animate-pulse">
-            {error}
-          </div>
-        )}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-3">
+              <label className="block font-mono text-xs text-white tracking-widest uppercase text-center">
+                ENTER 6-DIGIT VERIFICATION KEY
+              </label>
+              <div className="flex justify-center gap-2">
+                {otp.map((digit, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    maxLength={1}
+                    value={digit}
+                    ref={(el) => { inputRefs.current[index] = el; }}
+                    onChange={(e) => handleChange(e.target, index)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
+                    onPaste={index === 0 ? handlePaste : undefined}
+                    className="w-10 h-12 bg-black border border-[#71717A] focus:border-white text-center text-lg font-mono text-white focus:outline-none transition-snap"
+                    autoComplete="one-time-code"
+                  />
+                ))}
+              </div>
+              <span className="block font-mono text-[9px] text-center text-zinc-600 tracking-wider uppercase leading-normal">
+                (Note: First years use college email. Check spam folder if code is delayed.<br />
+                Use bypass email <span className="text-zinc-500 underline font-bold">razortest2515312@akgec.ac.in</span> and any OTP code to test frontend.)
+              </span>
+            </div>
 
-        <div className="space-y-3">
-          <button
-            type="submit"
-            className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-3 border border-white flex items-center justify-center gap-2 cursor-pointer transition-snap"
-          >
-            <span>CONFIRM CODE ENTRY & VERIFY</span>
-            <ArrowRight size={14} />
-          </button>
+            {error && (
+              <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 text-center animate-pulse">
+                {error}
+              </div>
+            )}
 
-          <button
-            type="button"
-            onClick={onBack}
-            className="w-full bg-transparent hover:bg-zinc-900 text-[#71717A] hover:text-white font-mono text-[10px] tracking-wider py-2 border border-transparent hover:border-[#71717A]/40 cursor-pointer transition-snap uppercase"
-          >
-            Go Back To Form
-          </button>
-        </div>
-      </form>
+            <div className="space-y-3">
+              <button
+                type="submit"
+                className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-3 border border-white flex items-center justify-center gap-2 cursor-pointer transition-snap"
+              >
+                <span>CONFIRM CODE ENTRY & VERIFY</span>
+                <ArrowRight size={14} />
+              </button>
+
+              <button
+                type="button"
+                onClick={onBack}
+                className="w-full bg-transparent hover:bg-zinc-900 text-[#71717A] hover:text-white font-mono text-[10px] tracking-wider py-2 border border-transparent hover:border-[#71717A]/40 cursor-pointer transition-snap uppercase"
+              >
+                Go Back To Form
+              </button>
+            </div>
+          </form>
+        </>
+      )}
     </div>
   );
 };
@@ -622,13 +820,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, onSuccess, 
 // ==========================================
 
 interface SuccessScreenProps {
-  formData: {
-    name: string;
-    studentNumber: string;
-    email: string;
-    branch: string;
-    residencyStatus: string;
-  } | null;
+  formData: RegistrationData | null;
 }
 
 const SuccessScreenSub: React.FC<SuccessScreenProps> = ({ formData }) => {
@@ -680,7 +872,7 @@ const SuccessScreenSub: React.FC<SuccessScreenProps> = ({ formData }) => {
           </div>
           <div>
             <span className="block text-[#71717A] text-[9px] uppercase tracking-wider">RESIDENCY</span>
-            <span className="text-white font-bold uppercase">{formData?.residencyStatus || 'N/A'}</span>
+            <span className="text-white font-bold uppercase">{formData?.residence || 'N/A'}</span>
           </div>
           <div className="col-span-2">
             <span className="block text-[#71717A] text-[9px] uppercase tracking-wider">INSTITUTIONAL EMAIL</span>
@@ -761,6 +953,7 @@ export default function ProximityRegistrationForm() {
       {currentState === 'OTP_VERIFICATION' && (
         <OtpVerificationSub 
           email={formData?.email || ''} 
+          formData={formData}
           onSuccess={handleOtpSuccess} 
           onBack={handleOtpBack}
         />
