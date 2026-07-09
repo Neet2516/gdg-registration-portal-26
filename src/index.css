@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --color-black: #000000;
+  --color-dark: #0D0E12;
+  --color-border-zinc: #71717A;
+  --color-error-red: #EF4444;
+}
+
+/* Base resets & typography */
+* {
+  border-radius: 0 !important;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  background-color: #000000;
+  color: #FFFFFF;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom terminal scanning line & CRT effects */
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.3)
+  );
+  background-size: 100% 4px;
+}
+
+.terminal-glow {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+.terminal-glow-green {
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
+
+.terminal-glow-red {
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.animate-scan {
+  animation: scan 10s linear infinite;
+}
+
+/* Transitions */
+.transition-snap {
+  transition: all 150ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Custom CRT screen curvature overlay */
+.crt-overlay {
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+/* Dithered/pixel background overlay pattern */
+.dither-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
