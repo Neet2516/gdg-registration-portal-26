@@ -268,15 +268,18 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
     }
   });
 
+  const nameVal = watch('name');
   const studentNumberVal = watch('studentNumber');
 
+  // Real-time listener for Name and Student Number to auto-populate University Email ID (e.g. name2510003@akgec.ac.in)
   useEffect(() => {
     if (studentNumberVal) {
-      setValue('email', `${studentNumberVal}@akgec.ac.in`);
+      const firstName = nameVal ? nameVal.trim().split(/\s+/)[0].toLowerCase().replace(/[^a-z0-9]/g, '') : '';
+      setValue('email', `${firstName}${studentNumberVal}@akgec.ac.in`);
     } else {
       setValue('email', '');
     }
-  }, [studentNumberVal, setValue]);
+  }, [nameVal, studentNumberVal, setValue]);
 
   const onSubmit = async (data: RegistrationData) => {
     setIsSubmitting(true);
