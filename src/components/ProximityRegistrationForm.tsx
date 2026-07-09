@@ -397,7 +397,14 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
               <input
                 type="text"
                 placeholder="e.g. 9876543210"
-                {...register('phone')}
+                {...register('phone', {
+                  onChange: (e) => {
+                    const val = e.target.value;
+                    if (val.startsWith('0')) {
+                      e.target.value = val.replace(/^0+/, '');
+                    }
+                  }
+                })}
                 className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
               />
               {errors.phone && (
