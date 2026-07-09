@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Loader2, Terminal, Info, AlertTriangle } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const branches = [
   'CSE',
@@ -75,6 +76,8 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingText, setLoadingText] = useState('TRANSMITTING DATA...');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const {
     register,
@@ -113,6 +116,13 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
   const onSubmit = async (data: RegistrationData) => {
     setIsSubmitting(true);
     setErrorMsg(null);
+
+    if (!recaptchaToken) {
+      setErrorMsg('PLEASE COMPLETE THE RECAPTCHA CHALLENGE.');
+      setIsSubmitting(false);
+      return;
+    }
+
     setLoadingText('ESTABLISHING ENCRYPTED CONNECTION...');
 
     try {
@@ -131,7 +141,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
           name: data.name,
           email: data.email,
           studentNumber: data.studentNumber,
-          captchaToken: 'bypass_recaptcha_token_proximity_6.0'
+          captchaToken: recaptchaToken
         })
       });
 
@@ -413,6 +423,16 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
             {errors.unstopId && (
               <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.unstopId.message}</p>
             )}
+          </div>
+
+          {/* RECAPTCHA CHALLENGE */}
+          <div className="flex justify-center border border-[#71717A]/40 p-4 bg-black">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim() || ''}
+              onChange={(token) => setRecaptchaToken(token)}
+              theme="dark"
+            />
           </div>
 
           {/* SUBMIT BUTTON */}

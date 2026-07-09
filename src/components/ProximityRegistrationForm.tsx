@@ -15,6 +15,7 @@ import {
   Calendar,
   AlertTriangle
 } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 // ==========================================
 // ZOD SCHEMA & TYPES
@@ -241,6 +242,8 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingText, setLoadingText] = useState('TRANSMITTING DATA...');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const {
     register,
@@ -278,6 +281,13 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
   const onSubmit = async (data: RegistrationData) => {
     setIsSubmitting(true);
     setErrorMsg(null);
+
+    if (!recaptchaToken) {
+      setErrorMsg('PLEASE COMPLETE THE RECAPTCHA CHALLENGE.');
+      setIsSubmitting(false);
+      return;
+    }
+
     setLoadingText('ESTABLISHING ENCRYPTED CONNECTION...');
 
     try {
@@ -296,7 +306,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
           name: data.name,
           email: data.email,
           studentNumber: data.studentNumber,
-          captchaToken: 'bypass_recaptcha_token_proximity_6.0'
+          captchaToken: recaptchaToken
         })
       });
 
@@ -571,6 +581,17 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
             )}
           </div>
 
+          {/* RECAPTCHA CHALLENGE */}
+          <div className="flex justify-center border border-[#71717A]/40 p-4 bg-black">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim() || ''}
+              onChange={(token) => setRecaptchaToken(token)}
+              theme="dark"
+            />
+          </div>
+
+          {/* SUBMIT BUTTON */}
           <div className="pt-4">
             <button
               type="submit"
