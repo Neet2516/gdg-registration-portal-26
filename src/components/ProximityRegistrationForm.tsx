@@ -15,7 +15,12 @@ import {
   Calendar,
   AlertTriangle
 } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
+
+declare global {
+  interface Window {
+    grecaptcha: any;
+  }
+}
 
 // ==========================================
 // ZOD SCHEMA & TYPES
@@ -242,8 +247,6 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingText, setLoadingText] = useState('TRANSMITTING DATA...');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const {
     register,
@@ -271,6 +274,22 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
   const nameVal = watch('name');
   const studentNumberVal = watch('studentNumber');
 
+  // Load Google reCAPTCHA v3 script dynamically
+  useEffect(() => {
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim();
+    if (siteKey) {
+      const scriptId = 'recaptcha-v3-script';
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+    }
+  }, []);
+
   // Real-time listener for Name and Student Number to auto-populate University Email ID (e.g. name2510003@akgec.ac.in)
   useEffect(() => {
     if (studentNumberVal) {
@@ -284,19 +303,35 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
   const onSubmit = async (data: RegistrationData) => {
     setIsSubmitting(true);
     setErrorMsg(null);
-
-    if (!recaptchaToken) {
-      setErrorMsg('PLEASE COMPLETE THE RECAPTCHA CHALLENGE.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    setLoadingText('ESTABLISHING ENCRYPTED CONNECTION...');
+    setLoadingText('SOLVING ANTIBOT CHALLENGE...');
 
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://proximety-7nt5.vercel.app/api/v1';
+      const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim();
       
-      setLoadingText('VERIFYING REQUEST HEADERS...');
+      let token = 'bypass_token';
+
+      if (siteKey) {
+        setLoadingText('GENERATING CAPTCHA TOKEN...');
+        try {
+          token = await new Promise<string>((resolve, reject) => {
+            if (window.grecaptcha && window.grecaptcha.execute) {
+              window.grecaptcha.ready(() => {
+                window.grecaptcha.execute(siteKey, { action: 'registration' })
+                  .then((t: string) => resolve(t))
+                  .catch((e: any) => reject(e));
+              });
+            } else {
+              reject(new Error('ANTI-BOT SERVICE NOT YET READY. TRY AGAIN.'));
+            }
+          });
+        } catch (captchaErr: any) {
+          console.error(captchaErr);
+          throw new Error(captchaErr.message || 'SECURITY TOKEN INITIALIZATION FAILED. PLEASE REFRESH.');
+        }
+      }
+
+      setLoadingText('ESTABLISHING ENCRYPTED CONNECTION...');
       await new Promise(r => setTimeout(r, 600));
 
       setLoadingText('TRANSMITTING OTP SECURE KEY...');
@@ -309,7 +344,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
           name: data.name,
           email: data.email,
           studentNumber: data.studentNumber,
-          captchaToken: recaptchaToken
+          captchaToken: token
         })
       });
 
@@ -589,16 +624,6 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
             {errors.unstopId && (
               <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.unstopId.message}</p>
             )}
-          </div>
-
-          {/* RECAPTCHA CHALLENGE */}
-          <div className="flex justify-center border border-[#71717A]/40 p-4 bg-black">
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim() || ''}
-              onChange={(token) => setRecaptchaToken(token)}
-              theme="dark"
-            />
           </div>
 
           {/* SUBMIT BUTTON */}

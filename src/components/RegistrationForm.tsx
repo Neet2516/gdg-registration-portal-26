@@ -1,9 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Loader2, Terminal, Info, AlertTriangle } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { useRecaptchaV3 } from '../hooks/useRecaptchaV3';
+
+declare global {
+  interface Window {
+    grecaptcha: any;
+  }
+}
 
 const branches = [
   'CSE',
@@ -76,8 +82,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingText, setLoadingText] = useState('TRANSMITTING DATA...');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const { executeRecaptcha, hasRecaptcha } = useRecaptchaV3();
 
   const {
     register,
@@ -118,19 +123,24 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
   const onSubmit = async (data: RegistrationData) => {
     setIsSubmitting(true);
     setErrorMsg(null);
-
-    if (!recaptchaToken) {
-      setErrorMsg('PLEASE COMPLETE THE RECAPTCHA CHALLENGE.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    setLoadingText('ESTABLISHING ENCRYPTED CONNECTION...');
+    setLoadingText('SOLVING ANTIBOT CHALLENGE...');
 
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://proximety-7nt5.vercel.app/api/v1';
       
-      setLoadingText('VERIFYING REQUEST HEADERS...');
+      let token = 'bypass_token';
+
+      if (hasRecaptcha) {
+        setLoadingText('GENERATING CAPTCHA TOKEN...');
+        try {
+          token = await executeRecaptcha('registration');
+        } catch (captchaErr: any) {
+          console.error(captchaErr);
+          throw new Error(captchaErr.message || 'SECURITY TOKEN INITIALIZATION FAILED. PLEASE REFRESH.');
+        }
+      }
+
+      setLoadingText('ESTABLISHING ENCRYPTED CONNECTION...');
       await new Promise(r => setTimeout(r, 600));
 
       setLoadingText('TRANSMITTING OTP SECURE KEY...');
@@ -143,7 +153,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
           name: data.name,
           email: data.email,
           studentNumber: data.studentNumber,
-          captchaToken: recaptchaToken
+          captchaToken: token
         })
       });
 
@@ -432,16 +442,6 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
             {errors.unstopId && (
               <p className="font-mono text-xs text-[#EF4444] pt-1">{errors.unstopId.message}</p>
             )}
-          </div>
-
-          {/* RECAPTCHA CHALLENGE */}
-          <div className="flex justify-center border border-[#71717A]/40 p-4 bg-black">
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim() || ''}
-              onChange={(token) => setRecaptchaToken(token)}
-              theme="dark"
-            />
           </div>
 
           {/* SUBMIT BUTTON */}
