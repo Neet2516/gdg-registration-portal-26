@@ -1,0 +1,73 @@
+import type { ReactNode } from 'react';
+
+interface InputProps {
+  id: string;
+  label: string;
+  error?: string;
+  type?: 'text' | 'email' | 'password' | 'tel' | 'select';
+  readOnly?: boolean;
+  placeholder?: string;
+  register?: any;
+  options?: readonly string[] | string[];
+  className?: string;
+  labelExtra?: ReactNode;
+}
+
+export const Input: React.FC<InputProps> = ({
+  id,
+  label,
+  error,
+  type = 'text',
+  readOnly = false,
+  placeholder,
+  register,
+  options,
+  className = '',
+  labelExtra
+}) => {
+  const inputBaseStyle = 'w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700';
+  const readOnlyStyle = 'w-full bg-zinc-950 border border-zinc-800 text-zinc-500 py-3 px-4 font-sans text-sm outline-none cursor-not-allowed select-none animate-pulse';
+
+  return (
+    <div className={`space-y-1 ${className}`}>
+      <label htmlFor={id} className="block font-mono text-xs text-white tracking-widest uppercase flex items-center justify-between">
+        <span>{label}</span>
+        {labelExtra && <span className="shrink-0">{labelExtra}</span>}
+      </label>
+
+      {type === 'select' ? (
+        <div className="relative">
+          <select
+            id={id}
+            {...register}
+            className={`${inputBaseStyle} appearance-none cursor-pointer`}
+            defaultValue=""
+          >
+            <option value="" disabled hidden>{placeholder || 'SELECT AN OPTION'}</option>
+            {options?.map(opt => (
+              <option key={opt} value={opt} className="bg-black text-white">{opt}</option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white">
+            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+            </svg>
+          </div>
+        </div>
+      ) : (
+        <input
+          id={id}
+          type={type}
+          readOnly={readOnly}
+          placeholder={placeholder}
+          {...register}
+          className={readOnly ? readOnlyStyle : inputBaseStyle}
+        />
+      )}
+
+      {error && (
+        <p className="font-mono text-xs text-[#EF4444] pt-1 uppercase">{error}</p>
+      )}
+    </div>
+  );
+};

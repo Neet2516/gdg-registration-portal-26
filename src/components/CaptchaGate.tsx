@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight, RefreshCw, Terminal } from 'lucide-react';
+import { Card } from './Card';
+import { Button } from './Button';
 
 interface CaptchaGateProps {
   onSuccess: () => void;
@@ -13,8 +15,8 @@ export const CaptchaGate: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
   const [terminalLogs, setTerminalLogs] = useState<string[]>([]);
 
   const generateCaptcha = () => {
-    const n1 = Math.floor(Math.random() * 12) + 4; // 4 to 15
-    const n2 = Math.floor(Math.random() * 12) + 2; // 2 to 13
+    const n1 = Math.floor(Math.random() * 12) + 4;
+    const n2 = Math.floor(Math.random() * 12) + 2;
     setNum1(n1);
     setNum2(n2);
     setUserAnswer('');
@@ -49,7 +51,6 @@ export const CaptchaGate: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
         `>> AUTHENTICATION TRIAL: SUCCESS. EVALUATED ${num1} + ${num2} = ${parsedAnswer}.`,
         'BYPASS GRANTED. TRANSMITTING TERMINAL RIGHTS...'
       ]);
-      // Small timeout to let user see success log
       setTimeout(() => {
         onSuccess();
       }, 800);
@@ -64,24 +65,18 @@ export const CaptchaGate: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="w-full max-w-lg bg-[#0D0E12] border border-[#71717A] p-6 shadow-2xl relative overflow-hidden transition-snap">
-      {/* Scanline & grid effect overlays */}
-      <div className="absolute inset-0 scanline opacity-20 pointer-events-none"></div>
-      <div className="absolute inset-0 dither-bg opacity-10 pointer-events-none"></div>
-
-      {/* Terminal Title Bar */}
-      <div className="flex items-center justify-between border-b border-[#71717A] pb-3 mb-6 font-mono text-xs tracking-widest text-[#71717A]">
-        <div className="flex items-center gap-2">
-          <Terminal size={14} className="text-white animate-pulse" />
-          <span>PROXIMITY_GATEWAY_V6.0.EXE</span>
-        </div>
+    <Card 
+      title="PROXIMITY_GATEWAY_V6.0.EXE" 
+      titleIcon={<Terminal size={14} className="text-white animate-pulse" />}
+      headerExtra={
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 bg-red-500 opacity-70"></span>
           <span className="w-2.5 h-2.5 bg-yellow-500 opacity-70"></span>
           <span className="w-2.5 h-2.5 bg-green-500 opacity-70"></span>
         </div>
-      </div>
-
+      }
+      className="max-w-lg"
+    >
       {/* Console log outputs */}
       <div className="font-mono text-[11px] text-[#71717A] bg-black p-4 border border-[#71717A]/40 mb-6 h-36 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
         {terminalLogs.map((log, index) => (
@@ -134,14 +129,15 @@ export const CaptchaGate: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
           </div>
         )}
 
-        <button
+        <Button
           type="submit"
-          className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-3 border border-white flex items-center justify-center gap-2 cursor-pointer transition-snap"
+          variant="primary"
+          icon={<ArrowRight size={14} />}
+          className="w-full"
         >
-          <span>EXECUTE BYPASS</span>
-          <ArrowRight size={14} />
-        </button>
+          EXECUTE BYPASS
+        </Button>
       </form>
-    </div>
+    </Card>
   );
 };

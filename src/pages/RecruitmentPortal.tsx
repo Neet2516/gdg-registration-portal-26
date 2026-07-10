@@ -1,9 +1,14 @@
-import { useState } from 'react';
 import { CaptchaGate } from '../components/CaptchaGate';
 import { RegistrationForm } from '../components/RegistrationForm';
-import type { RegistrationData } from '../components/RegistrationForm';
 import { OtpVerification } from '../components/OtpVerification';
 import { SuccessScreen } from '../components/SuccessScreen';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
+import { CodeChip } from '../components/CodeChip';
+import { FlowProgress } from '../components/FlowProgress';
+import { Footer } from '../components/Footer';
+import { SYLLABUS_MATRIX } from '../constants/recruitment';
+import { usePortalContext } from '../context/PortalContext';
 import { 
   Terminal, 
   Cpu, 
@@ -17,17 +22,14 @@ import {
   Sparkles 
 } from 'lucide-react';
 
-type FormState = 'CAPTCHA_GATE' | 'REGISTRATION_FORM' | 'OTP_VERIFICATION' | 'SUCCESS_SCREEN';
-
 export const RecruitmentPortal = () => {
-  const [currentState, setCurrentState] = useState<FormState>('CAPTCHA_GATE');
-  const [formData, setFormData] = useState<RegistrationData | null>(null);
+  const { currentState, setCurrentState, formData, setFormData } = usePortalContext();
 
   const handleCaptchaSuccess = () => {
     setCurrentState('REGISTRATION_FORM');
   };
 
-  const handleRegistrationSuccess = (data: RegistrationData) => {
+  const handleRegistrationSuccess = (data: any) => {
     setFormData(data);
     setCurrentState('OTP_VERIFICATION');
   };
@@ -71,7 +73,7 @@ export const RecruitmentPortal = () => {
       <div className="max-w-6xl mx-auto px-4 py-12 space-y-24 relative z-10">
         
         {/* Section 01: Hero Portal Terminal */}
-        <section className="space-y-8 pt-6">
+        <section className="space-y-8 pt-6 animate-pulse-slow">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-8 space-y-6">
               {/* Left Sub-Header Tag */}
@@ -103,51 +105,54 @@ export const RecruitmentPortal = () => {
               </div>
 
               <div className="pt-4 flex items-center gap-3">
-                <a 
-                  href="#registration-terminal" 
-                  className="bg-white hover:bg-black hover:text-white border border-white text-black px-6 py-3 font-mono text-xs font-bold tracking-widest uppercase flex items-center gap-2 transition-snap cursor-pointer"
-                >
-                  <span>Initialize Connection</span>
-                  <ArrowDown size={14} />
+                <a href="#registration-terminal">
+                  <Button
+                    variant="primary"
+                    icon={<ArrowDown size={14} />}
+                    className="py-3 px-6"
+                  >
+                    Initialize Connection
+                  </Button>
                 </a>
               </div>
             </div>
 
             {/* Visual Retro Box Container (Dither/Halftone Simulation) */}
-            <div className="lg:col-span-4 bg-[#0D0E12] border border-[#71717A] p-6 relative overflow-hidden hidden lg:block">
-              <div className="absolute inset-0 scanline opacity-20 pointer-events-none"></div>
-              <div className="border-b border-[#71717A]/40 pb-3 mb-4 flex items-center justify-between text-zinc-500 font-mono text-[9px] tracking-widest">
-                <span>SYSTEM_DIAGNOSTICS</span>
-                <span>ID: GDG-6.0</span>
-              </div>
-              <div className="h-64 flex flex-col justify-between font-mono text-xs relative z-10">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-[#71717A]">MEM_ALLOC:</span>
-                    <span>100% OK</span>
+            <div className="lg:col-span-4 hidden lg:block">
+              <Card
+                title="SYSTEM_DIAGNOSTICS"
+                titleIcon={<Terminal size={14} className="text-zinc-500 animate-pulse" />}
+                headerExtra={<span className="text-[9px] text-zinc-500 font-mono">ID: GDG-6.0</span>}
+              >
+                <div className="h-64 flex flex-col justify-between font-mono text-xs">
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-[#71717A]">MEM_ALLOC:</span>
+                      <span>100% OK</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#71717A]">CORE_VOLT:</span>
+                      <span>1.18V</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#71717A]">NETWORK:</span>
+                      <span>STABLE</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#71717A]">CORE_VOLT:</span>
-                    <span>1.18V</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#71717A]">NETWORK:</span>
-                    <span>STABLE</span>
-                  </div>
-                </div>
 
-                {/* Simulated orbit tracks using brutalist vectors */}
-                <div className="h-32 border border-[#71717A]/30 relative flex items-center justify-center bg-black overflow-hidden group">
-                  <div className="absolute w-24 h-24 border border-dashed border-[#71717A]/40 rounded-full animate-[spin_20s_linear_infinite]"></div>
-                  <div className="absolute w-16 h-16 border border-zinc-800 rounded-full animate-[spin_10s_linear_infinite_reverse]"></div>
-                  <div className="absolute w-2 h-2 bg-white"></div>
-                  <div className="absolute bottom-2 left-2 text-[8px] text-zinc-600">ORBITAL_ENGINE</div>
-                </div>
+                  {/* Simulated orbit tracks using brutalist vectors */}
+                  <div className="h-32 border border-[#71717A]/30 relative flex items-center justify-center bg-black overflow-hidden group">
+                    <div className="absolute w-24 h-24 border border-dashed border-[#71717A]/40 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                    <div className="absolute w-16 h-16 border border-zinc-800 rounded-full animate-[spin_10s_linear_infinite_reverse]"></div>
+                    <div className="absolute w-2 h-2 bg-white"></div>
+                    <div className="absolute bottom-2 left-2 text-[8px] text-zinc-600">ORBITAL_ENGINE</div>
+                  </div>
 
-                <div className="text-[10px] text-zinc-500 text-center animate-pulse">
-                  &gt; READY TO RECEIVE INCOMING PACKETS
+                  <div className="text-[10px] text-zinc-500 text-center animate-pulse">
+                    &gt; READY TO RECEIVE INCOMING PACKETS
+                  </div>
                 </div>
-              </div>
+              </Card>
             </div>
           </div>
         </section>
@@ -165,22 +170,25 @@ export const RecruitmentPortal = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            {/* Phase 01 Box */}
-            <div className="bg-[#0D0E12] border border-[#71717A] p-6 space-y-6 relative group hover:border-white transition-snap">
-              <div className="absolute top-4 right-4 bg-white text-black p-1.5 font-mono text-[9px] font-bold tracking-wider uppercase">
+            {/* Phase 01 Card */}
+            <Card
+              showHeader={false}
+              className="space-y-6 relative group hover:border-white transition-snap"
+            >
+              <div className="absolute top-6 right-6 bg-white text-black py-1 px-2 font-mono text-[9px] font-bold tracking-wider uppercase">
                 MCQ STAGE
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 text-left">
                 <span className="font-mono text-xs text-[#71717A] tracking-widest uppercase block">
                   STAGE 01
                 </span>
-                <h3 className="font-mono text-lg font-bold tracking-widest text-white uppercase flex items-center gap-2">
+                <h3 className="font-mono text-lg font-bold tracking-widest text-white uppercase flex items-center gap-2 border-b border-zinc-800 pb-3">
                   <Cpu size={18} />
                   PHASE 01 | COGNITIVE & TECH SCREENING
                 </h3>
               </div>
 
-              <div className="space-y-4 font-sans text-sm text-zinc-400">
+              <div className="space-y-4 font-sans text-sm text-zinc-400 text-left">
                 <p>
                   <strong>Focus Vectors:</strong> Technical foundations and baseline analytical capability.
                 </p>
@@ -188,44 +196,47 @@ export const RecruitmentPortal = () => {
                   <span className="block font-mono text-[10px] text-white tracking-widest uppercase">
                     SYLLABUS MATRIX:
                   </span>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-[11px]">
-                    <li className="flex items-center gap-2 border border-zinc-800 p-2 bg-black">
-                      <Globe size={12} className="text-zinc-500" />
-                      <span>Web Core: HTML5 & CSS3</span>
-                    </li>
-                    <li className="flex items-center gap-2 border border-zinc-800 p-2 bg-black">
-                      <Code2 size={12} className="text-zinc-500" />
-                      <span>Logic Engine: JavaScript</span>
-                    </li>
-                    <li className="flex items-center gap-2 border border-zinc-800 p-2 bg-black">
-                      <Database size={12} className="text-zinc-500" />
-                      <span>Data Layers: SQL & DBs</span>
-                    </li>
-                    <li className="flex items-center gap-2 border border-zinc-800 p-2 bg-black">
-                      <Compass size={12} className="text-zinc-500" />
-                      <span>Core: Logical Reasoning</span>
-                    </li>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {SYLLABUS_MATRIX.map(s => {
+                      const syllabusIcons: Record<string, any> = {
+                        web: Globe,
+                        logic: Code2,
+                        data: Database,
+                        logical: Compass
+                      };
+                      const Icon = syllabusIcons[s.id] || Globe;
+                      return (
+                        <li key={s.id}>
+                          <CodeChip icon={<Icon size={12} />}>
+                            {s.label}
+                          </CodeChip>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
-            </div>
+            </Card>
 
-            {/* Phase 02 Box */}
-            <div className="bg-[#0D0E12] border border-[#71717A] p-6 space-y-6 relative group hover:border-white transition-snap">
-              <div className="absolute top-4 right-4 bg-white text-black p-1.5 font-mono text-[9px] font-bold tracking-wider uppercase">
+            {/* Phase 02 Card */}
+            <Card
+              showHeader={false}
+              className="space-y-6 relative group hover:border-white transition-snap"
+            >
+              <div className="absolute top-6 right-6 bg-white text-black py-1 px-2 font-mono text-[9px] font-bold tracking-wider uppercase">
                 CODING STAGE
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 text-left">
                 <span className="font-mono text-xs text-[#71717A] tracking-widest uppercase block">
                   STAGE 02
                 </span>
-                <h3 className="font-mono text-lg font-bold tracking-widest text-white uppercase flex items-center gap-2">
+                <h3 className="font-mono text-lg font-bold tracking-widest text-white uppercase flex items-center gap-2 border-b border-zinc-800 pb-3">
                   <Binary size={18} />
                   PHASE 02 | ALGORITHMIC CRUCIBLE
                 </h3>
               </div>
 
-              <div className="space-y-4 font-sans text-sm text-zinc-400">
+              <div className="space-y-4 font-sans text-sm text-zinc-400 text-left">
                 <p>
                   <strong>Focus Vectors:</strong> Computational problem solving and code optimization.
                 </p>
@@ -233,15 +244,12 @@ export const RecruitmentPortal = () => {
                   <span className="block font-mono text-[10px] text-white tracking-widest uppercase">
                     EXECUTION METRIC:
                   </span>
-                  <div className="flex items-center gap-3 border border-zinc-800 p-3 bg-black">
-                    <Network size={20} className="text-[#71717A]" />
-                    <span className="font-mono text-[10px] leading-relaxed uppercase">
-                      Sandboxed competitive programming stage featuring standard multi-level Data Structures & Algorithms (DSA) problems.
-                    </span>
-                  </div>
+                  <CodeChip icon={<Network size={16} />} className="py-3 px-4">
+                    Sandboxed competitive programming stage featuring standard multi-level Data Structures & Algorithms (DSA) problems.
+                  </CodeChip>
                 </div>
               </div>
-            </div>
+            </Card>
 
           </div>
         </section>
@@ -252,12 +260,10 @@ export const RecruitmentPortal = () => {
             <h2 className="font-mono text-xl md:text-2xl font-bold tracking-widest text-white uppercase">
               REGISTRATION GATEWAY
             </h2>
-            <p className="font-mono text-xs text-[#71717A] tracking-wider uppercase">
-              Current Flow State: <span className="text-white underline">{currentState}</span>
-            </p>
+            <FlowProgress currentStep={currentState} className="mt-4" />
           </div>
 
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center mt-6">
             {currentState === 'CAPTCHA_GATE' && (
               <CaptchaGate onSuccess={handleCaptchaSuccess} />
             )}
@@ -283,17 +289,7 @@ export const RecruitmentPortal = () => {
 
       </div>
 
-      {/* Global Footer */}
-      <footer className="border-t border-[#71717A]/20 py-8 bg-black">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-          <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-            © {new Date().getFullYear()} GDG AKGEC. ALL RIGHTS PRESERVED.
-          </div>
-          <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-            ENGINEERED FOR COSMIC SCALE // STYLING BY Brutalist_6.0
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

@@ -1,13 +1,10 @@
 import { CheckCircle2, Mail, Calendar } from 'lucide-react';
+import type { RegistrationData } from './RegistrationForm';
+import { Card } from './Card';
+import { CodeChip } from './CodeChip';
 
 interface SuccessScreenProps {
-  formData: {
-    name: string;
-    studentNumber: string;
-    email: string;
-    branch: string;
-    residence: string;
-  } | null;
+  formData: RegistrationData | null;
 }
 
 export const SuccessScreen: React.FC<SuccessScreenProps> = ({ formData }) => {
@@ -15,12 +12,7 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({ formData }) => {
   const applicationHash = `PROX-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${formData?.studentNumber || '0000000'}`;
 
   return (
-    <div className="w-full max-w-xl bg-[#0D0E12] border border-[#71717A] p-6 md:p-8 shadow-2xl relative overflow-hidden transition-snap">
-      {/* Visual background overlays */}
-      <div className="absolute inset-0 scanline opacity-20 pointer-events-none"></div>
-      <div className="absolute inset-0 dither-bg opacity-10 pointer-events-none"></div>
-
-      {/* Grid Pattern Header Accent */}
+    <Card showHeader={false} className="max-w-xl">
       <div className="h-2 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 mb-6"></div>
 
       {/* Verification Badge */}
@@ -38,7 +30,7 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({ formData }) => {
         </div>
       </div>
 
-      {/* Applicant Card/Reciept detail block */}
+      {/* Applicant Card/Receipt detail block */}
       <div className="bg-black border border-[#71717A]/40 p-5 font-mono text-xs text-white space-y-4 relative mb-6">
         <div className="absolute top-0 right-0 p-2 bg-[#71717A]/10 border-l border-b border-[#71717A]/40 text-[9px] uppercase tracking-widest text-[#71717A]">
           Official Entry pass
@@ -78,7 +70,7 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({ formData }) => {
       </div>
 
       {/* Cosmic Sign Off block */}
-      <div className="space-y-4 font-sans text-sm text-[#71717A] border-t border-[#71717A]/20 pt-6">
+      <div className="space-y-4 font-sans text-sm text-[#71717A] border-t border-[#71717A]/20 pt-6 text-left">
         <p className="leading-relaxed font-sans text-white/90">
           Welcome to the crucible. Keep monitoring your institutional mail inbox for Phase 01 MCQ entry coordinates.
         </p>
@@ -89,21 +81,16 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({ formData }) => {
 
       {/* Action footer */}
       <div className="mt-8 pt-4 border-t border-[#71717A]/20 flex flex-col sm:flex-row gap-3">
-        <div className="flex-1 p-3 bg-zinc-950 border border-zinc-800 flex items-center gap-3">
-          <Mail size={16} className="text-[#71717A]" />
-          <div className="font-mono text-[9px] tracking-wider text-zinc-500 uppercase">
-            EMAIL SENT TO:<br />
-            <span className="text-white font-bold">{formData?.email || 'N/A'}</span>
-          </div>
-        </div>
-        <div className="flex-1 p-3 bg-zinc-950 border border-zinc-800 flex items-center gap-3">
-          <Calendar size={16} className="text-[#71717A]" />
-          <div className="font-mono text-[9px] tracking-wider text-zinc-500 uppercase">
-            PHASE 1 MCQ SCREENING:<br />
-            <span className="text-white font-bold">TBA (CHECK MAIL)</span>
-          </div>
-        </div>
+        <CodeChip icon={<Mail size={16} />} className="flex-1 p-3">
+          <span className="text-[9px] tracking-wider text-zinc-500 uppercase block">EMAIL SENT TO:</span>
+          <span className="text-white font-bold text-[10px] block">{formData?.email || 'N/A'}</span>
+        </CodeChip>
+        
+        <CodeChip icon={<Calendar size={16} />} className="flex-1 p-3">
+          <span className="text-[9px] tracking-wider text-zinc-500 uppercase block">PHASE 1 MCQ SCREENING:</span>
+          <span className="text-white font-bold text-[10px] block">TBA (CHECK MAIL)</span>
+        </CodeChip>
       </div>
-    </div>
+    </Card>
   );
 };
