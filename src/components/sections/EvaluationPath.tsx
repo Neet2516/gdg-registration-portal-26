@@ -42,10 +42,11 @@ export const EvaluationPath = () => {
         >
           <Card
             showHeader={false}
-            className="space-y-6 flex-1"
+            className="space-y-6 flex-1 relative"
             shadowColor="#E11D48"
           >
-            <div className="absolute top-6 right-6 bg-[#E11D48] text-white py-1.5 px-3 font-comic text-[10px] tracking-wider uppercase rounded-sm border border-white/20 shadow-md">
+            {/* Responsive stage badge: relative on mobile, absolute on desktop */}
+            <div className="relative md:absolute md:top-6 md:right-6 bg-[#E11D48] text-white py-1.5 px-3 font-comic text-[10px] tracking-wider uppercase rounded-sm border border-white/20 shadow-md w-fit mb-4 md:mb-0">
               MCQ STAGE
             </div>
             <div className="space-y-2 text-left">
@@ -99,10 +100,11 @@ export const EvaluationPath = () => {
         >
           <Card
             showHeader={false}
-            className="space-y-6 flex-1"
+            className="space-y-6 flex-1 relative"
             shadowColor="#2563EB"
           >
-            <div className="absolute top-6 right-6 bg-[#2563EB] text-white py-1.5 px-3 font-comic text-[10px] tracking-wider uppercase rounded-sm border border-white/20 shadow-md">
+            {/* Responsive stage badge: relative on mobile, absolute on desktop */}
+            <div className="relative md:absolute md:top-6 md:right-6 bg-[#2563EB] text-white py-1.5 px-3 font-comic text-[10px] tracking-wider uppercase rounded-sm border border-white/20 shadow-md w-fit mb-4 md:mb-0">
               CODING STAGE
             </div>
             <div className="space-y-2 text-left">

@@ -33,7 +33,7 @@ export const FAQ = () => {
             Q: Who can register for Proximity 6.0?
           </motion.div>
           <motion.div 
-            className="ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
+            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
             initial={{ scale: 0.85, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -56,7 +56,7 @@ export const FAQ = () => {
             Q: What are the phases of the recruitment process?
           </motion.div>
           <motion.div 
-            className="ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
+            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
             initial={{ scale: 0.85, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -79,7 +79,7 @@ export const FAQ = () => {
             Q: Can I apply for more than one domain?
           </motion.div>
           <motion.div 
-            className="ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
+            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
             initial={{ scale: 0.85, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}

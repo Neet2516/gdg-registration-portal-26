@@ -11,7 +11,7 @@ export const Hero = () => {
       <motion.img 
         src={spidermanHanging} 
         alt="Spider-Man Hanging" 
-        className="absolute -top-24 right-4 md:right-16 w-24 md:w-36 pointer-events-none select-none z-20 animate-swing-slow-2"
+        className="absolute -top-20 right-2 sm:right-4 md:right-16 w-16 sm:w-24 md:w-36 pointer-events-none select-none z-20 animate-swing-slow-2"
         initial={{ y: -150, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 40, delay: 0.6 }}
@@ -24,7 +24,7 @@ export const Hero = () => {
         {/* Primary Title Display */}
         <div className="space-y-4">
           <motion.h1 
-            className="title-spiderman text-7xl md:text-8xl lg:text-9xl font-black uppercase leading-none select-none"
+            className="title-spiderman text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase leading-none select-none"
             initial={{ scale: 0.7, opacity: 0, rotate: -2 }}
             animate={{ scale: 1, opacity: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 10, delay: 0.2 }}
@@ -33,7 +33,7 @@ export const Hero = () => {
           </motion.h1>
           
           <motion.p 
-            className="subtitle-spiderman text-sm md:text-base lg:text-3xl text-zinc-200 font-light select-none tracking-[0.35em]"
+            className="subtitle-spiderman text-[10px] sm:text-xs md:text-sm lg:text-2xl text-zinc-200 font-light select-none tracking-[0.2em] sm:tracking-[0.35em]"
             initial={{ opacity: 0, letterSpacing: "0.1em" }}
             animate={{ opacity: 1, letterSpacing: "0.35em" }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -51,10 +51,10 @@ export const Hero = () => {
           <a href="#registration-terminal">
             <Button
               variant="outline"
-              icon={<ArrowDown size={40} className="animate-bounce text-[#E11D48]" />}
-              className=" py-4 px-10 text-base md:text-lg tracking-widest border-0 hover:bg-white/5 hover:border-[#E11D48] hover:text-[#E11D48] transition-all duration-300"
+              icon={<ArrowDown size={30} className="animate-bounce text-[#E11D48]" />}
+              className="py-3 sm:py-4 px-6 sm:px-10 text-base md:text-lg tracking-widest border-0 hover:bg-white/5 hover:border-[#E11D48] hover:text-[#E11D48] transition-all duration-300"
             >
-              <span className='text-3xl'>Initialize Connection</span>
+              <span className="text-xl sm:text-2xl md:text-3xl">Initialize Connection</span>
             </Button>
           </a>
         </motion.div>

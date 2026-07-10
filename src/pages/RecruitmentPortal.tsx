@@ -38,11 +38,11 @@ export const RecruitmentPortal = () => {
 
       {/* Left and Right Margin Web Ropes running top-to-bottom */}
       <div 
-        className="absolute inset-y-0 left-2 md:left-6 w-15 pointer-events-none z-30 select-none opacity-25 bg-repeat-y bg-contain"
+        className="hidden sm:block absolute inset-y-0 left-2 md:left-6 w-4 pointer-events-none z-30 select-none opacity-25 bg-repeat-y bg-contain"
         style={{ backgroundImage: `url(${webRope})` }}
       ></div>
       <div 
-        className="absolute inset-y-0 right-2 md:right-6 w-15 pointer-events-none z-30 select-none opacity-25 bg-repeat-y bg-contain"
+        className="hidden sm:block absolute inset-y-0 right-2 md:right-6 w-4 pointer-events-none z-30 select-none opacity-25 bg-repeat-y bg-contain"
         style={{ backgroundImage: `url(${webRope})` }}
       ></div>
 

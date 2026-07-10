@@ -31,8 +31,8 @@ export const Domains = () => {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8 relative z-10">
         
-        {/* Horizontal ceiling web rope rotated at 90 degrees */}
-        <div className="absolute top-0 left-0 right-0 h-4 overflow-visible pointer-events-none select-none z-10 flex items-center justify-center">
+        {/* Horizontal ceiling web rope rotated at 90 degrees (Desktop Only) */}
+        <div className="hidden lg:flex absolute top-0 left-0 right-0 h-4 overflow-visible pointer-events-none select-none z-10 items-center justify-center">
           <img 
             src={webRope} 
             alt="Ceiling Web Rope" 
@@ -48,6 +48,14 @@ export const Domains = () => {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
+          {/* Column-level horizontal rope for mobile/tablet */}
+          <div className="absolute top-0 left-0 right-0 h-4 overflow-visible pointer-events-none select-none z-10 flex lg:hidden items-center justify-center">
+            <img 
+              src={webRope} 
+              alt="Ceiling Web Rope" 
+              className="rotate-90 w-4 h-full max-w-sm object-fill opacity-85 filter brightness-125" 
+            />
+          </div>
           <div className="animate-swing-slow-1 w-full hover:[animation-play-state:paused] flex flex-col items-center relative">
             
             {/* Top Rope */}
@@ -103,6 +111,14 @@ export const Domains = () => {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.25 }}
         >
+          {/* Column-level horizontal rope for mobile/tablet */}
+          <div className="absolute top-0 left-0 right-0 h-4 overflow-visible pointer-events-none select-none z-10 flex lg:hidden items-center justify-center">
+            <img 
+              src={webRope} 
+              alt="Ceiling Web Rope" 
+              className="rotate-90 w-4 h-full max-w-sm object-fill opacity-85 filter brightness-125" 
+            />
+          </div>
           <div className="animate-swing-slow-2 w-full hover:[animation-play-state:paused] flex flex-col items-center relative">
             
             {/* Top Rope */}
@@ -158,6 +174,14 @@ export const Domains = () => {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.4 }}
         >
+          {/* Column-level horizontal rope for mobile/tablet */}
+          <div className="absolute top-0 left-0 right-0 h-4 overflow-visible pointer-events-none select-none z-10 flex lg:hidden items-center justify-center">
+            <img 
+              src={webRope} 
+              alt="Ceiling Web Rope" 
+              className="rotate-90 w-4 h-full max-w-sm object-fill opacity-85 filter brightness-125" 
+            />
+          </div>
           <div className="animate-swing-slow-3 w-full hover:[animation-play-state:paused] flex flex-col items-center relative">
             
             {/* Top Rope */}
