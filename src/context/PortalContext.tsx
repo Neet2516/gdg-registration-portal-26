@@ -14,7 +14,7 @@ interface PortalContextType {
 const PortalContext = createContext<PortalContextType | undefined>(undefined);
 
 export const PortalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentState, setCurrentState] = useState<FormState>('CAPTCHA_GATE');
+  const [currentState, setCurrentState] = useState<FormState>('REGISTRATION_FORM');
   const [formData, setFormData] = useState<RegistrationData | null>(null);
 
   return (

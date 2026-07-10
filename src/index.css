@@ -1,9 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'Spider Cave';
+  src: url('./assets/fonts/spider-cave/SpiderCave-Regular.ttf') format('truetype'),
+       url('./assets/fonts/spider-cave/SpiderCave-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Almost Cartoon';
+  src: url('./assets/fonts/almost-cartoon/Almost Cartoon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 @theme {
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'Space Mono', monospace;
+  --font-comic: 'Almost Cartoon', sans-serif;
   --color-black: #000000;
   --color-dark: #0D0E12;
   --color-border-zinc: #71717A;
@@ -11,8 +27,11 @@
 }
 
 /* Base resets & typography */
-* {
+*:not(.rounded-nav, .rounded-nav *) {
   border-radius: 0 !important;
+}
+
+* {
   box-sizing: border-box;
 }
 
@@ -77,4 +96,55 @@ html, body, #root {
 .dither-bg {
   background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 8px 8px;
+}
+.nav{
+  text-shadow: 
+     1px 20px 15px rgba(225, 29, 72, 0.5), 20px 16px 10px rgba(0, 0, 0, 0.9);
+}
+/* Spider-Man logo style headings */
+.title-spiderman {
+  font-family: 'Spider Cave', 'Bebas Neue', 'Arial Black', sans-serif;
+  color: black;
+  letter-spacing: 0.04em;
+  transform: skewX(-6deg); /* Slight angular action-cuts */
+  display: inline-block;
+  
+  /* Stark white/silver outline to pop on dark backgrounds */
+  -webkit-text-stroke: 0.001px rgba(255, 255, 255, 0.95);
+  text-shadow: 
+     1px 20px 15px rgba(225, 29, 72, 0.5), 20px 16px 10px rgba(0, 0, 0, 0.9);
+}
+
+.subtitle-spiderman {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300; /* Light geometric weight */
+  letter-spacing: 0.35em; /* High tracking / wide letter-spacing */
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Floating rounded navbar utility */
+.rounded-nav {
+  border-radius: 9999px !important;
+}
+
+/* Swinging animations for web-hanging cards */
+@keyframes web-swing {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.animate-swing-slow-1 {
+  animation: web-swing 5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-swing-slow-2 {
+  animation: web-swing 6s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-swing-slow-3 {
+  animation: web-swing 5.5s ease-in-out infinite;
+  transform-origin: top center;
 }

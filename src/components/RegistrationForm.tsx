@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Loader2, Terminal, Info, AlertTriangle } from 'lucide-react';
+import { Loader2, Info, AlertTriangle } from 'lucide-react';
 import { useRecaptchaV3 } from '../hooks/useRecaptchaV3';
 import { Card } from './Card';
 import { Button } from './Button';
@@ -11,6 +11,7 @@ import { Radio } from './Radio';
 import { BRANCHES, DOMAINS } from '../constants/recruitment';
 import { generateUniversityEmail } from '../utils/formatters';
 import { sendOtp } from '../services/api';
+import gdgLogo from '../assets/images/gdg-logo.png';
 
 const registrationSchema = z.object({
   name: z.string()
@@ -86,12 +87,15 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
 
   const nameVal = watch('name');
   const studentNumberVal = watch('studentNumber');
+  const emailVal = watch('email');
 
   // Real-time listener for Name and Student Number to auto-populate University Email ID (e.g. name2510003@akgec.ac.in)
   useEffect(() => {
     const email = generateUniversityEmail(nameVal, studentNumberVal);
-    setValue('email', email);
-  }, [nameVal, studentNumberVal, setValue]);
+    if (email !== emailVal) {
+      setValue('email', email, { shouldValidate: true });
+    }
+  }, [nameVal, studentNumberVal, emailVal, setValue]);
 
   const onSubmit = async (data: RegistrationData) => {
     setIsSubmitting(true);
@@ -133,7 +137,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
   return (
     <Card
       title="[GDG AKGEC RECRUITMENT REPO GATES: PROXIMITY 6.0]"
-      titleIcon={<Terminal size={14} className="text-white" />}
+      titleIcon={<img src={gdgLogo} alt="GDG Logo" className="w-5 h-5 object-contain" />}
       headerExtra={
         <span className="text-green-500 animate-pulse text-[10px] hidden sm:inline">● SECURE_CHANNEL_ACTIVE</span>
       }
