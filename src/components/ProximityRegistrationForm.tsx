@@ -50,6 +50,9 @@ const domains = [
   'managerial'
 ] as const;
 
+const normalizePhoneNumber = (value: unknown) =>
+  String(value ?? '').replace(/\D/g, '').replace(/^0+/, '');
+
 const registrationSchema = z.object({
   name: z.string()
     .trim()
@@ -256,6 +259,8 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
     formState: { errors }
   } = useForm<RegistrationData>({
     resolver: zodResolver(registrationSchema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: {
       name: '',
       studentNumber: '',
@@ -433,11 +438,11 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
                 type="text"
                 placeholder="e.g. 9876543210"
                 {...register('phone', {
+                  setValueAs: normalizePhoneNumber,
                   onChange: (e) => {
-                    const val = e.target.value;
-                    if (val.startsWith('0')) {
-                      e.target.value = val.replace(/^0+/, '');
-                    }
+                    const phone = normalizePhoneNumber(e.target.value);
+                    e.target.value = phone;
+                    setValue('phone', phone, { shouldDirty: true, shouldValidate: true });
                   }
                 })}
                 className="w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm focus:border-white focus:outline-none transition-snap placeholder-zinc-700"
