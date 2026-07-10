@@ -1,7 +1,12 @@
+import { PortalProvider } from './context/PortalContext';
 import { RecruitmentPortal } from './pages/RecruitmentPortal';
 
 function App() {
-  return <RecruitmentPortal />;
+  return (
+    <PortalProvider>
+      <RecruitmentPortal />
+    </PortalProvider>
+  );
 }
 
 export default App;
