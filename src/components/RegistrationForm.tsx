@@ -136,7 +136,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
 
   return (
     <Card
-      title="[GDG AKGEC RECRUITMENT REPO GATES: PROXIMITY 6.0]"
+      title="GDG AKGEC PROXIMITY 6.0"
       titleIcon={<img src={gdgLogo} alt="GDG Logo" className="w-5 h-5 object-contain" />}
       headerExtra={
         <span className="text-green-500 animate-pulse text-[10px] hidden sm:inline">● SECURE_CHANNEL_ACTIVE</span>
@@ -292,7 +292,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
               variant="primary"
               className="w-full py-4 text-sm"
             >
-              INITIALIZE RECRUITMENT GATEWAY
+              <span className='text-2xl'>INITIALIZE RECRUITMENT GATEWAY</span>
             </Button>
           </div>
         </form>
