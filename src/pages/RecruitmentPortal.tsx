@@ -19,6 +19,13 @@ export const RecruitmentPortal = () => {
       smoothWheel: true,
     });
 
+    lenis.on('scroll', (e) => {
+      // Infinite scroll loop: when hitting the bottom, seamlessly teleport back to top
+      if (e.scroll >= e.limit - 1.5) {
+        lenis.scrollTo(0, { immediate: true });
+      }
+    });
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
