@@ -148,3 +148,24 @@ html, body, #root {
   animation: web-swing 5.5s ease-in-out infinite;
   transform-origin: top center;
 }
+
+/* Lenis smooth scrolling integration rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}

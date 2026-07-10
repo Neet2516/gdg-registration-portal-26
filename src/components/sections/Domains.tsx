@@ -1,5 +1,6 @@
 import { Globe, Database, Cpu, Binary, Compass, Network } from 'lucide-react';
 import { Card } from '../Card';
+import { motion } from 'framer-motion';
 import webImage from '../../assets/images/web.png';
 import webRope from '../../assets/images/web rope.png';
 
@@ -13,14 +14,20 @@ export const Domains = () => {
         style={{ backgroundImage: `url(${webImage})` }}
       ></div>
 
-      <div className="space-y-2 text-center relative z-10">
+      <motion.div 
+        className="space-y-2 text-center relative z-10"
+        initial={{ y: 30, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <h2 className="font-comic text-2xl md:text-4xl lg:text-5xl font-normal tracking-wide text-white uppercase">
           CHOOSE YOUR GUILD
         </h2>
         <p className="font-mono text-xs md:text-sm text-[#71717A] tracking-widest uppercase">
           Select a specialized domain for your technical journey
         </p>
-      </div>
+      </motion.div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8 relative z-10">
         
@@ -34,7 +41,13 @@ export const Domains = () => {
         </div>
 
         {/* Column 01: Frontend Dev & App Dev Chain */}
-        <div className="flex flex-col items-center pt-16 relative select-none">
+        <motion.div 
+          className="flex flex-col items-center pt-16 relative select-none"
+          initial={{ y: 60, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+        >
           <div className="animate-swing-slow-1 w-full hover:[animation-play-state:paused] flex flex-col items-center relative">
             
             {/* Top Rope */}
@@ -80,10 +93,16 @@ export const Domains = () => {
             </div>
 
           </div>
-        </div>
+        </motion.div>
 
         {/* Column 02: Backend Dev & UI/UX Designing Chain */}
-        <div className="flex flex-col items-center pt-16 relative select-none">
+        <motion.div 
+          className="flex flex-col items-center pt-16 relative select-none"
+          initial={{ y: 60, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, delay: 0.25 }}
+        >
           <div className="animate-swing-slow-2 w-full hover:[animation-play-state:paused] flex flex-col items-center relative">
             
             {/* Top Rope */}
@@ -129,10 +148,16 @@ export const Domains = () => {
             </div>
 
           </div>
-        </div>
+        </motion.div>
 
         {/* Column 03: AI & Machine Learning & Managerial Chain */}
-        <div className="flex flex-col items-center pt-16 relative select-none">
+        <motion.div 
+          className="flex flex-col items-center pt-16 relative select-none"
+          initial={{ y: 60, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+        >
           <div className="animate-swing-slow-3 w-full hover:[animation-play-state:paused] flex flex-col items-center relative">
             
             {/* Top Rope */}
@@ -178,7 +203,7 @@ export const Domains = () => {
             </div>
 
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

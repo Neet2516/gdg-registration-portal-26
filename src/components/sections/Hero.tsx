@@ -1,16 +1,20 @@
 import { ArrowDown } from 'lucide-react';
 import { Button } from '../Button';
+import { motion } from 'framer-motion';
 import spidermanHanging from '../../assets/images/spiderman hanging.png';
 
 export const Hero = () => {
   return (
     <section id="hero" className="pt-16 pb-12 relative flex flex-col items-center justify-center text-center overflow-visible">
 
-      {/* Hanging Spider-Man from top right */}
-      <img 
+      {/* Hanging Spider-Man from top right - slides down and sways */}
+      <motion.img 
         src={spidermanHanging} 
         alt="Spider-Man Hanging" 
         className="absolute -top-24 right-4 md:right-16 w-24 md:w-36 pointer-events-none select-none z-20 animate-swing-slow-2"
+        initial={{ y: -150, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 40, delay: 0.6 }}
       />
       
       {/* Glowing curved portal backdrop (elliptical curve glow) */}
@@ -19,15 +23,31 @@ export const Hero = () => {
       <div className="max-w-5xl space-y-10 relative z-10 flex flex-col items-center">
         {/* Primary Title Display */}
         <div className="space-y-4">
-          <h1 className="title-spiderman text-7xl md:text-8xl lg:text-9xl font-black uppercase leading-none select-none">
+          <motion.h1 
+            className="title-spiderman text-7xl md:text-8xl lg:text-9xl font-black uppercase leading-none select-none"
+            initial={{ scale: 0.7, opacity: 0, rotate: -2 }}
+            animate={{ scale: 1, opacity: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 10, delay: 0.2 }}
+          >
             PROXIMITY 6.0
-          </h1>
-          <p className="subtitle-spiderman text-sm md:text-base lg:text-3xl text-zinc-200 font-light select-none tracking-[0.35em]">
+          </motion.h1>
+          
+          <motion.p 
+            className="subtitle-spiderman text-sm md:text-base lg:text-3xl text-zinc-200 font-light select-none tracking-[0.35em]"
+            initial={{ opacity: 0, letterSpacing: "0.1em" }}
+            animate={{ opacity: 1, letterSpacing: "0.35em" }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
             GDG AKGEC RECRUITMENT PORTAL
-          </p>
+          </motion.p>
         </div>
 
-        <div className="flex items-center justify-center">
+        <motion.div 
+          className="flex items-center justify-center"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
           <a href="#registration-terminal">
             <Button
               variant="outline"
@@ -37,7 +57,7 @@ export const Hero = () => {
               <span className='text-3xl'>Initialize Connection</span>
             </Button>
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

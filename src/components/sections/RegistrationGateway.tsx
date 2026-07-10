@@ -3,6 +3,7 @@ import { OtpVerification } from '../OtpVerification';
 import { SuccessScreen } from '../SuccessScreen';
 import { FlowProgress } from '../FlowProgress';
 import { usePortalContext } from '../../context/PortalContext';
+import { motion, AnimatePresence } from 'framer-motion';
 import gdgLogo from '../../assets/images/gdg-logo.png';
 
 export const RegistrationGateway = () => {
@@ -23,31 +24,69 @@ export const RegistrationGateway = () => {
 
   return (
     <section id="registration-terminal" className="scroll-mt-24 space-y-8 pt-16 pb-16 flex flex-col items-center">
-      <div className="text-center space-y-3 flex flex-col items-center">
+      
+      {/* Header reveal */}
+      <motion.div 
+        className="text-center space-y-3 flex flex-col items-center"
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <img src={gdgLogo} alt="GDG Logo" className="w-14 h-14 object-contain animate-pulse mb-1" />
         <h2 className="font-comic text-2xl md:text-4xl lg:text-5xl font-normal tracking-wide text-white uppercase">
           REGISTRATION GATEWAY
         </h2>
         <FlowProgress currentStep={currentState} className="mt-2" />
-      </div>
+      </motion.div>
 
+      {/* Slide transitions between forms */}
       <div className="w-full flex justify-center mt-6">
-        {currentState === 'REGISTRATION_FORM' && (
-          <RegistrationForm onSuccess={handleRegistrationSuccess} />
-        )}
+        <AnimatePresence mode="wait">
+          {currentState === 'REGISTRATION_FORM' && (
+            <motion.div
+              key="registration-form"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.4 }}
+              className="w-full flex justify-center"
+            >
+              <RegistrationForm onSuccess={handleRegistrationSuccess} />
+            </motion.div>
+          )}
 
-        {currentState === 'OTP_VERIFICATION' && (
-          <OtpVerification 
-            email={formData?.email || ''} 
-            formData={formData}
-            onSuccess={handleOtpSuccess} 
-            onBack={handleOtpBack}
-          />
-        )}
+          {currentState === 'OTP_VERIFICATION' && (
+            <motion.div
+              key="otp-verification"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.4 }}
+              className="w-full flex justify-center"
+            >
+              <OtpVerification 
+                email={formData?.email || ''} 
+                formData={formData}
+                onSuccess={handleOtpSuccess} 
+                onBack={handleOtpBack}
+              />
+            </motion.div>
+          )}
 
-        {currentState === 'SUCCESS_SCREEN' && (
-          <SuccessScreen formData={formData} />
-        )}
+          {currentState === 'SUCCESS_SCREEN' && (
+            <motion.div
+              key="success-screen"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.4 }}
+              className="w-full flex justify-center"
+            >
+              <SuccessScreen formData={formData} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

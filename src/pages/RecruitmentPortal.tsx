@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import Lenis from 'lenis';
 import { Hero } from '../components/sections/Hero';
 import { Domains } from '../components/sections/Domains';
 import { EvaluationPath } from '../components/sections/EvaluationPath';
@@ -10,6 +12,24 @@ import webRope from '../assets/images/web rope.png';
 import gdgLogo from '../assets/images/gdg-logo.png';
 
 export const RecruitmentPortal = () => {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
   return (
     <div className="w-full bg-[#000000] min-h-screen text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
       {/* Absolute background patterns */}
