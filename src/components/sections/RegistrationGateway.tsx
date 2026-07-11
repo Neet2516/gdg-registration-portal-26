@@ -41,7 +41,7 @@ export const RegistrationGateway = () => {
       </motion.div>
 
       {/* Slide transitions between forms */}
-      <div className="w-full flex justify-center mt-6">
+      <div className="w-full flex justify-center mt-6 min-h-[750px] md:min-h-[600px] transition-all duration-300">
         <AnimatePresence mode="wait">
           {currentState === 'REGISTRATION_FORM' && (
             <motion.div
