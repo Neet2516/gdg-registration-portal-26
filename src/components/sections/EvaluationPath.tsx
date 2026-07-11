@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { Cpu, Binary, Globe, Code2, Database, Compass, Network, ArrowRight } from 'lucide-react';
+import { Cpu, Binary, Globe, Code2, Database, Compass, Network } from 'lucide-react';
 import { CodeChip } from '../CodeChip';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { SYLLABUS_MATRIX } from '../../constants/recruitment';
 import spiderWebPathImage from '../../assets/images/spider web image.jpg';
 import { gsap } from 'gsap';
@@ -10,7 +10,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 interface MissionCardProps {
-  phase: string;
   stage: string;
   badge: string;
   title: string;
@@ -23,7 +22,6 @@ interface MissionCardProps {
 }
 
 export const MissionCard: React.FC<MissionCardProps> = ({
-  phase,
   stage,
   badge,
   title,
@@ -569,7 +567,6 @@ export const EvaluationPath = () => {
         {/* Phase 01 Card - MCQ Stage */}
         <div className="w-full flex" ref={card1Ref}>
           <MissionCard
-            phase="STAGE 01"
             stage="MISSION 01"
             badge="MCQ STAGE"
             title="COGNITIVE & TECH SCREENING"
@@ -618,7 +615,6 @@ export const EvaluationPath = () => {
         {/* Phase 02 Card - Coding Stage */}
         <div className="w-full flex" ref={card2Ref}>
           <MissionCard
-            phase="STAGE 02"
             stage="MISSION 02"
             badge="CODING STAGE"
             title="ALGORITHMIC CRUCIBLE"

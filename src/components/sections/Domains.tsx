@@ -3,7 +3,6 @@ import { Globe, Database, Cpu, Binary, Compass, Network, ArrowRight } from 'luci
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Card } from '../Card';
 import webRope from '../../assets/images/web rope.png';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -75,7 +74,6 @@ export const Domains = () => {
   const skylineNearRef = useRef<HTMLDivElement>(null);
   
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -233,14 +231,11 @@ export const Domains = () => {
         {GUILDS.map((guild, idx) => {
           const Icon = guild.icon;
           const isActive = idx === activeIndex;
-          const isHovered = idx === hoveredIndex;
 
           return (
             <div 
               key={guild.id}
               className="flex flex-col items-center pt-24 relative select-none w-[75vw] max-w-[340px] md:w-[28vw] shrink-0"
-              onMouseEnter={() => setHoveredIndex(idx)}
-              onMouseLeave={() => setHoveredIndex(null)}
             >
               
               {/* Vertical web rope cable hanging card */}
