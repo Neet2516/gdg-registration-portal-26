@@ -5,18 +5,16 @@ export const FAQ = () => {
     <section id="faq" className="scroll-mt-24 space-y-8 pt-16 relative overflow-hidden">
       
       <motion.div 
-        className="space-y-2"
+        className="space-y-2 flex flex-col items-center justify-center"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="font-comic text-2xl md:text-4xl lg:text-5xl font-normal tracking-wide text-white uppercase">
+        <h2 className="title-spiderman text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow" >
           SPEECH BUBBLE INTEL (FAQ)
         </h2>
-        <p className="font-mono text-xs md:text-sm text-[#71717A] tracking-widest uppercase">
-          Answers to frequently asked questions about recruitment
-        </p>
+        
       </motion.div>
 
       <div className="space-y-6 max-w-4xl mx-auto">
@@ -24,7 +22,7 @@ export const FAQ = () => {
         {/* Q1 */}
         <div className="space-y-2 text-left">
           <motion.div 
-            className="inline-block bg-[#E11D48]/10 border border-[#E11D48] text-white px-4 py-2 font-comic rounded-lg relative"
+            className="inline-block bg-[#E11D48]/10 border border-[#E11D48] text-white px-4 py-2 font-comic text-base md:text-lg rounded-lg relative"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -33,7 +31,7 @@ export const FAQ = () => {
             Q: Who can register for Proximity 6.0?
           </motion.div>
           <motion.div 
-            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
+            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-base md:text-lg rounded-xl relative shadow-md"
             initial={{ scale: 0.85, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -47,7 +45,7 @@ export const FAQ = () => {
         {/* Q2 */}
         <div className="space-y-2 text-left pt-2">
           <motion.div 
-            className="inline-block bg-[#2563EB]/10 border border-[#2563EB] text-white px-4 py-2 font-comic rounded-lg relative"
+            className="inline-block bg-[#2563EB]/10 border border-[#2563EB] text-white px-4 py-2 font-comic text-base md:text-lg rounded-lg relative"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -56,7 +54,7 @@ export const FAQ = () => {
             Q: What are the phases of the recruitment process?
           </motion.div>
           <motion.div 
-            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
+            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-base md:text-lg rounded-xl relative shadow-md"
             initial={{ scale: 0.85, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -70,7 +68,7 @@ export const FAQ = () => {
         {/* Q3 */}
         <div className="space-y-2 text-left pt-2">
           <motion.div 
-            className="inline-block bg-[#7C3AED]/10 border border-[#7C3AED] text-white px-4 py-2 font-comic rounded-lg relative"
+            className="inline-block bg-[#7C3AED]/10 border border-[#7C3AED] text-white px-4 py-2 font-comic text-base md:text-lg rounded-lg relative"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -79,7 +77,7 @@ export const FAQ = () => {
             Q: Can I apply for more than one domain?
           </motion.div>
           <motion.div 
-            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-sm md:text-base rounded-xl relative shadow-md"
+            className="ml-3 sm:ml-6 p-4 bg-zinc-900 border border-zinc-700 text-zinc-300 font-sans text-base md:text-lg rounded-xl relative shadow-md"
             initial={{ scale: 0.85, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}

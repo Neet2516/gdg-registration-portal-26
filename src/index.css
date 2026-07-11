@@ -169,3 +169,8 @@ html.lenis, html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+/* Custom rounded card override to bypass global border-radius: 0 reset */
+.rounded-card, .rounded-card * {
+  border-radius: 24px !important;
+}

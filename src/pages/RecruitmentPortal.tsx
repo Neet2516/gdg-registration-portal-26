@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Hero } from '../components/sections/Hero';
 import { Domains } from '../components/sections/Domains';
 import { EvaluationPath } from '../components/sections/EvaluationPath';
@@ -20,6 +21,9 @@ export const RecruitmentPortal = () => {
     });
 
     lenis.on('scroll', (e) => {
+      // Sync GSAP ScrollTrigger with Lenis scroll calculations
+      ScrollTrigger.update();
+
       // Infinite scroll loop: when hitting the bottom, seamlessly teleport back to top
       if (e.scroll >= e.limit - 1.5) {
         lenis.scrollTo(0, { immediate: true });
