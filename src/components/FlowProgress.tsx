@@ -19,7 +19,7 @@ export const FlowProgress: React.FC<FlowProgressProps> = ({
   const currentIdx = steps.findIndex(s => s.key === currentStep);
 
   return (
-    <div className={`w-full max-w-2xl font-mono text-xs md:text-sm tracking-wider uppercase border border-[#71717A]/40 bg-zinc-950 p-4 relative overflow-hidden select-none ${className}`}>
+    <div className={`w-full max-w-2xl font-mono text-xs md:text-sm tracking-wider uppercase border border-[#71717A]/40 bg-zinc-950 p-4 rounded-xl relative overflow-hidden select-none ${className}`}>
       {/* Grid Pattern Background */}
       <div className="absolute inset-0 dither-bg opacity-5 pointer-events-none"></div>
 
@@ -39,7 +39,7 @@ export const FlowProgress: React.FC<FlowProgressProps> = ({
           return (
             <div
               key={step.key}
-              className={`flex-1 flex items-center gap-2.5 border p-2.5 transition-snap ${statusColor}`}
+              className={`flex-1 flex items-center gap-2.5 border p-2.5 rounded-lg transition-snap ${statusColor}`}
             >
               <Icon size={12} className={isActive ? 'animate-pulse' : ''} />
               <span className="truncate">{step.label}</span>

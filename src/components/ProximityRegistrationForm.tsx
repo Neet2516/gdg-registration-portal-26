@@ -160,7 +160,7 @@ const CaptchaGateSub: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="w-full max-w-lg bg-[#0D0E12] border border-[#71717A] p-6 shadow-2xl relative overflow-hidden transition-snap">
+    <div className="w-full max-w-lg bg-[#0D0E12] border border-[#71717A] p-6 rounded-2xl shadow-2xl relative overflow-hidden transition-snap">
       <div className="absolute inset-0 scanline opacity-20 pointer-events-none"></div>
       <div className="absolute inset-0 dither-bg opacity-10 pointer-events-none"></div>
 
@@ -176,7 +176,7 @@ const CaptchaGateSub: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
         </div>
       </div>
 
-      <div className="font-mono text-[11px] text-[#71717A] bg-black p-4 border border-[#71717A]/40 mb-6 h-36 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
+      <div className="font-mono text-[11px] text-[#71717A] bg-black p-4 border border-[#71717A]/40 rounded-xl mb-6 h-36 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
         {terminalLogs.map((log, index) => (
           <div key={index} className={log.includes('SUCCESS') ? 'text-green-400' : log.includes('DENIED') || log.includes('FAILED') ? 'text-red-500' : ''}>
             {log}
@@ -189,7 +189,7 @@ const CaptchaGateSub: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
           <label className="block font-mono text-xs text-white tracking-widest uppercase">
             HUMAN CAPTCHA VERIFICATION
           </label>
-          <div className="flex items-center justify-between bg-black border border-[#71717A] p-4">
+          <div className="flex items-center justify-between bg-black border border-[#71717A] p-4 rounded-xl">
             <span className="font-mono text-sm tracking-wider text-white">
               EVALUATE: <span className="text-white underline font-bold">{num1} + {num2}</span> = ?
             </span>
@@ -216,19 +216,19 @@ const CaptchaGateSub: React.FC<CaptchaGateProps> = ({ onSuccess }) => {
             value={userAnswer}
             onChange={(e) => setUserAnswer(e.target.value)}
             placeholder="TYPE AN ANSWER"
-            className="w-full bg-black border border-[#71717A] py-3 px-4 font-mono text-white text-sm focus:border-white focus:outline-none transition-snap uppercase placeholder-[#71717A]/50"
+            className="w-full bg-black border border-[#71717A] py-3 px-4 font-mono text-white text-sm focus:border-white focus:outline-none rounded-xl transition-snap uppercase placeholder-[#71717A]/50"
           />
         </div>
 
         {error && (
-          <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 animate-pulse">
+          <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 rounded-xl animate-pulse">
             {error}
           </div>
         )}
 
         <button
           type="submit"
-          className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-3 border border-white flex items-center justify-center gap-2 cursor-pointer transition-snap"
+          className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-3 border border-white rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-snap"
         >
           <span>EXECUTE BYPASS</span>
           <ArrowRight size={14} />
@@ -368,32 +368,24 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
   };
 
   return (
-    <div className="w-full max-w-2xl bg-[#0D0E12] border border-[#71717A] p-6 md:p-8 shadow-2xl relative overflow-hidden transition-snap">
+    <div className="w-full max-w-2xl bg-[#0D0E12] border border-[#71717A] p-6 md:p-8 rounded-2xl shadow-2xl relative overflow-hidden transition-snap">
       <div className="absolute inset-0 scanline opacity-10 pointer-events-none"></div>
       <div className="absolute inset-0 dither-bg opacity-5 pointer-events-none"></div>
 
-      <div className="border border-[#71717A] bg-black p-3 mb-8 flex items-center justify-between font-mono text-xs tracking-widest text-white">
-        <div className="flex items-center gap-2">
-          <Terminal size={14} className="text-white" />
-          <span>[GDG AKGEC RECRUITMENT REPO GATES: PROXIMITY 6.0]</span>
-        </div>
-        <span className="text-green-500 animate-pulse text-[10px] hidden sm:inline">● SECURE_CHANNEL_ACTIVE</span>
-      </div>
-
       {isSubmitting ? (
-        <div className="h-96 flex flex-col items-center justify-center space-y-6 bg-black border border-[#71717A] p-6 relative">
+        <div className="h-96 flex flex-col items-center justify-center space-y-6 bg-black border border-[#71717A] p-6 relative rounded-xl">
           <Loader2 className="animate-spin text-white w-12 h-12" />
           <div className="font-mono text-xs tracking-widest text-white animate-pulse text-center">
             {loadingText}
           </div>
-          <div className="w-48 h-1.5 bg-zinc-900 border border-zinc-700 relative overflow-hidden">
-            <div className="h-full bg-white animate-[scan_2s_infinite_linear]" style={{ width: '40%' }}></div>
+          <div className="w-48 h-1.5 bg-zinc-900 border border-zinc-700 rounded-full relative overflow-hidden">
+            <div className="h-full bg-white rounded-full animate-[scan_2s_infinite_linear]" style={{ width: '40%' }}></div>
           </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {errorMsg && (
-            <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-4 py-3 flex items-center gap-2 animate-pulse">
+            <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-4 py-3 flex items-center gap-2 animate-pulse rounded-xl">
               <AlertTriangle size={16} />
               <span>{errorMsg}</span>
             </div>
@@ -553,13 +545,13 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
               <label className="block font-mono text-xs text-white tracking-widest uppercase">
                 * RESIDENCY ALLOCATION
               </label>
-              <div className="flex items-center gap-6 h-12 bg-black border border-[#71717A]/40 px-4">
+              <div className="flex items-center gap-6 h-12 bg-black border border-[#71717A]/40 px-4 rounded-xl">
                 <label className="flex items-center gap-2 cursor-pointer group">
                   <input
                     type="radio"
                     value="Day Scholar"
                     {...register('residence')}
-                    className="appearance-none w-3.5 h-3.5 border border-[#71717A] checked:bg-white checked:border-white focus:outline-none transition-snap"
+                    className="appearance-none w-3.5 h-3.5 border border-[#71717A] checked:bg-white checked:border-white rounded-full focus:outline-none transition-snap"
                   />
                   <span className="font-mono text-xs text-[#71717A] group-hover:text-white transition-snap uppercase select-none">
                     Day Scholar
@@ -571,7 +563,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
                     type="radio"
                     value="Hosteller"
                     {...register('residence')}
-                    className="appearance-none w-3.5 h-3.5 border border-[#71717A] checked:bg-white checked:border-white focus:outline-none transition-snap"
+                    className="appearance-none w-3.5 h-3.5 border border-[#71717A] checked:bg-white checked:border-white rounded-full focus:outline-none transition-snap"
                   />
                   <span className="font-mono text-xs text-[#71717A] group-hover:text-white transition-snap uppercase select-none">
                     Hosteller
@@ -635,7 +627,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
           <div className="pt-4">
             <button
               type="submit"
-              className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-4 border border-white cursor-pointer transition-snap"
+              className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-4 border border-white rounded-xl cursor-pointer transition-snap"
             >
               INITIALIZE RECRUITMENT GATEWAY
             </button>
@@ -783,7 +775,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, o
   };
 
   return (
-    <div className="w-full max-w-md bg-[#0D0E12] border border-[#71717A] p-6 shadow-2xl relative overflow-hidden transition-snap">
+    <div className="w-full max-w-md bg-[#0D0E12] border border-[#71717A] p-6 rounded-2xl shadow-2xl relative overflow-hidden transition-snap">
       <div className="absolute inset-0 scanline opacity-20 pointer-events-none"></div>
       <div className="absolute inset-0 dither-bg opacity-10 pointer-events-none"></div>
 
@@ -796,7 +788,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, o
       </div>
 
       {isVerifying ? (
-        <div className="h-64 flex flex-col items-center justify-center space-y-4 bg-black border border-[#71717A]/40 p-6">
+        <div className="h-64 flex flex-col items-center justify-center space-y-4 bg-black border border-[#71717A]/40 p-6 rounded-xl">
           <Loader2 className="animate-spin text-white w-10 h-10" />
           <div className="font-mono text-[10px] tracking-widest text-white animate-pulse text-center uppercase">
             {statusText}
@@ -804,7 +796,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, o
         </div>
       ) : (
         <>
-          <div className="bg-[#EF4444]/10 border border-[#EF4444]/40 p-4 mb-6">
+          <div className="bg-[#EF4444]/10 border border-[#EF4444]/40 p-4 mb-6 rounded-xl">
             <div className="flex items-start gap-3">
               <ShieldAlert className="text-[#EF4444] shrink-0 mt-0.5" size={18} />
               <div className="space-y-1">
@@ -835,7 +827,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, o
                     onChange={(e) => handleChange(e.target, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
                     onPaste={index === 0 ? handlePaste : undefined}
-                    className="w-10 h-12 bg-black border border-[#71717A] focus:border-white text-center text-lg font-mono text-white focus:outline-none transition-snap"
+                    className="w-10 h-12 bg-black border border-[#71717A] focus:border-white text-center text-lg font-mono text-white focus:outline-none rounded-xl transition-snap"
                     autoComplete="one-time-code"
                   />
                 ))}
@@ -847,7 +839,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, o
             </div>
 
             {error && (
-              <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 text-center animate-pulse">
+              <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 text-center animate-pulse rounded-xl">
                 {error}
               </div>
             )}
@@ -855,7 +847,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, o
             <div className="space-y-3">
               <button
                 type="submit"
-                className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-3 border border-white flex items-center justify-center gap-2 cursor-pointer transition-snap"
+                className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-3 border border-white rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-snap"
               >
                 <span>CONFIRM CODE ENTRY & VERIFY</span>
                 <ArrowRight size={14} />
@@ -864,7 +856,7 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, o
               <button
                 type="button"
                 onClick={onBack}
-                className="w-full bg-transparent hover:bg-zinc-900 text-[#71717A] hover:text-white font-mono text-[10px] tracking-wider py-2 border border-transparent hover:border-[#71717A]/40 cursor-pointer transition-snap uppercase"
+                className="w-full bg-transparent hover:bg-zinc-900 text-[#71717A] hover:text-white font-mono text-[10px] tracking-wider py-2 border border-transparent hover:border-[#71717A]/40 rounded-xl cursor-pointer transition-snap uppercase"
               >
                 Go Back To Form
               </button>
@@ -889,14 +881,14 @@ const SuccessScreenSub: React.FC<SuccessScreenProps> = ({ formData }) => {
   const applicationHash = `PROX-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${formData?.studentNumber || '0000000'}`;
 
   return (
-    <div className="w-full max-w-xl bg-[#0D0E12] border border-[#71717A] p-6 md:p-8 shadow-2xl relative overflow-hidden transition-snap">
+    <div className="w-full max-w-xl bg-[#0D0E12] border border-[#71717A] p-6 md:p-8 rounded-2xl shadow-2xl relative overflow-hidden transition-snap">
       <div className="absolute inset-0 scanline opacity-20 pointer-events-none"></div>
       <div className="absolute inset-0 dither-bg opacity-10 pointer-events-none"></div>
 
       <div className="h-2 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 mb-6"></div>
 
       <div className="flex flex-col items-center justify-center text-center space-y-4 mb-8">
-        <div className="inline-flex items-center justify-center p-3 bg-green-500/10 border border-green-500/40 text-green-500 animate-pulse">
+        <div className="inline-flex items-center justify-center p-3 bg-green-500/10 border border-green-500/40 text-green-500 rounded-xl animate-pulse">
           <CheckCircle2 size={40} />
         </div>
         <div className="space-y-1">
@@ -909,8 +901,8 @@ const SuccessScreenSub: React.FC<SuccessScreenProps> = ({ formData }) => {
         </div>
       </div>
 
-      <div className="bg-black border border-[#71717A]/40 p-5 font-mono text-xs text-white space-y-4 relative mb-6">
-        <div className="absolute top-0 right-0 p-2 bg-[#71717A]/10 border-l border-b border-[#71717A]/40 text-[9px] uppercase tracking-widest text-[#71717A]">
+      <div className="bg-black border border-[#71717A]/40 p-5 font-mono text-xs text-white space-y-4 relative mb-6 rounded-xl">
+        <div className="absolute top-0 right-0 p-2 bg-[#71717A]/10 border-l border-b border-[#71717A]/40 text-[9px] uppercase tracking-widest text-[#71717A] rounded-tr-xl rounded-bl-xl">
           Official Entry pass
         </div>
         
@@ -957,14 +949,14 @@ const SuccessScreenSub: React.FC<SuccessScreenProps> = ({ formData }) => {
       </div>
 
       <div className="mt-8 pt-4 border-t border-[#71717A]/20 flex flex-col sm:flex-row gap-3">
-        <div className="flex-1 p-3 bg-zinc-950 border border-zinc-800 flex items-center gap-3">
+        <div className="flex-1 p-3 bg-zinc-950 border border-zinc-800 rounded-xl flex items-center gap-3">
           <Mail size={16} className="text-[#71717A]" />
           <div className="font-mono text-[9px] tracking-wider text-zinc-500 uppercase">
             EMAIL SENT TO:<br />
             <span className="text-white font-bold">{formData?.email || 'N/A'}</span>
           </div>
         </div>
-        <div className="flex-1 p-3 bg-zinc-950 border border-zinc-800 flex items-center gap-3">
+        <div className="flex-1 p-3 bg-zinc-950 border border-zinc-800 rounded-xl flex items-center gap-3">
           <Calendar size={16} className="text-[#71717A]" />
           <div className="font-mono text-[9px] tracking-wider text-zinc-500 uppercase">
             PHASE 1 MCQ SCREENING:<br />

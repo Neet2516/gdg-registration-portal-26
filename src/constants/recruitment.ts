@@ -23,8 +23,8 @@ export const DOMAINS = [
 ] as const;
 
 export const SYLLABUS_MATRIX = [
-  { id: 'web', label: 'Web Core: HTML5 & CSS3' },
-  { id: 'logic', label: 'Logic Engine: JavaScript' },
-  { id: 'data', label: 'Data Layers: SQL & DBs' },
-  { id: 'logical', label: 'Core: Logical Reasoning' }
+  { id: 'web', label: 'HTML5 & CSS3' },
+  { id: 'logic', label: 'C programming' },
+  { id: 'data', label: 'SQL' },
+  { id: 'logical', label: 'Logical Reasoning' }
 ] as const;

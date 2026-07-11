@@ -11,7 +11,6 @@ import { Radio } from './Radio';
 import { BRANCHES, DOMAINS } from '../constants/recruitment';
 import { generateUniversityEmail } from '../utils/formatters';
 import { sendOtp } from '../services/api';
-import gdgLogo from '../assets/images/gdg-logo.png';
 
 const registrationSchema = z.object({
   name: z.string()
@@ -136,27 +135,23 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
 
   return (
     <Card
-      title="GDG AKGEC PROXIMITY 6.0"
-      titleIcon={<img src={gdgLogo} alt="GDG Logo" className="w-5 h-5 object-contain" />}
-      headerExtra={
-        <span className="text-green-500 animate-pulse text-[10px] hidden sm:inline">● PORTAL_ACTIVE</span>
-      }
+      showHeader={false}
       className="max-w-2xl"
     >
       {isSubmitting ? (
-        <div className="h-96 flex flex-col items-center justify-center space-y-6 bg-black border border-[#71717A]/40 p-6 relative">
+        <div className="h-96 flex flex-col items-center justify-center space-y-6 bg-black border border-[#71717A]/40 p-6 relative rounded-xl">
           <Loader2 className="animate-spin text-white w-12 h-12" />
           <div className="font-mono text-xs tracking-widest text-white animate-pulse text-center">
             {loadingText}
           </div>
-          <div className="w-48 h-1.5 bg-zinc-900 border border-zinc-700 relative overflow-hidden">
-            <div className="h-full bg-white animate-[scan_2s_infinite_linear]" style={{ width: '40%' }}></div>
+          <div className="w-48 h-1.5 bg-zinc-900 border border-zinc-700 rounded-full relative overflow-hidden">
+            <div className="h-full bg-white rounded-full animate-[scan_2s_infinite_linear]" style={{ width: '40%' }}></div>
           </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {errorMsg && (
-            <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-4 py-3 flex items-center gap-2 animate-pulse">
+            <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-4 py-3 flex items-center gap-2 animate-pulse rounded-xl">
               <AlertTriangle size={16} />
               <span>{errorMsg}</span>
             </div>

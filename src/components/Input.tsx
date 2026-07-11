@@ -25,8 +25,8 @@ export const Input: React.FC<InputProps> = ({
   className = '',
   labelExtra
 }) => {
-  const inputBaseStyle = 'w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm md:text-base focus:border-white focus:outline-none transition-snap placeholder-zinc-700';
-  const readOnlyStyle = 'w-full bg-zinc-950 border border-zinc-800 text-zinc-500 py-3 px-4 font-sans text-sm md:text-base outline-none cursor-not-allowed select-none animate-pulse';
+  const inputBaseStyle = 'w-full bg-black border border-[#71717A] py-3 px-4 font-sans text-white text-sm md:text-base focus:border-white focus:outline-none rounded-xl transition-snap placeholder-zinc-700';
+  const readOnlyStyle = 'w-full bg-zinc-950 border border-zinc-800 text-zinc-500 py-3 px-4 font-sans text-sm md:text-base outline-none rounded-xl cursor-not-allowed select-none animate-pulse';
 
   return (
     <div className={`space-y-1 ${className}`}>

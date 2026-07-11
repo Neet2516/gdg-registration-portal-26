@@ -11,7 +11,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface MissionCardProps {
   stage: string;
-  badge: string;
   title: string;
   icon: React.ComponentType<any>;
   color: string;
@@ -23,7 +22,6 @@ interface MissionCardProps {
 
 export const MissionCard: React.FC<MissionCardProps> = ({
   stage,
-  badge,
   title,
   icon: Icon,
   color,
@@ -122,55 +120,33 @@ export const MissionCard: React.FC<MissionCardProps> = ({
       </div>
 
       {/* Card Content */}
-      <div className="relative z-20 p-6 md:p-8 flex flex-col justify-between h-full min-h-[460px]">
+      <div className="relative z-20 p-6 md:p-8 flex flex-col justify-between h-full min-h-[360px] items-center text-center">
         
-        {/* Floating status & phase tag */}
-        <div className="flex justify-between items-start mb-6">
-          <div className="space-y-1">
-            <span 
-              className="font-mono text-xs font-black tracking-widest uppercase block"
-              style={{ color }}
-            >
-              {stage}
-            </span>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-mono text-[8px] text-zinc-500 uppercase tracking-widest">
-                ESTABLISHED PATH
-              </span>
-            </div>
-          </div>
-          
-          <div 
-            className="text-white py-1 px-3 font-comic text-[10px] tracking-wider uppercase rounded-sm border shadow-lg transition-transform duration-300 group-hover:scale-105"
-            style={{ 
-              backgroundColor: color,
-              borderColor: 'rgba(255, 255, 255, 0.2)',
-              boxShadow: `0 0 12px ${color}60`
-            }}
+        {/* Centered status & phase tag */}
+        <div className="flex flex-col items-center mb-4">
+          <span 
+            className="font-mono text-lg md:text-xl font-black tracking-widest uppercase block"
+            style={{ color }}
           >
-            {badge}
-          </div>
+            {stage}
+          </span>
         </div>
 
-        {/* Title */}
-        <h3 className="font-comic text-xl md:text-2xl font-normal tracking-wide text-white uppercase flex items-center gap-3 border-b border-zinc-800/80 pb-4 mb-6">
+        {/* Centered Title */}
+        <h3 className="font-comic text-xl md:text-2xl font-normal tracking-wide text-white uppercase flex flex-col sm:flex-row items-center justify-center gap-3 border-b border-zinc-800/80 pb-4 mb-4 w-full">
           <Icon size={24} className="transition-transform duration-500 group-hover:rotate-12" style={{ color }} />
-          {title}
+          <span>{title}</span>
         </h3>
 
-        {/* Focus vectors */}
-        <div className="space-y-1 text-left mb-6">
-          <span className="font-mono text-[10px] text-zinc-500 tracking-wider uppercase block">
-            FOCUS VECTOR:
-          </span>
+        {/* Centered Focus vectors */}
+        <div className="space-y-1 text-center mb-4 w-full">
           <p className="font-sans text-sm text-zinc-300 leading-relaxed">
             {focusVectors}
           </p>
         </div>
 
         {/* Custom Inner Child Content */}
-        <div className="flex-1 w-full">
+        <div className="flex-1 w-full flex flex-col justify-center items-center">
           {children}
         </div>
       </div>
@@ -568,15 +544,14 @@ export const EvaluationPath = () => {
         <div className="w-full flex" ref={card1Ref}>
           <MissionCard
             stage="MISSION 01"
-            badge="MCQ STAGE"
             title="COGNITIVE & TECH SCREENING"
             icon={Cpu}
             color="#E11D48"
             themeColor="red"
-            focusVectors="Technical foundations and baseline analytical capability."
+            focusVectors="MCQ STAGE"
             cardRef={card1Ref}
           >
-            <div className="border-t border-zinc-800/80 pt-5 space-y-4">
+            <div className="space-y-4 w-full flex flex-col items-center">
               <span className="block font-mono text-[10px] text-zinc-500 tracking-widest uppercase">
                 SYLLABUS MATRIX:
               </span>
@@ -616,15 +591,14 @@ export const EvaluationPath = () => {
         <div className="w-full flex" ref={card2Ref}>
           <MissionCard
             stage="MISSION 02"
-            badge="CODING STAGE"
             title="ALGORITHMIC CRUCIBLE"
             icon={Binary}
             color="#2563EB"
             themeColor="blue"
-            focusVectors="Computational problem solving and code optimization."
+            focusVectors="CODING STAGE"
             cardRef={card2Ref}
           >
-            <div className="border-t border-zinc-800/80 pt-5 space-y-4">
+            <div className="space-y-4 w-full flex flex-col items-center">
               <span className="block font-mono text-[10px] text-zinc-500 tracking-widest uppercase">
                 EXECUTION METRIC:
               </span>
@@ -634,13 +608,14 @@ export const EvaluationPath = () => {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
+                className="flex flex-col items-center w-full"
               >
                 <motion.div variants={itemVariants}>
                   <CodeChip 
                     icon={<Network size={16} />} 
                     className="py-3 px-4 leading-relaxed hover:border-blue-500/50 hover:shadow-[0_0_12px_rgba(37,99,235,0.25)] hover:text-blue-200"
                   >
-                    Sandboxed competitive programming stage featuring standard multi-level Data Structures & Algorithms (DSA) problems.
+                   Data Structures & Algorithms (DSA)
                   </CodeChip>
                 </motion.div>
               </motion.div>

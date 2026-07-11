@@ -23,14 +23,14 @@ export const Radio: React.FC<RadioProps> = ({
       <label className="block font-mono text-xs md:text-sm text-white tracking-widest uppercase">
         {label}
       </label>
-      <div className="flex items-center gap-6 h-12 bg-black border border-[#71717A]/40 px-4">
+      <div className="flex items-center gap-6 h-12 bg-black border border-[#71717A]/40 px-4 rounded-xl">
         {options.map((opt) => (
           <label key={opt.value} className="flex items-center gap-2 cursor-pointer group">
             <input
               type="radio"
               value={opt.value}
               {...register}
-              className="appearance-none w-3.5 h-3.5 border border-[#71717A] checked:bg-white checked:border-white focus:outline-none transition-snap"
+              className="appearance-none w-3.5 h-3.5 border border-[#71717A] checked:bg-white checked:border-white rounded-full focus:outline-none transition-snap"
             />
             <span className="font-mono text-xs md:text-sm text-[#71717A] group-hover:text-white transition-snap uppercase select-none">
               {opt.label}

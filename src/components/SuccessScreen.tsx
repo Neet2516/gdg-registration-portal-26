@@ -17,7 +17,7 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({ formData }) => {
 
       {/* Verification Badge */}
       <div className="flex flex-col items-center justify-center text-center space-y-4 mb-8">
-        <div className="inline-flex items-center justify-center p-3 bg-green-500/10 border border-green-500/40 text-green-500 animate-pulse">
+        <div className="inline-flex items-center justify-center p-3 bg-green-500/10 border border-green-500/40 text-green-500 rounded-xl animate-pulse">
           <CheckCircle2 size={40} />
         </div>
         <div className="space-y-1">
@@ -29,10 +29,10 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({ formData }) => {
           </p>
         </div>
       </div>
-
+ 
       {/* Applicant Card/Receipt detail block */}
-      <div className="bg-black border border-[#71717A]/40 p-5 font-mono text-xs text-white space-y-4 relative mb-6">
-        <div className="absolute top-0 right-0 p-2 bg-[#71717A]/10 border-l border-b border-[#71717A]/40 text-[9px] uppercase tracking-widest text-[#71717A]">
+      <div className="bg-black border border-[#71717A]/40 p-5 font-mono text-xs text-white space-y-4 relative mb-6 rounded-xl">
+        <div className="absolute top-0 right-0 p-2 bg-[#71717A]/10 border-l border-b border-[#71717A]/40 text-[9px] uppercase tracking-widest text-[#71717A] rounded-tr-xl rounded-bl-xl">
           Official Entry pass
         </div>
         

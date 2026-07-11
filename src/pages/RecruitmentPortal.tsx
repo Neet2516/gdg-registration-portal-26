@@ -38,6 +38,36 @@ export const RecruitmentPortal = () => {
   }, []);
   return (
     <div className="w-full bg-[#000000] min-h-screen text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
+      {/* Viewport Corner Spiderwebs */}
+      <div className="fixed top-0 left-0 w-36 h-36 md:w-56 md:h-56 pointer-events-none z-50 text-zinc-500/20">
+        <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="currentColor" strokeWidth="1.2">
+          <line x1="0" y1="0" x2="100" y2="0" />
+          <line x1="0" y1="0" x2="100" y2="100" />
+          <line x1="0" y1="0" x2="0" y2="100" />
+          <line x1="0" y1="0" x2="70" y2="100" />
+          <line x1="0" y1="0" x2="100" y2="70" />
+          <path d="M 20,0 Q 20,20 0,20" />
+          <path d="M 40,0 Q 40,40 0,40" />
+          <path d="M 60,0 Q 60,60 0,60" />
+          <path d="M 80,0 Q 80,80 0,80" />
+          <path d="M 100,0 Q 100,100 0,100" />
+        </svg>
+      </div>
+      <div className="fixed top-0 right-0 w-36 h-36 md:w-56 md:h-56 pointer-events-none z-50 text-zinc-500/20 rotate-90">
+        <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="currentColor" strokeWidth="1.2">
+          <line x1="0" y1="0" x2="100" y2="0" />
+          <line x1="0" y1="0" x2="100" y2="100" />
+          <line x1="0" y1="0" x2="0" y2="100" />
+          <line x1="0" y1="0" x2="70" y2="100" />
+          <line x1="0" y1="0" x2="100" y2="70" />
+          <path d="M 20,0 Q 20,20 0,20" />
+          <path d="M 40,0 Q 40,40 0,40" />
+          <path d="M 60,0 Q 60,60 0,60" />
+          <path d="M 80,0 Q 80,80 0,80" />
+          <path d="M 100,0 Q 100,100 0,100" />
+        </svg>
+      </div>
+
       {/* Absolute background patterns */}
       <div className="absolute inset-0 dither-bg opacity-15 pointer-events-none z-0"></div>
       <div className="absolute inset-0 scanline opacity-10 pointer-events-none z-0"></div>

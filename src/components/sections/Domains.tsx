@@ -266,7 +266,7 @@ export const Domains = () => {
 
               {/* Suspended Guild Card */}
               <motion.div
-                className={`w-full relative rounded-lg transition-all duration-500 cursor-pointer ${
+                className={`w-full relative rounded-2xl transition-all duration-500 cursor-pointer ${
                   isActive 
                     ? 'scale-105 md:scale-110 z-20 opacity-100' 
                     : 'scale-90 opacity-40 z-10 blur-[0.5px] pointer-events-none'
@@ -283,7 +283,7 @@ export const Domains = () => {
                 
                 {/* Comic style neon shadow backdrop */}
                 <div 
-                  className="absolute inset-0 rounded-lg pointer-events-none translate-x-[6px] translate-y-[6px] transition-all duration-300"
+                  className="absolute inset-0 rounded-2xl pointer-events-none translate-x-[6px] translate-y-[6px] transition-all duration-300"
                   style={{ 
                     backgroundColor: guild.color,
                     opacity: isActive ? 0.85 : 0.2,
@@ -292,7 +292,7 @@ export const Domains = () => {
                 ></div>
 
                 {/* Main Card Container */}
-                <div className="relative border-2 border-white rounded-lg p-6 bg-zinc-950/95 overflow-hidden text-left h-[45vh] md:h-[48vh] flex flex-col justify-between select-none">
+                <div className="relative border-2 border-white rounded-2xl p-6 bg-zinc-950/95 overflow-hidden text-left h-[45vh] md:h-[48vh] flex flex-col justify-between select-none">
                   
                   {/* Comic book halftone pattern overlay */}
                   <div className="absolute inset-0 opacity-10 pointer-events-none bg-repeat halftone-bg"></div>

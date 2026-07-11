@@ -121,7 +121,7 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ email, formDat
       className="max-w-md"
     >
       {isVerifying ? (
-        <div className="h-64 flex flex-col items-center justify-center space-y-4 bg-black border border-[#71717A]/40 p-6">
+        <div className="h-64 flex flex-col items-center justify-center space-y-4 bg-black border border-[#71717A]/40 p-6 rounded-xl">
           <Loader2 className="animate-spin text-white w-10 h-10" />
           <div className="font-mono text-[10px] tracking-widest text-white animate-pulse text-center uppercase">
             {statusText}
@@ -129,7 +129,7 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ email, formDat
         </div>
       ) : (
         <>
-          <div className="bg-[#EF4444]/10 border border-[#EF4444]/40 p-4 mb-6 relative z-10">
+          <div className="bg-[#EF4444]/10 border border-[#EF4444]/40 p-4 mb-6 relative z-10 rounded-xl">
             <div className="flex items-start gap-3">
               <ShieldAlert className="text-[#EF4444] shrink-0 mt-0.5" size={18} />
               <div className="space-y-1 text-left">
@@ -143,7 +143,7 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ email, formDat
               </div>
             </div>
           </div>
-
+ 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-3">
               <label className="block font-mono text-xs text-white tracking-widest uppercase text-center">
@@ -160,7 +160,7 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ email, formDat
                     onChange={(e) => handleChange(e.target, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
                     onPaste={index === 0 ? handlePaste : undefined}
-                    className="w-10 h-12 bg-black border border-[#71717A] focus:border-white text-center text-lg font-mono text-white focus:outline-none transition-snap"
+                    className="w-10 h-12 bg-black border border-[#71717A] focus:border-white text-center text-lg font-mono text-white focus:outline-none rounded-xl transition-snap"
                     autoComplete="one-time-code"
                   />
                 ))}
@@ -170,9 +170,9 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ email, formDat
                 Use bypass email <span className="text-zinc-500 underline font-bold">razortest2515312@akgec.ac.in</span> and any OTP code to test frontend.)
               </span>
             </div>
-
+ 
             {error && (
-              <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 text-center animate-pulse">
+              <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 text-center animate-pulse rounded-xl">
                 {error}
               </div>
             )}

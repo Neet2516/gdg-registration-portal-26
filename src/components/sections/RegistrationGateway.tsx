@@ -32,7 +32,7 @@ export const RegistrationGateway = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <div className='flex'>
+        <div className='flex justify-center items-center'>
           <img src={gdgLogo} alt="GDG Logo" className="w-14 h-14 object-contain animate-pulse mb-1" />
           <span className='font-poppins-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow'>GDG</span>
         </div>
