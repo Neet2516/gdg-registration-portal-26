@@ -329,14 +329,14 @@ export const EvaluationPath = () => {
 
   // Framer Motion staggered configs
   const titleWords = "RECRUITMENT EVALUATION PATH".split(" ");
-  const wordContainer = {
+  const wordContainer: any = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: { staggerChildren: 0.05 }
     }
   };
-  const letterVar = {
+  const letterVar: any = {
     hidden: { opacity: 0, y: 15, filter: "blur(6px)", scale: 1.3 },
     visible: { 
       opacity: 1, 
@@ -347,7 +347,7 @@ export const EvaluationPath = () => {
     }
   };
 
-  const containerVariants = {
+  const containerVariants: any = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -357,7 +357,7 @@ export const EvaluationPath = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: any = {
     hidden: { opacity: 0, y: 10, scale: 0.95 },
     show: { 
       opacity: 1, 
