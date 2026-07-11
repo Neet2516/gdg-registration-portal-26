@@ -20,14 +20,9 @@ export const RecruitmentPortal = () => {
       smoothWheel: true,
     });
 
-    lenis.on('scroll', (e) => {
+    lenis.on('scroll', () => {
       // Sync GSAP ScrollTrigger with Lenis scroll calculations
       ScrollTrigger.update();
-
-      // Infinite scroll loop: when hitting the bottom, seamlessly teleport back to top (only when actively scrolling down)
-      if (e.scroll >= e.limit - 1.5 && e.direction === 1) {
-        lenis.scrollTo(0, { immediate: true });
-      }
     });
 
     function raf(time: number) {
