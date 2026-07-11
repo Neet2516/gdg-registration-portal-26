@@ -89,7 +89,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
   const studentNumberVal = watch('studentNumber');
   const emailVal = watch('email');
 
-  // Real-time listener for Name and Student Number to auto-populate University Email ID (e.g. name2510003@akgec.ac.in)
+  
   useEffect(() => {
     const email = generateUniversityEmail(nameVal, studentNumberVal);
     if (email !== emailVal) {
@@ -139,7 +139,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
       title="GDG AKGEC PROXIMITY 6.0"
       titleIcon={<img src={gdgLogo} alt="GDG Logo" className="w-5 h-5 object-contain" />}
       headerExtra={
-        <span className="text-green-500 animate-pulse text-[10px] hidden sm:inline">● SECURE_CHANNEL_ACTIVE</span>
+        <span className="text-green-500 animate-pulse text-[10px] hidden sm:inline">● PORTAL_ACTIVE</span>
       }
       className="max-w-2xl"
     >

@@ -1,7 +1,6 @@
 import { RegistrationForm } from '../RegistrationForm';
 import { OtpVerification } from '../OtpVerification';
 import { SuccessScreen } from '../SuccessScreen';
-import { FlowProgress } from '../FlowProgress';
 import { usePortalContext } from '../../context/PortalContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import gdgLogo from '../../assets/images/gdg-logo.png';
@@ -33,13 +32,16 @@ export const RegistrationGateway = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <img src={gdgLogo} alt="GDG Logo" className="w-14 h-14 object-contain animate-pulse mb-1" />
-        <h2 className="font-comic text-2xl md:text-4xl lg:text-5xl font-normal tracking-wide text-white uppercase">
+        <div className='flex'>
+          <img src={gdgLogo} alt="GDG Logo" className="w-14 h-14 object-contain animate-pulse mb-1" />
+          <span className='font-poppins-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow'>GDG</span>
+        </div>
+        
+        <h2 className="title-spiderman text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow">
           REGISTRATION GATEWAY
         </h2>
-        <FlowProgress currentStep={currentState} className="mt-2" />
       </motion.div>
-
+      
       {/* Slide transitions between forms */}
       <div className="w-full flex justify-center mt-6 min-h-[750px] md:min-h-[600px] transition-all duration-300">
         <AnimatePresence mode="wait">

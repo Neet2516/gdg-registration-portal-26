@@ -37,7 +37,7 @@ export const FAQ = () => {
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, delay: 0.15 }}
           >
-            A: Any 1st-year student at AKGEC who is passionate about coding, development, designing, AI/ML, or management is welcome to register! No prior coding experience is required.
+            A: Any 2ND-year student at AKGEC who is passionate about coding, development, designing, AI/ML, or management is welcome to register! No prior coding experience is required.
             <div className="absolute -top-[7px] left-4 w-3.5 h-3.5 bg-zinc-900 border-l border-t border-zinc-700 rotate-45"></div>
           </motion.div>
         </div>
