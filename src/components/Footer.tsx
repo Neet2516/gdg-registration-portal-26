@@ -1,4 +1,4 @@
-import { Globe, Link, Camera, Code, Heart } from 'lucide-react';
+import { Globe, Link, Camera, Code } from 'lucide-react';
 import gdgLogo from '../assets/images/gdg-logo.png';
 
 interface FooterProps {
@@ -32,16 +32,16 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           </p>
           {/* Social Links */}
           <div className="flex items-center gap-4 text-zinc-500">
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150" title="LinkedIn">
+            <a href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150" title="LinkedIn">
               <Link size={20} />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#E11D48] transition-colors duration-150" title="Instagram">
+            <a href="https://www.instagram.com/gdg_akgec/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E11D48] transition-colors duration-150" title="Instagram">
               <Camera size={20} />
             </a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150" title="GitHub">
+            <a href="https://github.com/dsc-akgec" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150" title="GitHub">
               <Code size={20} />
             </a>
-            <a href="https://gdg.community.dev" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150" title="GDG Portal">
+            <a href="https://gdgakgec.org/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150" title="GDG Portal">
               <Globe size={20} />
             </a>
           </div>
@@ -55,27 +55,27 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           <ul className="space-y-3.5 text-sm">
             <li>
               <a href="#hero" className="hover:text-[#E11D48] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                // Home
+                HOME
               </a>
             </li>
             <li>
               <a href="#domains" className="hover:text-[#2563EB] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                // Guilds
+                GUILD
               </a>
             </li>
             <li>
               <a href="#evaluation-path" className="hover:text-[#7C3AED] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                // Evaluation Path
+                EVALUATION PATH
               </a>
             </li>
             <li>
               <a href="#faq" className="hover:text-[#FACC15] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                // Intel FAQ
+                INTEL FAQ
               </a>
             </li>
             <li>
               <a href="#registration-terminal" className="hover:text-[#10B981] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                // Gateway Register
+                GATEWAY REGISTER
               </a>
             </li>
           </ul>
@@ -89,23 +89,9 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           <p className="text-xs text-zinc-500 leading-relaxed">
             Google Developer Groups (GDG) are program-supported independent communities. GDG AKGEC operates independently under Ajay Kumar Garg Engineering College, Ghaziabad. Google is a registered trademark of Google LLC.
           </p>
-          <div className="pt-2">
-            <span className="inline-block bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-400 font-mono py-1.5 px-3 uppercase tracking-widest">
-              STATUS // ACTIVE NODE
-            </span>
-          </div>
+
         </div>
 
-      </div>
-
-      {/* Copyright row */}
-      <div className="max-w-6xl mx-auto px-8 mt-16 pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-center">
-        <div className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">
-          © {new Date().getFullYear()} GDG AKGEC. ALL RIGHTS RESERVED.
-        </div>
-        <div className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest flex items-center gap-1.5 justify-center">
-          ENGINEERED WITH <Heart size={10} className="text-[#E11D48] fill-[#E11D48] animate-pulse" /> FOR THE WEB SPIDER BY GDG TECH TEAM
-        </div>
       </div>
 
     </footer>

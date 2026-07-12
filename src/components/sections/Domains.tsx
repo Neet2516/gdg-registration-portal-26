@@ -91,9 +91,9 @@ export const Domains = () => {
         scrollTrigger: {
           trigger: container,
           pin: true,
-          scrub: 0.5,
+          scrub: 1.2,
           start: 'top top',
-          end: () => `+=${scrollElement.scrollWidth}`,
+          end: () => `+=${scrollElement.scrollWidth * 1.5}`,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const progress = self.progress;
@@ -115,9 +115,9 @@ export const Domains = () => {
         ease: 'none',
         scrollTrigger: {
           trigger: container,
-          scrub: true,
+          scrub: 1.2,
           start: 'top top',
-          end: () => `+=${scrollElement.scrollWidth}`
+          end: () => `+=${scrollElement.scrollWidth * 1.5}`
         }
       });
 
@@ -126,9 +126,9 @@ export const Domains = () => {
         ease: 'none',
         scrollTrigger: {
           trigger: container,
-          scrub: true,
+          scrub: 1.2,
           start: 'top top',
-          end: () => `+=${scrollElement.scrollWidth}`
+          end: () => `+=${scrollElement.scrollWidth * 1.5}`
         }
       });
     }, container);
@@ -268,8 +268,8 @@ export const Domains = () => {
               <motion.div
                 className={`w-full relative rounded-2xl transition-all duration-500 cursor-pointer ${
                   isActive 
-                    ? 'scale-105 md:scale-110 z-20 opacity-100' 
-                    : 'scale-90 opacity-40 z-10 blur-[0.5px] pointer-events-none'
+                    ? 'scale-105 md:scale-110 z-20 opacity-100 blur-none' 
+                    : 'scale-90 opacity-40 z-10 blur-[6px] pointer-events-none'
                 }`}
                 animate={isActive ? {
                   y: [0, -10, 0],
