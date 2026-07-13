@@ -14,36 +14,46 @@ import { sendOtp } from '../services/api';
 import spidermanSideLook from '../assets/images/spiderman-side-look.png';
 
 const registrationSchema = z.object({
-  name: z.string()
+  name: z.string({ error: 'Applicant name is required.' })
     .trim()
-    .min(3, { message: 'NAME MUST BE AT LEAST 3 CHARACTERS.' })
-    .max(30, { message: 'NAME MUST BE AT MOST 30 CHARACTERS.' })
-    .regex(/^[A-Za-z ]+$/, { message: 'NAME MUST CONTAIN ONLY ALPHABETS AND SPACES.' }),
-  studentNumber: z.string()
+    .min(2, { message: 'Name must be at least 2 characters.' })
+    .max(30, { message: 'Name cannot exceed 30 characters and must contain only letters.' })
+    .regex(/^[a-zA-Z\s]+$/, { message: 'Name cannot exceed 30 characters and must contain only letters.' }),
+  studentNumber: z.string({ error: 'Student number is required.' })
     .trim()
-    .regex(/^25[0-9]{5,6}$/, { message: 'STUDENT ID MUST START WITH 25 AND BE 7-8 DIGITS (1ST YEAR ONLY).' }),
-  phone: z.string()
+    .regex(/^\d+$/, { message: 'Student number must contain only digits.' })
+    .min(7, { message: 'Student number must be between 7 and 13 digits.' })
+    .max(13, { message: 'Student number must be between 7 and 13 digits.' }),
+  phone: z.string({ error: 'Contact number is required.' })
     .trim()
-    .regex(/^[6-9]\d{9}$/, { message: 'PHONE NUMBER MUST BE A VALID 10-DIGIT INDIAN NUMBER.' }),
-  email: z.string().trim(),
-  gender: z.enum(['Male', 'Female'], {
-    message: 'GENDER MUST BE MALE OR FEMALE.'
+    .regex(/^\d{10}$/, { message: 'Please enter a valid 10-digit mobile number.' }),
+  email: z.string({ error: 'University email is required.' })
+    .trim()
+    .email({ message: 'Please use your official AKGEC university email ID.' })
+    .refine((email) => email.toLowerCase().endsWith('@akgec.ac.in'), {
+      message: 'Please use your official AKGEC university email ID.',
+    }),
+  gender: z.enum(['Male', 'Female', 'Other'], {
+    error: 'Gender must be Male, Female, or Other.',
   }),
   branch: z.enum(BRANCHES, {
-    message: 'PLEASE SELECT A BRANCH.'
+    error: 'Please select a valid branch.',
   }),
-  residence: z.enum(['Hosteller', 'Day Scholar'], {
-    message: 'PLEASE SELECT RESIDENCY STATUS.'
+  residence: z.enum(['Day Scholar', 'Hosteller'], {
+    error: 'Residency allocation must be Day Scholar or Hosteller.',
   }),
   domain: z.enum(DOMAINS, {
-    message: 'PLEASE SELECT A DOMAIN.'
+    error: 'Please select a valid evaluation domain.',
   }),
-  githubId: z.string()
+  githubId: z.string({ error: 'GitHub username is required.' })
     .trim()
-    .min(1, { message: 'GITHUB ID/USERNAME IS REQUIRED.' }),
-  hackerrankId: z.string()
+    .min(1, { message: 'GitHub username is required.' })
+    .regex(/^[a-zA-Z0-9-]+$/, {
+      message: 'GitHub username must contain only alphanumeric characters and hyphens.',
+    }),
+  hackerrankId: z.string({ error: 'HackerRank username is required.' })
     .trim()
-    .min(1, { message: 'HACKERRANK ID/USERNAME IS REQUIRED.' }),
+    .min(1, { message: 'HackerRank username is required.' }),
   unstopId: z.string()
     .trim()
     .optional()
@@ -70,6 +80,8 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
     formState: { errors }
   } = useForm<RegistrationData>({
     resolver: zodResolver(registrationSchema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: {
       name: '',
       studentNumber: '',
@@ -226,7 +238,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
                 placeholder="SELECT GENDER"
                 error={errors.gender?.message}
                 register={register('gender')}
-                options={['Male', 'Female']}
+                options={['Male', 'Female', 'Other']}
               />
 
               <Input

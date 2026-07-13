@@ -51,37 +51,45 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
   const [statusText, setStatusText] = useState('Initializing Web-Shooters...');
 
   useEffect(() => {
+    if (progress >= 100) {
+      setStatusText('Connection synchronized. System operational.');
+    } else if (progress >= 75) {
+      setStatusText('Establishing neural link to backend database...');
+    } else if (progress >= 50) {
+      setStatusText('Preloading memories & gallery assets...');
+    } else if (progress >= 25) {
+      setStatusText('Decrypting Spider-Verse Files...');
+    } else {
+      setStatusText('Initializing Web-Shooters...');
+    }
+  }, [progress]);
+
+  useEffect(() => {
     let loadedImages = 0;
     const totalImages = IMAGES_TO_PRELOAD.length;
     let backendReady = false;
     let assetsReady = false;
+    let isCancelled = false;
+    let completionTimeout: ReturnType<typeof setTimeout> | null = null;
+    let connectionTimeout: ReturnType<typeof setTimeout> | null = null;
 
     const checkComplete = (currentProgress: number) => {
-      if (currentProgress >= 100) {
-        setTimeout(() => {
+      if (currentProgress >= 100 && !completionTimeout) {
+        completionTimeout = setTimeout(() => {
           onComplete();
         }, 800);
       }
     };
-
-    // Update status text dynamically based on progress
-    if (progress < 25) {
-      setStatusText('Initializing Web-Shooters...');
-    } else if (progress < 50) {
-      setStatusText('Decrypting Spider-Verse Files...');
-    } else if (progress < 75) {
-      setStatusText('Preloading memories & gallery assets...');
-    } else if (progress < 100) {
-      setStatusText('Establishing neural link to backend database...');
-    } else {
-      setStatusText('Connection synchronized. System operational.');
-    }
 
     // 1. Preload Images
     IMAGES_TO_PRELOAD.forEach((src) => {
       const img = new Image();
       img.src = src;
       img.onload = () => {
+        if (isCancelled) {
+          return;
+        }
+
         loadedImages++;
         const imageProgress = Math.floor((loadedImages / totalImages) * 75); // Max 75% for images
         setProgress((prev) => {
@@ -98,6 +106,10 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
         }
       };
       img.onerror = () => {
+        if (isCancelled) {
+          return;
+        }
+
         loadedImages++;
         const imageProgress = Math.floor((loadedImages / totalImages) * 75);
         setProgress((prev) => {
@@ -111,6 +123,10 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
     // 2. Preload/Check Backend connection
     const verifyConnection = async () => {
       const isConnected = await checkBackendConnection();
+      if (isCancelled) {
+        return;
+      }
+
       backendReady = true;
       if (isConnected) {
         setProgress((prev) => {
@@ -129,11 +145,20 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
       }
     };
 
-    setTimeout(() => {
+    connectionTimeout = setTimeout(() => {
       verifyConnection();
     }, 600);
 
-  }, [onComplete, progress]);
+    return () => {
+      isCancelled = true;
+      if (connectionTimeout) {
+        clearTimeout(connectionTimeout);
+      }
+      if (completionTimeout) {
+        clearTimeout(completionTimeout);
+      }
+    };
+  }, [onComplete]);
 
   return (
     <div className="fixed inset-0 bg-[#020202] z-[9999] flex flex-col items-center justify-center select-none overflow-hidden">

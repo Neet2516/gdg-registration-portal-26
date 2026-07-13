@@ -15,6 +15,7 @@ import {
   Calendar,
   AlertTriangle
 } from 'lucide-react';
+import { sendOtp, verifyOtp, registerStudent } from '../services/api';
 
 declare global {
   interface Window {
@@ -54,36 +55,46 @@ const normalizePhoneNumber = (value: unknown) =>
   String(value ?? '').replace(/\D/g, '').replace(/^0+/, '');
 
 const registrationSchema = z.object({
-  name: z.string()
+  name: z.string({ error: 'Applicant name is required.' })
     .trim()
-    .min(3, { message: 'NAME MUST BE AT LEAST 3 CHARACTERS.' })
-    .max(30, { message: 'NAME MUST BE AT MOST 30 CHARACTERS.' })
-    .regex(/^[A-Za-z ]+$/, { message: 'NAME MUST CONTAIN ONLY ALPHABETS AND SPACES.' }),
-  studentNumber: z.string()
+    .min(2, { message: 'Name must be at least 2 characters.' })
+    .max(30, { message: 'Name cannot exceed 30 characters and must contain only letters.' })
+    .regex(/^[a-zA-Z\s]+$/, { message: 'Name cannot exceed 30 characters and must contain only letters.' }),
+  studentNumber: z.string({ error: 'Student number is required.' })
     .trim()
-    .regex(/^25[0-9]{5,6}$/, { message: 'STUDENT ID MUST START WITH 25 AND BE 7-8 DIGITS (1ST YEAR ONLY).' }),
-  phone: z.string()
+    .regex(/^\d+$/, { message: 'Student number must contain only digits.' })
+    .min(7, { message: 'Student number must be between 7 and 13 digits.' })
+    .max(13, { message: 'Student number must be between 7 and 13 digits.' }),
+  phone: z.string({ error: 'Contact number is required.' })
     .trim()
-    .regex(/^[6-9]\d{9}$/, { message: 'PHONE NUMBER MUST BE A VALID 10-DIGIT INDIAN NUMBER.' }),
-  email: z.string().trim(),
-  gender: z.enum(['Male', 'Female'], {
-    message: 'GENDER MUST BE MALE OR FEMALE.'
+    .regex(/^\d{10}$/, { message: 'Please enter a valid 10-digit mobile number.' }),
+  email: z.string({ error: 'University email is required.' })
+    .trim()
+    .email({ message: 'Please use your official AKGEC university email ID.' })
+    .refine((email) => email.toLowerCase().endsWith('@akgec.ac.in'), {
+      message: 'Please use your official AKGEC university email ID.',
+    }),
+  gender: z.enum(['Male', 'Female', 'Other'], {
+    error: 'Gender must be Male, Female, or Other.',
   }),
   branch: z.enum(branches, {
-    message: 'PLEASE SELECT A BRANCH.'
+    error: 'Please select a valid branch.',
   }),
-  residence: z.enum(['Hosteller', 'Day Scholar'], {
-    message: 'PLEASE SELECT RESIDENCY STATUS.'
+  residence: z.enum(['Day Scholar', 'Hosteller'], {
+    error: 'Residency allocation must be Day Scholar or Hosteller.',
   }),
   domain: z.enum(domains, {
-    message: 'PLEASE SELECT A DOMAIN.'
+    error: 'Please select a valid evaluation domain.',
   }),
-  githubId: z.string()
+  githubId: z.string({ error: 'GitHub username is required.' })
     .trim()
-    .min(1, { message: 'GITHUB ID/USERNAME IS REQUIRED.' }),
-  hackerrankId: z.string()
+    .min(1, { message: 'GitHub username is required.' })
+    .regex(/^[a-zA-Z0-9-]+$/, {
+      message: 'GitHub username must contain only alphanumeric characters and hyphens.',
+    }),
+  hackerrankId: z.string({ error: 'HackerRank username is required.' })
     .trim()
-    .min(1, { message: 'HACKERRANK ID/USERNAME IS REQUIRED.' }),
+    .min(1, { message: 'HackerRank username is required.' }),
   unstopId: z.string()
     .trim()
     .optional()
@@ -311,7 +322,6 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
     setLoadingText('SOLVING ANTIBOT CHALLENGE...');
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://proximety-7nt5.vercel.app/api/v1';
       const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim();
       
       let token = 'bypass_token';
@@ -340,24 +350,12 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
       await new Promise(r => setTimeout(r, 600));
 
       setLoadingText('TRANSMITTING OTP SECURE KEY...');
-      const response = await fetch(`${backendUrl}/send-otp`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          studentNumber: data.studentNumber,
-          captchaToken: token
-        })
+      await sendOtp({
+        name: data.name,
+        email: data.email,
+        studentNumber: data.studentNumber,
+        captchaToken: token
       });
-
-      const resBody = await response.json();
-
-      if (!response.ok || !resBody.success) {
-        throw new Error(resBody.message || 'AUTHENTICATION INIT FAILED. RETRY.');
-      }
 
       setIsSubmitting(false);
       onSuccess(data);
@@ -475,6 +473,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
                   <option value="" disabled hidden>SELECT GENDER</option>
                   <option value="Male" className="bg-black text-white">Male</option>
                   <option value="Female" className="bg-black text-white">Female</option>
+                  <option value="Other" className="bg-black text-white">Other</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white">
                   <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -715,53 +714,27 @@ const OtpVerificationSub: React.FC<OtpVerificationProps> = ({ email, formData, o
     setStatusText('VALIDATING ACCESS CODE...');
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://proximety-7nt5.vercel.app/api/v1';
-
-      const verifyResponse = await fetch(`${backendUrl}/verify-otp`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          otp: enteredCode,
-        }),
+      await verifyOtp({
+        email,
+        otp: enteredCode,
       });
-
-      const verifyData = await verifyResponse.json();
-
-      if (!verifyResponse.ok || !verifyData.success) {
-        throw new Error(verifyData.message || 'INVALID VERIFICATION KEY. ACCESS DENIED.');
-      }
 
       setStatusText('OTP VERIFIED. WRITING RECORD TO DATABASE...');
       await new Promise(r => setTimeout(r, 600));
 
-      const registerResponse = await fetch(`${backendUrl}/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData?.name,
-          studentNumber: formData?.studentNumber,
-          email: formData?.email,
-          gender: formData?.gender,
-          branch: formData?.branch,
-          phone: formData?.phone,
-          unstopId: formData?.unstopId || undefined,
-          residence: formData?.residence,
-          domain: formData?.domain,
-          githubId: formData?.githubId,
-          hackerrankId: formData?.hackerrankId,
-        }),
+      await registerStudent({
+        name: formData?.name || '',
+        studentNumber: formData?.studentNumber || '',
+        email: formData?.email || '',
+        gender: formData?.gender || 'Male',
+        branch: formData?.branch || 'CSE',
+        phone: formData?.phone || '',
+        unstopId: formData?.unstopId || undefined,
+        residence: formData?.residence || 'Day Scholar',
+        domain: formData?.domain || 'frontend development',
+        githubId: formData?.githubId || '',
+        hackerrankId: formData?.hackerrankId || '',
       });
-
-      const registerData = await registerResponse.json();
-
-      if (!registerResponse.ok || !registerData.success) {
-        throw new Error(registerData.message || 'REGISTRATION FAILED. TRY RESENDING OTP.');
-      }
 
       setIsVerifying(false);
       onSuccess();
