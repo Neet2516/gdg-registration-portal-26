@@ -161,56 +161,12 @@ export const EvaluationPath = () => {
   const bgWebRef = useRef<SVGSVGElement>(null);
   const fog1Ref = useRef<HTMLDivElement>(null);
   const fog2Ref = useRef<HTMLDivElement>(null);
-  const flowLineRef = useRef<SVGPathElement>(null);
-  const pulseDotRef = useRef<SVGCircleElement>(null);
-
-  const [coords, setCoords] = useState({ x1: 0, y1: 0, x2: 0, y2: 0 });
-
-  // Update SVG connection coordinates dynamically
-  useEffect(() => {
-    const updateCoords = () => {
-      if (card1Ref.current && card2Ref.current && containerRef.current) {
-        const rect1 = card1Ref.current.getBoundingClientRect();
-        const rect2 = card2Ref.current.getBoundingClientRect();
-        const containerRect = containerRef.current.getBoundingClientRect();
-
-        const isDesktop = window.innerWidth >= 768;
-
-        if (isDesktop) {
-          setCoords({
-            x1: rect1.right - containerRect.left,
-            y1: rect1.top + rect1.height / 2 - containerRect.top,
-            x2: rect2.left - containerRect.left,
-            y2: rect2.top + rect2.height / 2 - containerRect.top,
-          });
-        } else {
-          setCoords({
-            x1: rect1.left + rect1.width / 2 - containerRect.left,
-            y1: rect1.bottom - containerRect.top,
-            x2: rect2.left + rect2.width / 2 - containerRect.left,
-            y2: rect2.top - containerRect.top,
-          });
-        }
-      }
-    };
-
-    updateCoords();
-    window.addEventListener('resize', updateCoords);
-    const timer = setTimeout(updateCoords, 400); // Allow browser rendering pass
-
-    return () => {
-      window.removeEventListener('resize', updateCoords);
-      clearTimeout(timer);
-    };
-  }, []);
 
   // GSAP ScrollTrigger orchestration
   useEffect(() => {
     const card1 = card1Ref.current;
     const card2 = card2Ref.current;
     const container = containerRef.current;
-    const flowLine = flowLineRef.current;
-    const pulseDot = pulseDotRef.current;
 
     if (!card1 || !card2 || !container) return;
 
@@ -228,32 +184,6 @@ export const EvaluationPath = () => {
         { opacity: 0, x: -40, filter: 'blur(6px)', scale: 0.96 },
         { opacity: 1, x: 0, filter: 'blur(0px)', scale: 1, duration: 0.8, ease: 'power2.out' }
       );
-
-      // Animate the energy flow along the SVG line
-      if (flowLine) {
-        entranceTl.fromTo(flowLine,
-          { strokeDashoffset: 1000 },
-          { strokeDashoffset: 0, duration: 1.0, ease: 'power1.inOut' },
-          '-=0.3'
-        );
-
-        // Animate pulse dot along the path dynamically
-        const pathDataObj = { val: 0 };
-        entranceTl.to(pathDataObj, {
-          val: 1,
-          duration: 1.0,
-          ease: 'power1.inOut',
-          onUpdate: () => {
-            if (flowLine && pulseDot) {
-              const length = flowLine.getTotalLength();
-              const point = flowLine.getPointAtLength(pathDataObj.val * length);
-              pulseDot.setAttribute('cx', String(point.x));
-              pulseDot.setAttribute('cy', String(point.y));
-              pulseDot.style.opacity = pathDataObj.val > 0.02 && pathDataObj.val < 0.98 ? '1' : '0';
-            }
-          }
-        }, '-=1.0');
-      }
 
       entranceTl.fromTo(card2,
         { opacity: 0, x: 40, filter: 'blur(6px)', scale: 0.96 },
@@ -284,22 +214,9 @@ export const EvaluationPath = () => {
     }, container);
 
     return () => ctx.revert();
-  }, [coords]);
+  }, []);
 
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
-  
-  // Dynamic curved Bezier path connecting the cards
-  const pathD = isDesktop
-    ? `M ${coords.x1} ${coords.y1} C ${(coords.x1 + coords.x2) / 2} ${coords.y1}, ${(coords.x1 + coords.x2) / 2} ${coords.y2}, ${coords.x2} ${coords.y2}`
-    : `M ${coords.x1} ${coords.y1} C ${coords.x1} ${(coords.y1 + coords.y2) / 2}, ${coords.x2} ${(coords.y1 + coords.y2) / 2}, ${coords.x2} ${coords.y2}`;
 
-  const secondaryPathD1 = isDesktop
-    ? `M ${coords.x1} ${coords.y1} C ${(coords.x1 + coords.x2) / 2} ${coords.y1 - 35}, ${(coords.x1 + coords.x2) / 2} ${coords.y2 + 35}, ${coords.x2} ${coords.y2}`
-    : `M ${coords.x1} ${coords.y1} C ${coords.x1 - 35} ${(coords.y1 + coords.y2) / 2}, ${coords.x2 + 35} ${(coords.y1 + coords.y2) / 2}, ${coords.x2} ${coords.y2}`;
-
-  const secondaryPathD2 = isDesktop
-    ? `M ${coords.x1} ${coords.y1} C ${(coords.x1 + coords.x2) / 2} ${coords.y1 + 35}, ${(coords.x1 + coords.x2) / 2} ${coords.y2 - 35}, ${coords.x2} ${coords.y2}`
-    : `M ${coords.x1} ${coords.y1} C ${coords.x1 + 35} ${(coords.y1 + coords.y2) / 2}, ${coords.x2 - 35} ${(coords.y1 + coords.y2) / 2}, ${coords.x2} ${coords.y2}`;
 
   // Framer Motion staggered configs
   const titleWords = "RECRUITMENT EVALUATION PATH".split(" ");
@@ -469,76 +386,7 @@ export const EvaluationPath = () => {
       {/* Card Grid container */}
       <div className="relative grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-visible px-4 md:px-8 z-10 max-w-6xl mx-auto">
         
-        {/* Animated Connection Web SVG Layer */}
-        {coords.x1 !== 0 && (
-          <svg className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible">
-            <defs>
-              <linearGradient id="energy-beam" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#E11D48" stopOpacity="0.8" />
-                <stop offset="50%" stopColor="#8B5CF6" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#2563EB" stopOpacity="0.8" />
-              </linearGradient>
-              <filter id="energy-glow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="5" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
 
-            {/* Side secondary wire wave 1 */}
-            <path
-              d={secondaryPathD1}
-              fill="none"
-              stroke="url(#energy-beam)"
-              strokeWidth="0.8"
-              strokeDasharray="4 4"
-              className="opacity-25"
-            />
-
-            {/* Side secondary wire wave 2 */}
-            <path
-              d={secondaryPathD2}
-              fill="none"
-              stroke="url(#energy-beam)"
-              strokeWidth="0.8"
-              strokeDasharray="4 4"
-              className="opacity-25"
-            />
-
-            {/* Main connecting path base */}
-            <path 
-              d={pathD} 
-              fill="none" 
-              stroke="url(#energy-beam)" 
-              strokeWidth="1.5" 
-              strokeDasharray="6 3"
-              className="opacity-30" 
-            />
-            
-            {/* Animated glowing energy path */}
-            <path 
-              ref={flowLineRef}
-              d={pathD} 
-              fill="none" 
-              stroke="url(#energy-beam)" 
-              strokeWidth="3" 
-              filter="url(#energy-glow)"
-              strokeDasharray="1000"
-              strokeDashoffset="1000"
-            />
-            
-            {/* Pulsing energy node core */}
-            <circle
-              ref={pulseDotRef}
-              r="4.5"
-              fill="#A78BFA"
-              filter="url(#energy-glow)"
-              style={{ opacity: 0 }}
-            />
-          </svg>
-        )}
 
         {/* Phase 01 Card - MCQ Stage */}
         <div className="w-full flex" ref={card1Ref}>

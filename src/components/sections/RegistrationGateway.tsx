@@ -3,7 +3,6 @@ import { OtpVerification } from '../OtpVerification';
 import { SuccessScreen } from '../SuccessScreen';
 import { usePortalContext } from '../../context/PortalContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import gdgLogo from '../../assets/images/gdg-logo.png';
 import spidermanSideLook from '../../assets/images/spiderman-side-look.png';
 
 export const RegistrationGateway = () => {

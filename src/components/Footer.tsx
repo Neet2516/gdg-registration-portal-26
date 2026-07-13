@@ -1,4 +1,3 @@
-import { Globe, Linkedin, Instagram, Github } from 'lucide-react';
 import gdgLogo from '../assets/images/gdg-logo.png';
 
 interface FooterProps {
@@ -31,18 +30,18 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
             Google Developer Groups AKGEC is a university community of developers, designers, and creators. We shape the builders of the multiverse through open-source software, design sprints, and systems engineering.
           </p>
           {/* Social Links */}
-          <div className="flex items-center gap-4 text-zinc-500">
-            <a href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150" title="LinkedIn">
-              <Linkedin size={20} />
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-zinc-500">
+            <a href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="LinkedIn">
+              <span>LinkedIn</span>
             </a>
-            <a href="https://www.instagram.com/gdg_akgec/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E11D48] transition-colors duration-150" title="Instagram">
-              <Instagram size={20} />
+            <a href="https://www.instagram.com/gdg_akgec/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E11D48] transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="Instagram">
+              <span>Instagram</span>
             </a>
-            <a href="https://github.com/dsc-akgec" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150" title="GitHub">
-              <Github size={20} />
+            <a href="https://github.com/dsc-akgec" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="GitHub">
+              <span>GitHub</span>
             </a>
-            <a href="https://gdgakgec.org/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150" title="GDG Portal">
-              <Globe size={20} />
+            <a href="https://gdgakgec.org/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="GDG Portal">
+              <span>GDG Portal</span>
             </a>
           </div>
         </div>
