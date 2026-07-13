@@ -1,4 +1,4 @@
-import { Globe, Link, Camera, Code } from 'lucide-react';
+import { Globe, Linkedin, Instagram, Github } from 'lucide-react';
 import gdgLogo from '../assets/images/gdg-logo.png';
 
 interface FooterProps {
@@ -33,13 +33,13 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           {/* Social Links */}
           <div className="flex items-center gap-4 text-zinc-500">
             <a href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150" title="LinkedIn">
-              <Link size={20} />
+              <Linkedin size={20} />
             </a>
             <a href="https://www.instagram.com/gdg_akgec/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E11D48] transition-colors duration-150" title="Instagram">
-              <Camera size={20} />
+              <Instagram size={20} />
             </a>
             <a href="https://github.com/dsc-akgec" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150" title="GitHub">
-              <Code size={20} />
+              <Github size={20} />
             </a>
             <a href="https://gdgakgec.org/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150" title="GDG Portal">
               <Globe size={20} />

@@ -4,6 +4,7 @@ import { SuccessScreen } from '../SuccessScreen';
 import { usePortalContext } from '../../context/PortalContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import gdgLogo from '../../assets/images/gdg-logo.png';
+import spidermanSideLook from '../../assets/images/spiderman-side-look.png';
 
 export const RegistrationGateway = () => {
   const { currentState, setCurrentState, formData, setFormData } = usePortalContext();
@@ -46,7 +47,6 @@ export const RegistrationGateway = () => {
       {/* Header reveal */}
       <div className="text-center space-y-3 flex flex-col items-center mb-10 relative z-10 w-full">
         
-        
         {/* 3D Animated Title Reveal */}
         <motion.div 
           className="flex flex-wrap items-center justify-center gap-x-4 relative z-10"
@@ -84,9 +84,23 @@ export const RegistrationGateway = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.4 }}
-              className="w-full flex justify-center"
+              className="w-full flex flex-col md:flex-row items-center justify-center gap-8 max-w-5xl mx-auto px-4 relative"
             >
-              <RegistrationForm onSuccess={handleRegistrationSuccess} />
+              {/* Left Column: Spider-Man Side Look (Visible on md and up) */}
+              <div className="hidden md:flex md:w-2/5 justify-center items-center relative group select-none z-10">
+                {/* Glow backdrop */}
+                <div className="absolute inset-0 bg-[#E11D48]/10 blur-3xl rounded-full scale-75 group-hover:scale-90 transition-transform duration-500"></div>
+                <img 
+                  src={spidermanSideLook} 
+                  alt="Spider-Man Side Look" 
+                  className="w-full max-w-xs h-auto object-contain relative z-10 filter drop-shadow-[0_0_15px_rgba(225,29,72,0.4)] transition-transform duration-500 group-hover:scale-105 pointer-events-none" 
+                />
+              </div>
+
+              {/* Right Column: Registration Form */}
+              <div className="w-full md:w-3/5 relative z-10">
+                <RegistrationForm onSuccess={handleRegistrationSuccess} />
+              </div>
             </motion.div>
           )}
 

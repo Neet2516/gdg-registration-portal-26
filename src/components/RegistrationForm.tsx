@@ -11,6 +11,7 @@ import { Radio } from './Radio';
 import { BRANCHES, DOMAINS } from '../constants/recruitment';
 import { generateUniversityEmail } from '../utils/formatters';
 import { sendOtp } from '../services/api';
+import spidermanSideLook from '../assets/images/spiderman-side-look.png';
 
 const registrationSchema = z.object({
   name: z.string()
@@ -149,146 +150,157 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {errorMsg && (
-            <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-4 py-3 flex items-center gap-2 animate-pulse rounded-xl">
-              <AlertTriangle size={16} />
-              <span>{errorMsg}</span>
-            </div>
-          )}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative overflow-hidden">
+          {/* Mobile/Tablet Background Watermark */}
+          <div className="absolute inset-0 flex justify-center items-center pointer-events-none md:hidden z-0 overflow-hidden opacity-25">
+            <img 
+              src={spidermanSideLook} 
+              alt="Spider-Man Watermark" 
+              className="w-full max-w-xs h-auto object-contain filter drop-shadow-[0_0_15px_rgba(225,29,72,0.25)]"
+            />
+          </div>
 
-          {/* APPLICANT NAME */}
-          <Input
-            id="name"
-            label="* APPLICANT NAME"
-            placeholder="e.g. Rahul Sharma"
-            error={errors.name?.message}
-            register={register('name')}
-          />
+          <div className="relative z-10 space-y-6">
+            {errorMsg && (
+              <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-4 py-3 flex items-center gap-2 animate-pulse rounded-xl">
+                <AlertTriangle size={16} />
+                <span>{errorMsg}</span>
+              </div>
+            )}
 
-          {/* STUDENT ID & CONTACT NUMBER */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* APPLICANT NAME */}
             <Input
-              id="studentNumber"
-              label="* STUDENT NUMBER"
-              placeholder="e.g. 2510003"
-              error={errors.studentNumber?.message}
-              register={register('studentNumber')}
+              id="name"
+              label="* APPLICANT NAME"
+              placeholder="e.g. Rahul Sharma"
+              error={errors.name?.message}
+              register={register('name')}
             />
 
-            <Input
-              id="phone"
-              label="* CONTACT NUMBER"
-              placeholder="e.g. 9876543210"
-              error={errors.phone?.message}
-              register={register('phone', {
-                onChange: (e: any) => {
-                  const val = e.target.value;
-                  if (val.startsWith('0')) {
-                    e.target.value = val.replace(/^0+/, '');
+            {/* STUDENT ID & CONTACT NUMBER */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input
+                id="studentNumber"
+                label="* STUDENT NUMBER"
+                placeholder="e.g. 2510003"
+                error={errors.studentNumber?.message}
+                register={register('studentNumber')}
+              />
+
+              <Input
+                id="phone"
+                label="* CONTACT NUMBER"
+                placeholder="e.g. 9876543210"
+                error={errors.phone?.message}
+                register={register('phone', {
+                  onChange: (e: any) => {
+                    const val = e.target.value;
+                    if (val.startsWith('0')) {
+                      e.target.value = val.replace(/^0+/, '');
+                    }
                   }
-                }
-              })}
-            />
-          </div>
+                })}
+              />
+            </div>
 
-          {/* UNIVERSITY MAIL ID */}
-          <Input
-            id="email"
-            label="* UNIVERSITY MAIL ID"
-            readOnly={true}
-            placeholder="[studentNumber]@akgec.ac.in"
-            register={register('email')}
-            labelExtra={
-              <span className="text-[10px] text-zinc-500 font-mono tracking-normal flex items-center gap-1 normal-case font-normal select-none">
-                <Info size={11} /> Auto-generated based on student number
-              </span>
-            }
-          />
-
-          {/* GENDER & SELECTION BRANCH */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* UNIVERSITY MAIL ID */}
             <Input
-              id="gender"
-              label="* GENDER"
-              type="select"
-              placeholder="SELECT GENDER"
-              error={errors.gender?.message}
-              register={register('gender')}
-              options={['Male', 'Female']}
+              id="email"
+              label="* UNIVERSITY MAIL ID"
+              readOnly={true}
+              placeholder="[studentNumber]@akgec.ac.in"
+              register={register('email')}
+              labelExtra={
+                <span className="text-[10px] text-zinc-500 font-mono tracking-normal flex items-center gap-1 normal-case font-normal select-none">
+                  <Info size={11} /> Auto-generated based on student number
+                </span>
+              }
             />
 
+            {/* GENDER & SELECTION BRANCH */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input
+                id="gender"
+                label="* GENDER"
+                type="select"
+                placeholder="SELECT GENDER"
+                error={errors.gender?.message}
+                register={register('gender')}
+                options={['Male', 'Female']}
+              />
+
+              <Input
+                id="branch"
+                label="* SELECTION BRANCH"
+                type="select"
+                placeholder="SELECT YOUR BRANCH"
+                error={errors.branch?.message}
+                register={register('branch')}
+                options={BRANCHES}
+              />
+            </div>
+
+            {/* EVALUATION DOMAIN & RESIDENCY STATUS */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input
+                id="domain"
+                label="* EVALUATION DOMAIN"
+                type="select"
+                placeholder="SELECT DOMAIN"
+                error={errors.domain?.message}
+                register={register('domain')}
+                options={DOMAINS}
+              />
+
+              <Radio
+                label="* RESIDENCY ALLOCATION"
+                options={[
+                  { label: 'Day Scholar', value: 'Day Scholar' },
+                  { label: 'Hosteller', value: 'Hosteller' }
+                ]}
+                register={register('residence')}
+                error={errors.residence?.message}
+              />
+            </div>
+
+            {/* GITHUB & HACKERRANK ID */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input
+                id="githubId"
+                label="* GITHUB USERNAME / ID"
+                placeholder="e.g. dev_username"
+                error={errors.githubId?.message}
+                register={register('githubId')}
+              />
+
+              <Input
+                id="hackerrankId"
+                label="* HACKERRANK USERNAME / ID"
+                placeholder="e.g. hr_profile"
+                error={errors.hackerrankId?.message}
+                register={register('hackerrankId')}
+              />
+            </div>
+
+            {/* UNSTOP USERNAME/ID (OPTIONAL) */}
             <Input
-              id="branch"
-              label="* SELECTION BRANCH"
-              type="select"
-              placeholder="SELECT YOUR BRANCH"
-              error={errors.branch?.message}
-              register={register('branch')}
-              options={BRANCHES}
-            />
-          </div>
-
-          {/* EVALUATION DOMAIN & RESIDENCY STATUS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input
-              id="domain"
-              label="* EVALUATION DOMAIN"
-              type="select"
-              placeholder="SELECT DOMAIN"
-              error={errors.domain?.message}
-              register={register('domain')}
-              options={DOMAINS}
+              id="unstopId"
+              label="UNSTOP USERNAME / ID (OPTIONAL)"
+              placeholder="e.g. unstop_coder"
+              error={errors.unstopId?.message}
+              register={register('unstopId')}
             />
 
-            <Radio
-              label="* RESIDENCY ALLOCATION"
-              options={[
-                { label: 'Day Scholar', value: 'Day Scholar' },
-                { label: 'Hosteller', value: 'Hosteller' }
-              ]}
-              register={register('residence')}
-              error={errors.residence?.message}
-            />
-          </div>
-
-          {/* GITHUB & HACKERRANK ID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input
-              id="githubId"
-              label="* GITHUB USERNAME / ID"
-              placeholder="e.g. dev_username"
-              error={errors.githubId?.message}
-              register={register('githubId')}
-            />
-
-            <Input
-              id="hackerrankId"
-              label="* HACKERRANK USERNAME / ID"
-              placeholder="e.g. hr_profile"
-              error={errors.hackerrankId?.message}
-              register={register('hackerrankId')}
-            />
-          </div>
-
-          {/* UNSTOP USERNAME/ID (OPTIONAL) */}
-          <Input
-            id="unstopId"
-            label="UNSTOP USERNAME / ID (OPTIONAL)"
-            placeholder="e.g. unstop_coder"
-            error={errors.unstopId?.message}
-            register={register('unstopId')}
-          />
-
-          {/* SUBMIT BUTTON */}
-          <div className="pt-4">
-            <Button
-              type="submit"
-              variant="primary"
-              className="w-full py-4 text-sm"
-            >
-              <span className='text-2xl'>INITIALIZE RECRUITMENT GATEWAY</span>
-            </Button>
+            {/* SUBMIT BUTTON */}
+            <div className="pt-4">
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-full py-4 text-sm"
+              >
+                <span className='text-2xl'>INITIALIZE RECRUITMENT GATEWAY</span>
+              </Button>
+            </div>
           </div>
         </form>
       )}

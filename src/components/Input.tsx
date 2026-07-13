@@ -30,9 +30,9 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <div className={`space-y-1 ${className}`}>
-      <label htmlFor={id} className="block font-mono text-xs md:text-sm text-white tracking-widest uppercase flex items-center justify-between">
+      <label htmlFor={id} className="block font-mono text-xs md:text-sm text-white tracking-widest uppercase flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
         <span>{label}</span>
-        {labelExtra && <span className="shrink-0">{labelExtra}</span>}
+        {labelExtra && <span>{labelExtra}</span>}
       </label>
 
       {type === 'select' ? (
