@@ -30,7 +30,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
             Google Developer Groups AKGEC is a university community of developers, designers, and creators. We shape the builders of the multiverse through open-source software, design sprints, and systems engineering.
           </p>
           {/* Social Links */}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-zinc-500">
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-x-6 gap-y-3 text-zinc-500">
             <a href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="LinkedIn">
               <span>LinkedIn</span>
             </a>

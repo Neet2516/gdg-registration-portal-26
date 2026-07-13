@@ -1,4 +1,3 @@
-import { ArrowDown } from 'lucide-react';
 import { Button } from '../Button';
 import { motion } from 'framer-motion';
 import spidermanHanging from '../../assets/images/spiderman hanging.png';
@@ -51,7 +50,6 @@ export const Hero = () => {
           <a href="#registration-terminal">
             <Button
               variant="outline"
-              icon={<ArrowDown size={30} className="animate-bounce text-[#E11D48]" />}
               className="py-3 sm:py-4 px-6 sm:px-10 text-base md:text-lg tracking-widest border-0 hover:bg-white/5 hover:border-[#E11D48] hover:text-[#E11D48] transition-all duration-300"
             >
               <span className="text-xl sm:text-2xl md:text-3xl">Initialize Connection</span>
