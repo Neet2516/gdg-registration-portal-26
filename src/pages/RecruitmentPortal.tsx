@@ -11,6 +11,8 @@ import { Footer } from '../components/Footer';
 import heroBackground from '../assets/images/hero-background.png';
 import webRope from '../assets/images/web rope.png';
 import gdgLogo from '../assets/images/gdg-logo.png';
+import topLeftWeb from '../assets/images/top-left-web.png';
+import topRightWeb from '../assets/images/top-right.png';
 
 export const RecruitmentPortal = () => {
   useEffect(() => {
@@ -39,33 +41,11 @@ export const RecruitmentPortal = () => {
   return (
     <div className="w-full bg-[#000000] min-h-screen text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
       {/* Viewport Corner Spiderwebs */}
-      <div className="fixed top-0 left-0 w-36 h-36 md:w-56 md:h-56 pointer-events-none z-50 text-zinc-500/20">
-        <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <line x1="0" y1="0" x2="100" y2="0" />
-          <line x1="0" y1="0" x2="100" y2="100" />
-          <line x1="0" y1="0" x2="0" y2="100" />
-          <line x1="0" y1="0" x2="70" y2="100" />
-          <line x1="0" y1="0" x2="100" y2="70" />
-          <path d="M 20,0 Q 20,20 0,20" />
-          <path d="M 40,0 Q 40,40 0,40" />
-          <path d="M 60,0 Q 60,60 0,60" />
-          <path d="M 80,0 Q 80,80 0,80" />
-          <path d="M 100,0 Q 100,100 0,100" />
-        </svg>
+      <div className="fixed -top-16 -left-12 w-24 h-24 sm:-top-24 sm:-left-18 sm:w-36 sm:h-36 md:-top-40 md:-left-30 md:w-124 md:h-124 rotate-270 pointer-events-none z-50">
+        <img src={topLeftWeb} alt="Top Left Web" className="w-full h-full object-contain animate-web-glow-red" />
       </div>
-      <div className="fixed top-0 right-0 w-36 h-36 md:w-56 md:h-56 pointer-events-none z-50 text-zinc-500/20 rotate-90">
-        <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <line x1="0" y1="0" x2="100" y2="0" />
-          <line x1="0" y1="0" x2="100" y2="100" />
-          <line x1="0" y1="0" x2="0" y2="100" />
-          <line x1="0" y1="0" x2="70" y2="100" />
-          <line x1="0" y1="0" x2="100" y2="70" />
-          <path d="M 20,0 Q 20,20 0,20" />
-          <path d="M 40,0 Q 40,40 0,40" />
-          <path d="M 60,0 Q 60,60 0,60" />
-          <path d="M 80,0 Q 80,80 0,80" />
-          <path d="M 100,0 Q 100,100 0,100" />
-        </svg>
+      <div className="fixed -top-0 -right-8 w-24 h-24 sm:-top-0 sm:-right-12 sm:w-36 sm:h-36 md:-top-0 md:-right-20 md:w-124 md:h-124 rotate-270 pointer-events-none z-50">
+        <img src={topRightWeb} alt="Top Right Web" className="w-full h-full object-contain animate-web-glow-blue" />
       </div>
 
       {/* Absolute background patterns */}

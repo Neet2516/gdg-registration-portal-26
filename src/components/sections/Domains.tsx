@@ -72,28 +72,30 @@ export const Domains = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const skylineFarRef = useRef<HTMLDivElement>(null);
   const skylineNearRef = useRef<HTMLDivElement>(null);
+  const exitRef = useRef<HTMLDivElement>(null);
   
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const container = containerRef.current;
     const scrollElement = scrollRef.current;
-    if (!container || !scrollElement) return;
+    const exitElement = exitRef.current;
+    if (!container || !scrollElement || !exitElement) return;
 
-    // Calculate total horizontal scroll translation
-    const totalScrollWidth = scrollElement.scrollWidth - window.innerWidth;
+    const getHorizontalTranslation = () => scrollElement.scrollWidth - window.innerWidth;
+    const getPinnedScrollDistance = () => scrollElement.scrollWidth * 1.5;
 
     const ctx = gsap.context(() => {
       // Pin section and scroll the track horizontally
       gsap.to(scrollElement, {
-        x: -totalScrollWidth,
+        x: () => -getHorizontalTranslation(),
         ease: 'none',
         scrollTrigger: {
           trigger: container,
           pin: true,
           scrub: 1.2,
           start: 'top top',
-          end: () => `+=${scrollElement.scrollWidth * 1.5}`,
+          end: () => `+=${getPinnedScrollDistance()}`,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const progress = self.progress;
@@ -109,26 +111,41 @@ export const Domains = () => {
         }
       });
 
+      // Exit only after the pinned horizontal pass is complete and the card band
+      // begins moving above the viewport center.
+      gsap.to(exitElement, {
+        opacity: 0,
+        y: -100,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: container,
+          start: () => `top+=${getPinnedScrollDistance() + 1} top`,
+          end: () => `+=${window.innerHeight * 0.5}`,
+          scrub: true,
+          invalidateOnRefresh: true,
+        }
+      });
+
       // Background Parallax Effects: Far skyline moves slower than near skyline
       gsap.to(skylineFarRef.current, {
-        x: -totalScrollWidth * 0.15,
+        x: () => -getHorizontalTranslation() * 0.15,
         ease: 'none',
         scrollTrigger: {
           trigger: container,
           scrub: 1.2,
           start: 'top top',
-          end: () => `+=${scrollElement.scrollWidth * 1.5}`
+          end: () => `+=${getPinnedScrollDistance()}`
         }
       });
 
       gsap.to(skylineNearRef.current, {
-        x: -totalScrollWidth * 0.35,
+        x: () => -getHorizontalTranslation() * 0.35,
         ease: 'none',
         scrollTrigger: {
           trigger: container,
           scrub: 1.2,
           start: 'top top',
-          end: () => `+=${scrollElement.scrollWidth * 1.5}`
+          end: () => `+=${getPinnedScrollDistance()}`
         }
       });
     }, container);
@@ -197,11 +214,15 @@ export const Domains = () => {
         </h2>
       </div>
 
-      {/* 4. Horizontal Scroll Track */}
+      {/* 4. Horizontal Scroll Track Wrapper */}
       <div 
-        ref={scrollRef} 
-        className="flex items-center gap-16 md:gap-32 pl-[25vw] pr-[15vw] md:pr-[35vw] h-[65vh] w-fit relative z-10"
+        ref={exitRef}
+        className="w-full h-[65vh] relative z-10 flex items-center justify-start overflow-visible"
       >
+        <div 
+          ref={scrollRef} 
+          className="flex items-center gap-16 md:gap-32 pl-[25vw] pr-[15vw] md:pr-[35vw] h-[65vh] w-fit relative"
+        >
         
         {/* Horizontal cable running through the top anchors */}
         <div className="absolute top-0 left-0 right-0 h-20 pointer-events-none select-none z-10 opacity-40">
@@ -231,6 +252,7 @@ export const Domains = () => {
         {GUILDS.map((guild, idx) => {
           const Icon = guild.icon;
           const isActive = idx === activeIndex;
+          const hasBeenActive = idx <= activeIndex;
 
           return (
             <div 
@@ -244,8 +266,8 @@ export const Domains = () => {
                 alt="Web Rope" 
                 className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-24 object-fill pointer-events-none select-none z-20"
                 style={{
-                  opacity: isActive ? 0.9 : 0.4,
-                  filter: isActive ? `drop-shadow(0 0 5px ${guild.color})` : 'none'
+                  opacity: hasBeenActive ? 0.9 : 0.4,
+                  filter: hasBeenActive ? `drop-shadow(0 0 5px ${guild.color})` : 'none'
                 }}
               />
               
@@ -269,6 +291,8 @@ export const Domains = () => {
                 className={`w-full relative rounded-2xl transition-all duration-500 cursor-pointer ${
                   isActive 
                     ? 'scale-105 md:scale-110 z-20 opacity-100 blur-none' 
+                    : hasBeenActive
+                    ? 'scale-100 z-10 opacity-100 blur-none'
                     : 'scale-90 opacity-40 z-10 blur-[6px] pointer-events-none'
                 }`}
                 animate={isActive ? {
@@ -345,6 +369,7 @@ export const Domains = () => {
           );
         })}
 
+        </div>
       </div>
     </section>
   );

@@ -168,3 +168,21 @@ html.lenis, html.lenis body {
 input:not([type="radio"]), select, textarea {
   border-radius: 12px !important;
 }
+
+@keyframes web-glow-red {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(225, 29, 72, 0.4)) drop-shadow(0 0 1px rgba(225, 29, 72, 0.2)); opacity: 0.75; }
+  50% { filter: drop-shadow(0 0 20px rgba(225, 29, 72, 0.95)) drop-shadow(0 0 8px rgba(225, 29, 72, 0.5)); opacity: 1; }
+}
+
+@keyframes web-glow-blue {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(37, 99, 235, 0.4)) drop-shadow(0 0 1px rgba(37, 99, 235, 0.2)); opacity: 0.75; }
+  50% { filter: drop-shadow(0 0 20px rgba(37, 99, 235, 0.95)) drop-shadow(0 0 8px rgba(37, 99, 235, 0.5)); opacity: 1; }
+}
+
+.animate-web-glow-red {
+  animation: web-glow-red 4s ease-in-out infinite;
+}
+
+.animate-web-glow-blue {
+  animation: web-glow-blue 4s ease-in-out infinite;
+}
