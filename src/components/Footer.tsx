@@ -19,7 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           <div className="flex items-center gap-3">
             <img src={gdgLogo} alt="GDG Logo" className="w-10 h-10 object-contain animate-pulse" />
             <div className="space-y-0.5">
-              <h3 className="font-comic text-2xl text-white tracking-wider uppercase leading-none">
+              <h3 className="font-oswald text-2xl text-white tracking-wider uppercase leading-none">
                 GDG AKGEC
               </h3>
               <p className="font-mono text-xs text-[#E11D48] tracking-widest uppercase font-bold">
@@ -49,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
         {/* Links Column 1: Coordinates (3 cols) */}
         <div className="md:col-span-3 space-y-4 text-left">
-          <h4 className="font-comic text-base text-white tracking-widest uppercase pb-2 border-b border-zinc-800">
+          <h4 className="font-oswald text-base text-white tracking-widest uppercase pb-2 border-b border-zinc-800">
             COORDINATES
           </h4>
           <ul className="space-y-3.5 text-sm">
@@ -83,7 +83,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
         {/* Links Column 2: Legal & Info (4 cols) */}
         <div className="md:col-span-4 space-y-4 text-left">
-          <h4 className="font-comic text-base text-white tracking-widest uppercase pb-2 border-b border-zinc-800">
+          <h4 className="font-oswald text-base text-white tracking-widest uppercase pb-2 border-b border-zinc-800">
             COMMUNITY STATEMENT
           </h4>
           <p className="text-xs text-zinc-500 leading-relaxed">

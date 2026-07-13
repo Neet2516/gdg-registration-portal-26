@@ -133,7 +133,7 @@ export const MissionCard: React.FC<MissionCardProps> = ({
         </div>
 
         {/* Centered Title */}
-        <h3 className="font-comic text-xl md:text-2xl font-normal tracking-wide text-white uppercase flex flex-col sm:flex-row items-center justify-center gap-3 border-b border-zinc-800/80 pb-4 mb-4 w-full">
+        <h3 className="font-oswald text-xl md:text-2xl font-normal tracking-wide text-white uppercase flex flex-col sm:flex-row items-center justify-center gap-3 border-b border-zinc-800/80 pb-4 mb-4 w-full">
           <Icon size={24} className="transition-transform duration-500 group-hover:rotate-12" style={{ color }} />
           <span>{title}</span>
         </h3>

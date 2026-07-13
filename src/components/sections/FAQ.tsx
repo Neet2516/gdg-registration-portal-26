@@ -22,7 +22,7 @@ export const FAQ = () => {
         {/* Q1 */}
         <div className="space-y-2 text-left">
           <motion.div 
-            className="inline-block bg-[#E11D48]/10 border border-[#E11D48] text-white px-4 py-2 font-comic text-base md:text-lg rounded-lg relative"
+            className="inline-block bg-[#E11D48]/10 border border-[#E11D48] text-white px-4 py-2 font-oswald text-base md:text-lg rounded-lg relative"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -45,7 +45,7 @@ export const FAQ = () => {
         {/* Q2 */}
         <div className="space-y-2 text-left pt-2">
           <motion.div 
-            className="inline-block bg-[#2563EB]/10 border border-[#2563EB] text-white px-4 py-2 font-comic text-base md:text-lg rounded-lg relative"
+            className="inline-block bg-[#2563EB]/10 border border-[#2563EB] text-white px-4 py-2 font-oswald text-base md:text-lg rounded-lg relative"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -68,7 +68,7 @@ export const FAQ = () => {
         {/* Q3 */}
         <div className="space-y-2 text-left pt-2">
           <motion.div 
-            className="inline-block bg-[#7C3AED]/10 border border-[#7C3AED] text-white px-4 py-2 font-comic text-base md:text-lg rounded-lg relative"
+            className="inline-block bg-[#7C3AED]/10 border border-[#7C3AED] text-white px-4 py-2 font-oswald text-base md:text-lg rounded-lg relative"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

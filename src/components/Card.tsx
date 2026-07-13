@@ -42,7 +42,7 @@ export const Card: React.FC<CardProps> = ({
       {/* Content */}
       <div className="relative z-10">
         {showHeader && (title || headerExtra) && (
-          <div className="flex items-center justify-between border-b border-zinc-800 pb-3 mb-6 font-comic text-base tracking-wide text-white relative z-10">
+          <div className="flex items-center justify-between border-b border-zinc-800 pb-3 mb-6 font-oswald text-base tracking-wide text-white relative z-10">
             <div className="flex items-center gap-2">
               {titleIcon && <span className="shrink-0">{titleIcon}</span>}
               {title && <span>{title.toUpperCase()}</span>}

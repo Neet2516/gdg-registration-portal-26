@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -9,17 +9,10 @@
   font-style: normal;
 }
 
-@font-face {
-  font-family: 'Almost Cartoon';
-  src: url('./assets/fonts/almost-cartoon/Almost Cartoon.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 @theme {
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'Space Mono', monospace;
-  --font-comic: 'Almost Cartoon', sans-serif;
+  --font-oswald: 'Oswald', sans-serif;
   --color-black: #000000;
   --color-dark: #0D0E12;
   --color-border-zinc: #71717A;

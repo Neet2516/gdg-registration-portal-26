@@ -301,7 +301,7 @@ export const Domains = () => {
 
                     {/* Guild Title */}
                     <div className="space-y-1">
-                      <h3 className="font-comic text-2xl md:text-3xl text-white uppercase flex items-center gap-2.5">
+                      <h3 className="font-oswald text-2xl md:text-3xl text-white uppercase flex items-center gap-2.5">
                         <Icon size={22} style={{ color: guild.color }} />
                         {guild.title}
                       </h3>

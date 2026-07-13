@@ -53,7 +53,7 @@ export const Button: React.FC<ButtonProps> = ({
         type={type}
         onClick={onClick}
         disabled={isDisabled}
-        className={`font-comic text-xs md:text-sm tracking-wider py-3.5 px-7 cursor-pointer select-none uppercase transition-all duration-200 bg-transparent text-[#71717A] hover:text-white hover:bg-zinc-900/50 flex items-center justify-center gap-2 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+        className={`font-oswald text-xs md:text-sm tracking-wider py-3.5 px-7 cursor-pointer select-none uppercase transition-all duration-200 bg-transparent text-[#71717A] hover:text-white hover:bg-zinc-900/50 flex items-center justify-center gap-2 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       >
         {loading ? (
           <Loader2 className="animate-spin" size={14} />
@@ -67,7 +67,7 @@ export const Button: React.FC<ButtonProps> = ({
     );
   }
 
-  // Styles for modern rounded comic buttons
+  // Styles for modern rounded Oswald buttons
   const variants = {
     primary: {
       text: 'text-black group-hover:text-white',
@@ -93,7 +93,7 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={isDisabled}
-      className={`font-comic text-xs md:text-sm tracking-wider py-4 px-8 cursor-pointer select-none uppercase relative flex items-center justify-center gap-2 active:translate-x-[2px] active:translate-y-[2px] group transition-all duration-200 hover:-translate-x-[2px] hover:-translate-y-[2px] ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`font-oswald text-xs md:text-sm tracking-wider py-4 px-8 cursor-pointer select-none uppercase relative flex items-center justify-center gap-2 active:translate-x-[2px] active:translate-y-[2px] group transition-all duration-200 hover:-translate-x-[2px] hover:-translate-y-[2px] ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       style={{ background: 'none', border: 'none' }}
     >
       {/* Smooth block shadow */}
