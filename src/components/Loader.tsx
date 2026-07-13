@@ -8,6 +8,8 @@ import webRope from '../assets/images/web rope.png';
 import gdgLogo from '../assets/images/gdg-logo.png';
 import topLeftWeb from '../assets/images/top-left-web.png';
 import topRightWeb from '../assets/images/top-right.png';
+import spidermanHanging from '../assets/images/spiderman hanging.png';
+import webBg from '../assets/images/web.png';
 
 import img1 from '../assets/images/gdg-last-glimpses/DSC04065.jpg';
 import img2 from '../assets/images/gdg-last-glimpses/DSC04127.jpg';
@@ -26,6 +28,8 @@ const IMAGES_TO_PRELOAD = [
   gdgLogo,
   topLeftWeb,
   topRightWeb,
+  spidermanHanging,
+  webBg,
   img1,
   img2,
   img3,
@@ -44,7 +48,7 @@ interface LoaderProps {
 
 export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
-  const [statusText, setStatusText] = useState('Initializing Portal...');
+  const [statusText, setStatusText] = useState('Initializing Web-Shooters...');
 
   useEffect(() => {
     let loadedImages = 0;
@@ -54,15 +58,26 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
 
     const checkComplete = (currentProgress: number) => {
       if (currentProgress >= 100) {
-        // Delay a bit for visual gratification
         setTimeout(() => {
           onComplete();
-        }, 600);
+        }, 800);
       }
     };
 
+    // Update status text dynamically based on progress
+    if (progress < 25) {
+      setStatusText('Initializing Web-Shooters...');
+    } else if (progress < 50) {
+      setStatusText('Decrypting Spider-Verse Files...');
+    } else if (progress < 75) {
+      setStatusText('Preloading memories & gallery assets...');
+    } else if (progress < 100) {
+      setStatusText('Establishing neural link to backend database...');
+    } else {
+      setStatusText('Connection synchronized. System operational.');
+    }
+
     // 1. Preload Images
-    setStatusText('Downloading cyber assets...');
     IMAGES_TO_PRELOAD.forEach((src) => {
       const img = new Image();
       img.src = src;
@@ -78,15 +93,11 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
           assetsReady = true;
           if (backendReady) {
             setProgress(100);
-            setStatusText('Neural link fully synchronized.');
             checkComplete(100);
-          } else {
-            setStatusText('Connecting neural network to backend database...');
           }
         }
       };
       img.onerror = () => {
-        // Continue even if an image fails to load to prevent blocking
         loadedImages++;
         const imageProgress = Math.floor((loadedImages / totalImages) * 75);
         setProgress((prev) => {
@@ -103,18 +114,12 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
       backendReady = true;
       if (isConnected) {
         setProgress((prev) => {
-          const next = prev < 75 ? 75 : prev; // Jump to at least 75%
-          // If assets are already ready, we complete to 100%
+          const next = prev < 75 ? 75 : prev;
           const finalVal = assetsReady ? 100 : next + 15;
-          if (finalVal === 100) {
-            setStatusText('Neural link established. System operational.');
-          }
           checkComplete(finalVal);
           return finalVal;
         });
       } else {
-        // Fallback to offline mode
-        setStatusText('API unresponsive. Initializing local override...');
         setProgress((prev) => {
           const next = prev < 75 ? 75 : prev;
           const finalVal = assetsReady ? 100 : next + 15;
@@ -124,74 +129,98 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
       }
     };
 
-    // Verify connection after a tiny delay
     setTimeout(() => {
       verifyConnection();
     }, 600);
 
-  }, [onComplete]);
+  }, [onComplete, progress]);
 
   return (
     <div className="fixed inset-0 bg-[#020202] z-[9999] flex flex-col items-center justify-center select-none overflow-hidden">
       
-      {/* Background Grid Pattern */}
+      {/* Spiderweb Background Graphic */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.08] pointer-events-none z-0 mix-blend-screen"
+        style={{ backgroundImage: `url(${webBg})` }}
+      />
+
+      {/* Cyberpunk Grid Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f293708_1px,transparent_1px),linear-gradient(to_bottom,#1f293708_1px,transparent_1px)] bg-[size:30px_30px] opacity-35" />
       
-      {/* Subtle pulse red glow */}
+      {/* Background Pulse Red Glow */}
       <div className="absolute w-[300px] h-[300px] rounded-full bg-red-600/10 blur-[80px] animate-pulse pointer-events-none" />
 
-      {/* Cyberpunk Spider logo */}
-      <div className="relative mb-6">
-        <motion.div
-          animate={{
-            scale: [1, 1.05, 1],
-            opacity: [0.8, 1, 0.8]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="w-20 h-20 text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.7)]"
-        >
-          <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
-            <path
-              d="M12 2C10.9 2 10 2.9 10 4C10 4.4 10.1 4.7 10.3 5H13.7C13.9 4.7 14 4.4 14 4C14 2.9 13.1 2 12 2ZM8.8 8C8.4 8 8.1 8.3 8.1 8.7C8.1 9.1 8.4 9.4 8.8 9.4H9.4V11.2C9.4 12.7 10.6 13.9 12 13.9C13.4 13.9 14.6 12.7 14.6 11.2V9.4H15.2C15.6 9.4 15.9 9.1 15.9 8.7C15.9 8.3 15.6 8 15.2 8H8.8ZM12 15C8.7 15 6 12.3 6 9C6 7.3 6.7 5.8 7.8 4.7L6.4 3.3C4.9 4.8 4 6.8 4 9C4 13.1 7.1 16.5 11 16.9V20C7.1 20 4 20.9 4 22V23H20V22C20 20.9 16.9 20 13 20V16.9C16.9 16.5 20 13.1 20 9C20 6.8 19.1 4.8 17.6 3.3L16.2 4.7C17.3 5.8 18 7.3 18 9C18 12.3 15.3 15 12 15Z"
-              fill="currentColor"
-            />
-          </svg>
-        </motion.div>
-      </div>
+      {/* Hanging Spiderman Web Rope */}
+      <motion.div
+        className="absolute top-0 left-1/2 w-[2px] bg-gradient-to-b from-[#E11D48] via-[#EF4444] to-[#7C3AED] -translate-x-1/2 z-10 origin-top"
+        animate={{ 
+          height: `${Math.min(50, 20 + (progress / 100) * 30)}vh`,
+          rotate: [0, 1.5, -1.5, 0]
+        }}
+        transition={{ 
+          height: { type: "spring", stiffness: 70, damping: 14 },
+          rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+        }}
+        style={{
+          boxShadow: '0 0 10px rgba(239, 68, 68, 0.4)'
+        }}
+      />
 
-      {/* Cyber title */}
-      <h2 className="title-spiderman text-2xl font-black tracking-widest text-white uppercase text-shadow-glow">
-        GDG Portal
-      </h2>
+      {/* Upside-Down Hanging Spiderman */}
+      <motion.div
+        className="absolute left-1/2 -translate-x-1/2 z-20 origin-top w-28 sm:w-32 pointer-events-none"
+        animate={{ 
+          top: `${Math.min(50, 20 + (progress / 100) * 30)}vh`,
+          rotate: [0, 1.5, -1.5, 0]
+        }}
+        transition={{ 
+          top: { type: "spring", stiffness: 70, damping: 14 },
+          rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+        }}
+        style={{
+          marginTop: '-15px'
+        }}
+      >
+        <img 
+          src={spidermanHanging} 
+          alt="Hanging Spiderman" 
+          className="w-full h-auto drop-shadow-[0_10px_20px_rgba(239,68,68,0.55)]"
+        />
+      </motion.div>
+
+      {/* Progress & Status Container positioned near bottom of screen */}
+      <div className="absolute bottom-12 left-0 right-0 flex flex-col items-center justify-center z-30">
+        
+        {/* Cyber Title */}
+        <h2 className="title-spiderman text-xl sm:text-2xl font-black tracking-[0.25em] text-white uppercase text-shadow-glow mb-1">
+          GDG Portal
+        </h2>
+
+        {/* Progress Bar */}
+        <div className="w-56 sm:w-64 h-1 bg-zinc-950 border border-zinc-800 rounded-full overflow-hidden relative shadow-[0_0_15px_rgba(0,0,0,0.8)]">
+          <motion.div
+            className="h-full bg-gradient-to-r from-red-600 via-purple-600 to-blue-600 shadow-[0_0_8px_rgba(239,68,68,0.7)]"
+            style={{ width: `${progress}%` }}
+            animate={{ width: `${progress}%` }}
+            transition={{ ease: "easeOut", duration: 0.3 }}
+          />
+        </div>
+
+        {/* Percentage read-out */}
+        <div className="mt-2.5 font-mono text-[9px] tracking-[0.25em] text-zinc-400">
+          SPIDER-LINK STATUS: <span className="text-white font-bold">{progress}%</span>
+        </div>
+
+        {/* Interactive status feed */}
+        <div className="mt-3 max-w-[280px] text-center px-4">
+          <p className="font-mono text-[8px] uppercase tracking-widest text-zinc-500 line-clamp-1">
+            {statusText}
+          </p>
+        </div>
+      </div>
 
       {/* Retro CRT edge overlay */}
       <div className="fixed inset-0 crt-overlay pointer-events-none z-50"></div>
-
-      {/* Progress Bar */}
-      <div className="w-64 h-1.5 bg-zinc-950 border border-zinc-800 rounded-full overflow-hidden mt-6 relative shadow-[0_0_15px_rgba(0,0,0,0.8)]">
-        <motion.div
-          className="h-full bg-gradient-to-r from-red-600 via-purple-600 to-blue-600 shadow-[0_0_8px_rgba(239,68,68,0.7)]"
-          style={{ width: `${progress}%` }}
-          animate={{ width: `${progress}%` }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-        />
-      </div>
-
-      {/* Percentage read-out */}
-      <div className="mt-3 font-mono text-[10px] tracking-[0.25em] text-zinc-400">
-        SYSTEM LOAD: <span className="text-white font-bold">{progress}%</span>
-      </div>
-
-      {/* Interactive status feed */}
-      <div className="mt-4 max-w-xs text-center px-4">
-        <p className="font-mono text-[8px] uppercase tracking-widest text-zinc-500 line-clamp-1">
-          {statusText}
-        </p>
-      </div>
 
       {/* Cyberpunk corner bracket markings */}
       <div className="absolute top-8 left-8 w-4 h-4 border-t-2 border-l-2 border-zinc-800" />
