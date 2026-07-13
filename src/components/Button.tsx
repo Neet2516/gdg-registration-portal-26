@@ -20,17 +20,18 @@ const WebCorner: React.FC<{ className?: string }> = ({ className = '' }) => (
     stroke="currentColor"
     strokeWidth="1.5"
   >
-    {/* Radiating strands */}
-    <line x1="0" y1="0" x2="100" y2="0" />
-    <line x1="0" y1="0" x2="100" y2="100" />
-    <line x1="0" y1="0" x2="0" y2="100" />
-    <line x1="0" y1="0" x2="70" y2="100" />
-    <line x1="0" y1="0" x2="100" y2="70" />
-    {/* Web arcs */}
-    <path d="M 20,0 Q 20,20 0,20" />
-    <path d="M 40,0 Q 40,40 0,40" />
-    <path d="M 60,0 Q 60,60 0,60" />
-    <path d="M 80,0 Q 80,80 0,80" />
+    {/* Curvy Radiating strands (using Q/C curves to look saggy and organic) */}
+    <path d="M 0,0 Q 55,10 100,0" />
+    <path d="M 0,0 Q 45,55 100,100" />
+    <path d="M 0,0 Q 10,55 0,100" />
+    <path d="M 0,0 Q 30,55 70,100" />
+    <path d="M 0,0 Q 55,30 100,70" />
+    
+    {/* Web arcs (sagging curved paths) */}
+    <path d="M 25,0 Q 25,25 0,25" />
+    <path d="M 45,0 Q 45,45 0,45" />
+    <path d="M 65,0 Q 65,65 0,65" />
+    <path d="M 85,0 Q 85,85 0,85" />
     <path d="M 100,0 Q 100,100 0,100" />
   </svg>
 );
