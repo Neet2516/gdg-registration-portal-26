@@ -78,3 +78,21 @@ export const registerStudent = async (payload: RegisterPayload) => {
   }
   return data;
 };
+
+export const checkBackendConnection = async (): Promise<boolean> => {
+  const backendUrl = getBackendUrl();
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000); // 4s timeout
+    const response = await fetch(backendUrl, {
+      method: 'GET',
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    // Any response from the backend indicates connection is active
+    return response.status >= 200 && response.status < 500;
+  } catch (error) {
+    console.warn('Backend connection check failed:', error);
+    return false;
+  }
+};

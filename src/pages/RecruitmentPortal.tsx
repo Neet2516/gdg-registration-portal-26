@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Lenis from 'lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Hero } from '../components/sections/Hero';
@@ -9,6 +9,8 @@ import { SpiderMemories } from '../components/sections/SpiderMemories';
 import { RegistrationGateway } from '../components/sections/RegistrationGateway';
 import { Button } from '../components/Button';
 import { Footer } from '../components/Footer';
+import { Loader } from '../components/Loader';
+import { AnimatePresence, motion } from 'framer-motion';
 import heroBackground from '../assets/images/hero-background.png';
 import webRope from '../assets/images/web rope.png';
 import gdgLogo from '../assets/images/gdg-logo.png';
@@ -16,7 +18,15 @@ import topLeftWeb from '../assets/images/top-left-web.png';
 import topRightWeb from '../assets/images/top-right.png';
 
 export const RecruitmentPortal = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    document.body.style.overflow = '';
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -37,10 +47,30 @@ export const RecruitmentPortal = () => {
 
     return () => {
       lenis.destroy();
+      document.body.style.overflow = '';
     };
-  }, []);
+  }, [isLoading]);
+
   return (
-    <div className="w-full bg-[#000000] min-h-screen text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <motion.div
+            key="global-loader"
+            initial={{ opacity: 1 }}
+            exit={{ 
+              opacity: 0,
+              y: -80,
+              transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] }
+            }}
+            className="fixed inset-0 z-[9999]"
+          >
+            <Loader onComplete={() => setIsLoading(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="w-full bg-[#000000] min-h-screen text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
       {/* Viewport Corner Spiderwebs */}
       <div className="fixed -top-16 -left-12 w-24 h-24 sm:-top-24 sm:-left-18 sm:w-36 sm:h-36 md:-top-40 md:-left-30 md:w-124 md:h-124 rotate-270 pointer-events-none z-50">
         <img src={topLeftWeb} alt="Top Left Web" className="w-full h-full object-contain animate-web-glow-red" />
@@ -122,5 +152,6 @@ export const RecruitmentPortal = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
