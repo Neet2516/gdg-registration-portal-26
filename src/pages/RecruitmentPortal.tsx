@@ -5,6 +5,7 @@ import { Hero } from '../components/sections/Hero';
 import { Domains } from '../components/sections/Domains';
 import { EvaluationPath } from '../components/sections/EvaluationPath';
 import { FAQ } from '../components/sections/FAQ';
+import { SpiderMemories } from '../components/sections/SpiderMemories';
 import { RegistrationGateway } from '../components/sections/RegistrationGateway';
 import { Button } from '../components/Button';
 import { Footer } from '../components/Footer';
@@ -87,6 +88,7 @@ export const RecruitmentPortal = () => {
             <a href="#hero" className="text-zinc-400 hover:text-white transition-colors duration-150">Home</a>
             <a href="#domains" className="text-zinc-400 hover:text-white transition-colors duration-150">Domains</a>
             <a href="#evaluation-path" className="text-zinc-400 hover:text-white transition-colors duration-150">Path</a>
+            <a href="#spider-memories" className="text-zinc-400 hover:text-white transition-colors duration-150">Memories</a>
             <a href="#faq" className="text-zinc-400 hover:text-white transition-colors duration-150">FAQ</a>
             <a href="#registration-terminal" className="text-zinc-400 hover:text-white transition-colors duration-150">Register</a>
           </nav>
@@ -105,10 +107,15 @@ export const RecruitmentPortal = () => {
       </header>
 
       {/* Main Scrollable Content */}
-      <div className="max-w-6xl mx-auto px-4 py-12 space-y-24 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 pt-12 pb-6 space-y-24 relative z-10">
         <Hero />
         <Domains />
         <EvaluationPath />
+      </div>
+
+      <SpiderMemories />
+
+      <div className="max-w-6xl mx-auto px-4 pt-6 pb-12 space-y-24 relative z-10">
         <FAQ />
         <RegistrationGateway />
       </div>
