@@ -45,17 +45,7 @@ export const RegistrationGateway = () => {
       
       {/* Header reveal */}
       <div className="text-center space-y-3 flex flex-col items-center mb-10 relative z-10 w-full">
-        {/* GDG Logo and Text */}
-        <motion.div 
-          className='flex justify-center items-center gap-2 mb-2'
-          initial={{ opacity: 0, y: -10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <img src={gdgLogo} alt="GDG Logo" className="w-14 h-14 object-contain animate-pulse" />
-          <span className='title-spiderman text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow'>GDG</span>
-        </motion.div>
+        
         
         {/* 3D Animated Title Reveal */}
         <motion.div 

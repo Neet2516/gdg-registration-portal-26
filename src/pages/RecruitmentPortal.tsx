@@ -77,7 +77,7 @@ export const RecruitmentPortal = () => {
       <header className="nav sticky top-4 z-40 mx-auto w-[calc(100%-2rem)] max-w-5xl border border-[#71717A]/25 bg-black/75 backdrop-blur-md rounded-nav shadow-lg px-6 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 select-none">
-            <img src={gdgLogo} alt="GDG Logo" className="w-6 h-6 object-contain" />
+            <img src={gdgLogo} alt="GDG Logo" className="w-20 h-20 object-contain" />
             <span className="font-mono text-sm md:text-base font-bold tracking-widest text-white">
               GDG AKGEC
             </span>
