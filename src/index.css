@@ -170,19 +170,23 @@ input:not([type="radio"]), select, textarea {
 }
 
 @keyframes web-glow-red {
-  0%, 100% { filter: drop-shadow(0 0 5px rgba(225, 29, 72, 0.4)) drop-shadow(0 0 1px rgba(225, 29, 72, 0.2)); opacity: 0.75; }
-  50% { filter: drop-shadow(0 0 20px rgba(225, 29, 72, 0.95)) drop-shadow(0 0 8px rgba(225, 29, 72, 0.5)); opacity: 1; }
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
 }
 
 @keyframes web-glow-blue {
-  0%, 100% { filter: drop-shadow(0 0 5px rgba(37, 99, 235, 0.4)) drop-shadow(0 0 1px rgba(37, 99, 235, 0.2)); opacity: 0.75; }
-  50% { filter: drop-shadow(0 0 20px rgba(37, 99, 235, 0.95)) drop-shadow(0 0 8px rgba(37, 99, 235, 0.5)); opacity: 1; }
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
 }
 
 .animate-web-glow-red {
+  filter: drop-shadow(0 0 16px rgba(225, 29, 72, 0.85)) drop-shadow(0 0 6px rgba(225, 29, 72, 0.4));
   animation: web-glow-red 4s ease-in-out infinite;
+  will-change: opacity;
 }
 
 .animate-web-glow-blue {
+  filter: drop-shadow(0 0 16px rgba(37, 99, 235, 0.85)) drop-shadow(0 0 6px rgba(37, 99, 235, 0.4));
   animation: web-glow-blue 4s ease-in-out infinite;
+  will-change: opacity;
 }
