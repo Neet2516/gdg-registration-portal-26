@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import webSpiderImg from '../../assets/images/web-spider.png';
 
 // Import all 10 existing images from gdg-last-glimpses
 import img1 from '../../assets/images/gdg-last-glimpses/DSC04065.jpg';
@@ -421,6 +422,9 @@ export const SpiderMemories: React.FC = () => {
   // Rotate the spider slightly during scroll velocity
   const spiderRotate = useTransform(smoothProgress, [0, 0.5, 1], [0, 12, 0]);
 
+  // Move a spider horizontally across the page based on scroll
+  const spiderX = useTransform(smoothProgress, [0, 1], ['-10%', '110%']);
+
   const titleWords = "SPIDER MEMORIES".split(" ");
   const wordContainer: any = {
     hidden: { opacity: 0 },
@@ -444,11 +448,31 @@ export const SpiderMemories: React.FC = () => {
     <section
       id="spider-memories"
       ref={containerRef}
-      className="scroll-mt-24 py-1make 0 bg-[#030303] text-white overflow-hidden relative"
+      className="scroll-mt-24 py-16 bg-[#030303] text-white overflow-hidden relative"
     >
       {/* Background Cyberpunk Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29370d_1px,transparent_1px),linear-gradient(to_bottom,#1f29370d_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none z-0 opacity-40" />
       <div className="absolute inset-0 bg-radial-gradient(circle_at_center,transparent_20%,#030303_100%) pointer-events-none z-0" />
+
+      {/* Horizontal background thread with a crawling spider */}
+      <div className="absolute top-[240px] left-0 right-0 h-[1px] bg-zinc-900/40 pointer-events-none z-10">
+        <motion.div
+          className="absolute w-36 h-36 -translate-y-1/2 pointer-events-none"
+          style={{
+            left: spiderX,
+            rotate: 90, // Oriented head-first horizontally
+          }}
+        >
+          <img
+            src={webSpiderImg}
+            alt="Horizontal Crawling Spider"
+            className="w-full h-full object-contain opacity-70"
+            style={{
+              filter: 'invert(1) sepia(1) saturate(7000%) hue-rotate(345deg) drop-shadow(0 0 16px rgba(239, 68, 68, 0.75))'
+            }}
+          />
+        </motion.div>
+      </div>
 
       {/* Halftone vignette borders */}
       <div className="absolute inset-0 dither-bg opacity-5 pointer-events-none z-0" />
@@ -501,23 +525,23 @@ export const SpiderMemories: React.FC = () => {
 
               {/* Scrolling Crawler Spider Indicator */}
               <motion.div
-                className="absolute w-8 h-8 -left-3.5 -translate-y-1/2 flex items-center justify-center pointer-events-none z-20"
+                className="absolute w-48 h-[600px] pointer-events-none z-20"
                 style={{
                   top: spiderY,
+                  left: '50%',
+                  x: '-50%',
+                  y: '-92%', // Align spider body center to the timeline node
                   rotate: spiderRotate,
                 }}
               >
-                {/* Spider SVG shape */}
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="w-full h-full text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.9)]"
-                >
-                  <path
-                    d="M12 2C10.9 2 10 2.9 10 4C10 4.4 10.1 4.7 10.3 5H13.7C13.9 4.7 14 4.4 14 4C14 2.9 13.1 2 12 2ZM8.8 8C8.4 8 8.1 8.3 8.1 8.7C8.1 9.1 8.4 9.4 8.8 9.4H9.4V11.2C9.4 12.7 10.6 13.9 12 13.9C13.4 13.9 14.6 12.7 14.6 11.2V9.4H15.2C15.6 9.4 15.9 9.1 15.9 8.7C15.9 8.3 15.6 8 15.2 8H8.8ZM12 15C8.7 15 6 12.3 6 9C6 7.3 6.7 5.8 7.8 4.7L6.4 3.3C4.9 4.8 4 6.8 4 9C4 13.1 7.1 16.5 11 16.9V20C7.1 20 4 20.9 4 22V23H20V22C20 20.9 16.9 20 13 20V16.9C16.9 16.5 20 13.1 20 9C20 6.8 19.1 4.8 17.6 3.3L16.2 4.7C17.3 5.8 18 7.3 18 9C18 12.3 15.3 15 12 15Z"
-                    fill="currentColor"
-                  />
-                </svg>
+                <img
+                  src={webSpiderImg}
+                  alt="Scrolling Spider Indicator"
+                  className="w-full h-full object-contain"
+                  style={{
+                    filter: 'invert(1) sepia(1) saturate(7000%) hue-rotate(345deg) drop-shadow(0 0 24px rgba(239, 68, 68, 0.95))'
+                  }}
+                />
               </motion.div>
             </div>
 
