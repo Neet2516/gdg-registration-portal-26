@@ -1,11 +1,24 @@
+import { useState, useEffect } from 'react';
 import { Button } from '../Button';
 import { motion } from 'framer-motion';
 import spidermanHanging from '../../assets/images/spiderman hanging.png';
 import proximityImg from '../../assets/images/PROXIMITY.png';
 
 export const Hero = () => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  const scaleXVal = isDesktop ? 1.5 : 1;
+  const initialScaleXVal = isDesktop ? 1.05 : 0.7;
+
   return (
-    <section id="hero" className="pt-24 pb-16 relative flex flex-col items-center justify-center text-center overflow-visible min-h-[75vh]">
+    <section id="hero" className="pt-5 pb-5 relative flex flex-col items-center justify-center text-center overflow-visible md:min-h-[75vh]">
 
       {/* Hanging Spider-Man from top right - slides down and sways */}
       <motion.img 
@@ -22,18 +35,18 @@ export const Hero = () => {
       
       <div className="max-w-5xl space-y-8 relative z-10 flex flex-col items-center">
         {/* Primary Title Display */}
-        <div className="space-y-6 flex flex-col items-center">
+        <div className="space-y-1 flex flex-col items-center">
           <motion.img 
             src={proximityImg}
             alt="PROXIMITY" 
             className="w-[95vw] max-w-[840px] h-auto object-contain mx-auto select-none pointer-events-none drop-shadow-[0_0_35px_rgba(225,29,72,0.6)]"
-            initial={{ scale: 0.7, opacity: 0, rotate: -2 }}
-            animate={{ scale: 1, opacity: 1, rotate: 0 }}
+            initial={{ scale: 0.7, scaleX: initialScaleXVal, opacity: 0, rotate: -2 }}
+            animate={{ scale: 1, scaleX: scaleXVal, scaleY: 1, opacity: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 10, delay: 0.2 }}
           />
           
           <motion.p 
-            className="subtitle-spiderman text-[10px] sm:text-xs md:text-sm lg:text-lg text-zinc-300 font-light select-none tracking-[0.2em] sm:tracking-[0.35em] mt-3"
+            className="subtitle-spiderman text-[10px] sm:text-xs md:text-sm lg:text-lg text-zinc-300 font-light select-none tracking-[0.2em] sm:tracking-[0.35em]"
             initial={{ opacity: 0, letterSpacing: "0.1em" }}
             animate={{ opacity: 1, letterSpacing: "0.35em" }}
             transition={{ duration: 1, delay: 0.5 }}
