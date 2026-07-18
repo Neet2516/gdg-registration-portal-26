@@ -27,5 +27,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss()],
     server,
+    build: {
+      chunkSizeWarningLimit: 1600,
+    },
   };
 });
