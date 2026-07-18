@@ -5,16 +5,16 @@ import { SpiderThread } from './SpiderThread';
 import { useSpiderAnimation } from '../../../hooks/useSpiderAnimation';
 
 // Import all 10 existing images from gdg-last-glimpses
-import img1 from '../../../assets/images/gdg-last-glimpses/DSC04065.jpg';
-import img2 from '../../../assets/images/gdg-last-glimpses/DSC04127.jpg';
-import img3 from '../../../assets/images/gdg-last-glimpses/DSC04282.jpg';
-import img4 from '../../../assets/images/gdg-last-glimpses/DSC04294.jpg';
-import img5 from '../../../assets/images/gdg-last-glimpses/DSC04415.jpg';
-import img6 from '../../../assets/images/gdg-last-glimpses/DSC04436.jpg';
-import img7 from '../../../assets/images/gdg-last-glimpses/DSC04444.jpg';
-import img8 from '../../../assets/images/gdg-last-glimpses/DSC04447.jpg';
-import img9 from '../../../assets/images/gdg-last-glimpses/DSC04498.jpg';
-import img10 from '../../../assets/images/gdg-last-glimpses/DSC04507.jpg';
+import img1 from '../../../assets/images/gdg-last-glimpses/image1.jpg';
+import img2 from '../../../assets/images/gdg-last-glimpses/image2.jpg';
+import img3 from '../../../assets/images/gdg-last-glimpses/image3.jpg';
+import img4 from '../../../assets/images/gdg-last-glimpses/image4.jpg';
+import img5 from '../../../assets/images/gdg-last-glimpses/image5.jpg';
+import img6 from '../../../assets/images/gdg-last-glimpses/image6.jpg';
+import img7 from '../../../assets/images/gdg-last-glimpses/image7.jpg';
+import img8 from '../../../assets/images/gdg-last-glimpses/image8.jpg';
+import img9 from '../../../assets/images/gdg-last-glimpses/image9.jpg';
+import img10 from '../../../assets/images/gdg-last-glimpses/image10.jpg';
 
 interface MemoryItem {
   src: string;

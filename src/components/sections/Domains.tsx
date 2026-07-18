@@ -84,23 +84,6 @@ export const Domains = () => {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const titleWords = "CHOOSE YOUR GUILD".split(" ");
-  const wordContainer: any = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05 }
-    }
-  };
-  const letterVar: any = {
-    hidden: { opacity: 0, y: 15, scale: 1.3 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { type: "spring", stiffness: 120, damping: 14 }
-    }
-  };
 
   useEffect(() => {
     const container = containerRef.current;
@@ -235,30 +218,14 @@ export const Domains = () => {
 
       {/* 3. Section Title Sticky Container */}
       <div className="absolute top-12 left-0 right-0 text-center z-10 px-8 mb-10">
-        <motion.div 
-          className="flex flex-wrap items-center justify-center gap-x-4 relative z-10"
-          variants={wordContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+        <h2 
+          className="title-spiderman text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow relative z-10"
+          style={{
+            textShadow: '0 0 15px rgba(255, 255, 255, 0.1)',
+          }}
         >
-          {titleWords.map((word, wIdx) => (
-            <span key={wIdx} className="flex overflow-hidden py-1">
-              {Array.from(word).map((char, cIdx) => (
-                <motion.span 
-                  key={cIdx} 
-                  className="title-spiderman text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow"
-                  variants={letterVar}
-                  style={{
-                    textShadow: '0 0 15px rgba(255, 255, 255, 0.1)',
-                  }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </span>
-          ))}
-        </motion.div>
+          CHOOSE YOUR GUILD
+        </h2>
       </div>
 
       {/* 4. Horizontal Scroll Track Wrapper */}

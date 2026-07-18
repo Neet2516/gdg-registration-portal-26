@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { checkBackendConnection } from '../services/api';
 
 // Import images to resolve their build URLs
@@ -10,17 +9,18 @@ import topLeftWeb from '../assets/images/top-left-web.png';
 import topRightWeb from '../assets/images/top-right.png';
 import spidermanHanging from '../assets/images/spiderman hanging.png';
 import webBg from '../assets/images/web.png';
+import spiderswingVideo from '../assets/video/spiderswing.mp4';
 
-import img1 from '../assets/images/gdg-last-glimpses/DSC04065.jpg';
-import img2 from '../assets/images/gdg-last-glimpses/DSC04127.jpg';
-import img3 from '../assets/images/gdg-last-glimpses/DSC04282.jpg';
-import img4 from '../assets/images/gdg-last-glimpses/DSC04294.jpg';
-import img5 from '../assets/images/gdg-last-glimpses/DSC04415.jpg';
-import img6 from '../assets/images/gdg-last-glimpses/DSC04436.jpg';
-import img7 from '../assets/images/gdg-last-glimpses/DSC04444.jpg';
-import img8 from '../assets/images/gdg-last-glimpses/DSC04447.jpg';
-import img9 from '../assets/images/gdg-last-glimpses/DSC04498.jpg';
-import img10 from '../assets/images/gdg-last-glimpses/DSC04507.jpg';
+import img1 from '../assets/images/gdg-last-glimpses/image1.jpg';
+import img2 from '../assets/images/gdg-last-glimpses/image2.jpg';
+import img3 from '../assets/images/gdg-last-glimpses/image3.jpg';
+import img4 from '../assets/images/gdg-last-glimpses/image4.jpg';
+import img5 from '../assets/images/gdg-last-glimpses/image5.jpg';
+import img6 from '../assets/images/gdg-last-glimpses/image6.jpg';
+import img7 from '../assets/images/gdg-last-glimpses/image7.jpg';
+import img8 from '../assets/images/gdg-last-glimpses/image8.jpg';
+import img9 from '../assets/images/gdg-last-glimpses/image9.jpg';
+import img10 from '../assets/images/gdg-last-glimpses/image10.jpg';
 
 const IMAGES_TO_PRELOAD = [
   heroBackground,
@@ -163,78 +163,26 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
   return (
     <div className="fixed inset-0 bg-[#020202] z-[9999] flex flex-col items-center justify-center select-none overflow-hidden">
       
-      {/* Spiderweb Background Graphic */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.08] pointer-events-none z-0 mix-blend-screen"
-        style={{ backgroundImage: `url(${webBg})` }}
+      {/* Full-screen Background Video */}
+      <video
+        src={spiderswingVideo}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-65 z-0 pointer-events-none transform-gpu"
       />
-
-      {/* Cyberpunk Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f293708_1px,transparent_1px),linear-gradient(to_bottom,#1f293708_1px,transparent_1px)] bg-[size:30px_30px] opacity-35" />
-      
-      {/* Background Pulse Red Glow */}
-      <div className="absolute w-[300px] h-[300px] rounded-full bg-red-600/10 blur-[80px] animate-pulse pointer-events-none" />
-
-      {/* Hanging Spiderman Web Rope */}
-      <motion.div
-        className="absolute top-0 left-1/2 w-[2px] bg-gradient-to-b from-[#E11D48] via-[#EF4444] to-[#7C3AED] -translate-x-1/2 z-10 origin-top transform-gpu will-change-transform"
-        animate={{ 
-          scaleY: Math.min(1.0, (20 + (progress / 100) * 30) / 50),
-          rotate: [0, 1.5, -1.5, 0]
-        }}
-        transition={{ 
-          scaleY: { type: "spring", stiffness: 70, damping: 14 },
-          rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-        }}
-        style={{
-          height: '50vh',
-          originY: 0,
-          boxShadow: '0 0 10px rgba(239, 68, 68, 0.4)'
-        }}
-      />
-
-      {/* Upside-Down Hanging Spiderman */}
-      <motion.div
-        className="absolute top-0 left-1/2 -translate-x-1/2 z-20 origin-top w-28 sm:w-32 pointer-events-none transform-gpu will-change-transform"
-        animate={{ 
-          y: `${Math.min(50, 20 + (progress / 100) * 30)}vh`,
-          rotate: [0, 1.5, -1.5, 0]
-        }}
-        transition={{ 
-          y: { type: "spring", stiffness: 70, damping: 14 },
-          rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-        }}
-        style={{
-          marginTop: '-15px'
-        }}
-      >
-        <img 
-          src={spidermanHanging} 
-          alt="Hanging Spiderman" 
-          className="w-full h-auto drop-shadow-[0_10px_20px_rgba(239,68,68,0.55)]"
-        />
-      </motion.div>
 
       {/* Progress & Status Container positioned near bottom of screen */}
       <div className="absolute bottom-12 left-0 right-0 flex flex-col items-center justify-center z-30">
         
         {/* Cyber Title */}
-        <h2 className="title-spiderman text-xl sm:text-2xl font-black tracking-[0.25em] text-white uppercase text-shadow-glow mb-1">
+        <h2 className="title-spiderman text-xl sm:text-2xl font-black tracking-[0.25em] text-white uppercase text-shadow-glow mb-2">
           GDG Portal
         </h2>
 
-        {/* Progress Bar */}
-        <div className="w-56 sm:w-64 h-1 bg-zinc-950 border border-zinc-800 rounded-full overflow-hidden relative shadow-[0_0_15px_rgba(0,0,0,0.8)]">
-          <motion.div
-            className="h-full bg-gradient-to-r from-red-600 via-purple-600 to-blue-600 shadow-[0_0_8px_rgba(239,68,68,0.7)]"
-            style={{ width: `${progress}%` }}
-            animate={{ width: `${progress}%` }}
-            transition={{ ease: "easeOut", duration: 0.3 }}
-          />
-        </div>
-
         {/* Percentage read-out */}
-        <div className="mt-2.5 font-mono text-[9px] tracking-[0.25em] text-zinc-400">
+        <div className="font-mono text-[9px] tracking-[0.25em] text-zinc-400">
           SPIDER-LINK STATUS: <span className="text-white font-bold">{progress}%</span>
         </div>
 
@@ -245,15 +193,6 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
           </p>
         </div>
       </div>
-
-      {/* Retro CRT edge overlay */}
-      <div className="fixed inset-0 crt-overlay pointer-events-none z-50"></div>
-
-      {/* Cyberpunk corner bracket markings */}
-      <div className="absolute top-8 left-8 w-4 h-4 border-t-2 border-l-2 border-zinc-800" />
-      <div className="absolute top-8 right-8 w-4 h-4 border-t-2 border-r-2 border-zinc-800" />
-      <div className="absolute bottom-8 left-8 w-4 h-4 border-b-2 border-l-2 border-zinc-800" />
-      <div className="absolute bottom-8 right-8 w-4 h-4 border-b-2 border-r-2 border-zinc-800" />
 
     </div>
   );

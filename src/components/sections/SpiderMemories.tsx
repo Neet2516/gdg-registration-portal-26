@@ -3,16 +3,16 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import webSpiderImg from '../../assets/images/web-spider.png';
 
 // Import all 10 existing images from gdg-last-glimpses
-import img1 from '../../assets/images/gdg-last-glimpses/DSC04065.jpg';
-import img2 from '../../assets/images/gdg-last-glimpses/DSC04127.jpg';
-import img3 from '../../assets/images/gdg-last-glimpses/DSC04282.jpg';
-import img4 from '../../assets/images/gdg-last-glimpses/DSC04294.jpg';
-import img5 from '../../assets/images/gdg-last-glimpses/DSC04415.jpg';
-import img6 from '../../assets/images/gdg-last-glimpses/DSC04436.jpg';
-import img7 from '../../assets/images/gdg-last-glimpses/DSC04444.jpg';
-import img8 from '../../assets/images/gdg-last-glimpses/DSC04447.jpg';
-import img9 from '../../assets/images/gdg-last-glimpses/DSC04498.jpg';
-import img10 from '../../assets/images/gdg-last-glimpses/DSC04507.jpg';
+import img1 from '../../assets/images/gdg-last-glimpses/image1.jpg';
+import img2 from '../../assets/images/gdg-last-glimpses/image2.jpg';
+import img3 from '../../assets/images/gdg-last-glimpses/image3.jpg';
+import img4 from '../../assets/images/gdg-last-glimpses/image4.jpg';
+import img5 from '../../assets/images/gdg-last-glimpses/image5.jpg';
+import img6 from '../../assets/images/gdg-last-glimpses/image6.jpg';
+import img7 from '../../assets/images/gdg-last-glimpses/image7.jpg';
+import img8 from '../../assets/images/gdg-last-glimpses/image8.jpg';
+import img9 from '../../assets/images/gdg-last-glimpses/image9.jpg';
+import img10 from '../../assets/images/gdg-last-glimpses/image10.jpg';
 
 // Strongly typed MemoryItem structure
 export interface MemoryItem {
@@ -423,23 +423,6 @@ export const SpiderMemories: React.FC = () => {
   // Move a spider horizontally across the page based on scroll
   const spiderX = useTransform(smoothProgress, [0, 1], ['-10%', '110%']);
 
-  const titleWords = "SPIDER MEMORIES".split(" ");
-  const wordContainer: any = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05 }
-    }
-  };
-  const letterVar: any = {
-    hidden: { opacity: 0, y: 15, scale: 1.3 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { type: "spring", stiffness: 120, damping: 14 }
-    }
-  };
 
   return (
     <section
@@ -478,30 +461,14 @@ export const SpiderMemories: React.FC = () => {
         
         {/* Header Block */}
         <div className="text-center mb-16 relative flex flex-col items-center justify-center gap-y-3">
-          <motion.div
-            className="flex flex-wrap items-center justify-center gap-x-4 relative z-10"
-            variants={wordContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+          <h2 
+            className="title-spiderman text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow relative z-10"
+            style={{
+              textShadow: '0 0 15px rgba(255, 255, 255, 0.1)',
+            }}
           >
-            {titleWords.map((word, wIdx) => (
-              <span key={wIdx} className="flex overflow-hidden py-1">
-                {Array.from(word).map((char, cIdx) => (
-                  <motion.span 
-                    key={cIdx} 
-                    className="title-spiderman text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase select-none tracking-tight text-shadow-glow"
-                    variants={letterVar}
-                    style={{
-                      textShadow: '0 0 15px rgba(255, 255, 255, 0.1)',
-                    }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
-          </motion.div>
+            SPIDER MEMORIES
+          </h2>
         </div>
       </div>
 
