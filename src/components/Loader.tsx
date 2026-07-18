@@ -177,29 +177,31 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
 
       {/* Hanging Spiderman Web Rope */}
       <motion.div
-        className="absolute top-0 left-1/2 w-[2px] bg-gradient-to-b from-[#E11D48] via-[#EF4444] to-[#7C3AED] -translate-x-1/2 z-10 origin-top"
+        className="absolute top-0 left-1/2 w-[2px] bg-gradient-to-b from-[#E11D48] via-[#EF4444] to-[#7C3AED] -translate-x-1/2 z-10 origin-top transform-gpu will-change-transform"
         animate={{ 
-          height: `${Math.min(50, 20 + (progress / 100) * 30)}vh`,
+          scaleY: Math.min(1.0, (20 + (progress / 100) * 30) / 50),
           rotate: [0, 1.5, -1.5, 0]
         }}
         transition={{ 
-          height: { type: "spring", stiffness: 70, damping: 14 },
+          scaleY: { type: "spring", stiffness: 70, damping: 14 },
           rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
         }}
         style={{
+          height: '50vh',
+          originY: 0,
           boxShadow: '0 0 10px rgba(239, 68, 68, 0.4)'
         }}
       />
 
       {/* Upside-Down Hanging Spiderman */}
       <motion.div
-        className="absolute left-1/2 -translate-x-1/2 z-20 origin-top w-28 sm:w-32 pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 z-20 origin-top w-28 sm:w-32 pointer-events-none transform-gpu will-change-transform"
         animate={{ 
-          top: `${Math.min(50, 20 + (progress / 100) * 30)}vh`,
+          y: `${Math.min(50, 20 + (progress / 100) * 30)}vh`,
           rotate: [0, 1.5, -1.5, 0]
         }}
         transition={{ 
-          top: { type: "spring", stiffness: 70, damping: 14 },
+          y: { type: "spring", stiffness: 70, damping: 14 },
           rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" }
         }}
         style={{

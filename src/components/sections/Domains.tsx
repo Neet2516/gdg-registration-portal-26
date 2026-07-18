@@ -75,6 +75,14 @@ export const Domains = () => {
   const exitRef = useRef<HTMLDivElement>(null);
   
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const titleWords = "CHOOSE YOUR GUILD".split(" ");
   const wordContainer: any = {
@@ -85,11 +93,10 @@ export const Domains = () => {
     }
   };
   const letterVar: any = {
-    hidden: { opacity: 0, y: 15, filter: "blur(6px)", scale: 1.3 },
+    hidden: { opacity: 0, y: 15, scale: 1.3 },
     visible: { 
       opacity: 1, 
       y: 0, 
-      filter: "blur(0px)", 
       scale: 1,
       transition: { type: "spring", stiffness: 120, damping: 14 }
     }
@@ -313,13 +320,13 @@ export const Domains = () => {
               
               {/* Pulsing web node junction */}
               <div 
-                className={`absolute top-[88px] left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-white z-30 transition-all duration-300 ${
+                className={`absolute top-[88px] left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-white z-30 transition-colors duration-300 transform-gpu ${
                   isActive ? 'scale-125 animate-ping' : 'scale-100'
                 }`}
                 style={{ backgroundColor: guild.color }}
               ></div>
               <div 
-                className="absolute top-[88px] left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-white z-30 transition-all duration-300 shadow-md"
+                className="absolute top-[88px] left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-white z-30 transition-colors duration-300 shadow-md transform-gpu"
                 style={{ 
                   backgroundColor: guild.color,
                   boxShadow: isActive ? `0 0 10px ${guild.color}` : 'none'
@@ -328,30 +335,32 @@ export const Domains = () => {
 
               {/* Suspended Guild Card */}
               <motion.div
-                className={`w-full relative rounded-2xl transition-all duration-500 cursor-pointer ${
-                  isActive 
-                    ? 'scale-105 md:scale-110 z-20 opacity-100 blur-none' 
-                    : hasBeenActive
-                    ? 'scale-100 z-10 opacity-100 blur-none'
-                    : 'scale-90 opacity-40 z-10 blur-[6px] pointer-events-none'
-                }`}
-                animate={isActive ? {
-                  y: [0, -10, 0],
-                  rotateZ: [0, 0.5, 0, -0.5, 0]
-                } : { y: 0, rotateZ: 0 }}
-                transition={isActive ? {
-                  y: { repeat: Infinity, duration: 4, ease: "easeInOut" },
-                  rotateZ: { repeat: Infinity, duration: 5, ease: "easeInOut" }
-                } : undefined}
+                layout
+                className="w-full relative rounded-2xl cursor-pointer transform-gpu will-change-transform-opacity"
+                animate={{
+                  scale: isActive ? (isDesktop ? 1.10 : 1.05) : hasBeenActive ? 1.0 : 0.90,
+                  opacity: isActive || hasBeenActive ? 1.0 : 0.40,
+                  zIndex: isActive ? 20 : 10,
+                  y: isActive ? [0, -10, 0] : 0,
+                  rotateZ: isActive ? [0, 0.5, 0, -0.5, 0] : 0,
+                }}
+                transition={{
+                  scale: { type: "spring", stiffness: 120, damping: 15 },
+                  opacity: { duration: 0.3 },
+                  zIndex: { duration: 0 },
+                  y: isActive ? { repeat: Infinity, duration: 4, ease: "easeInOut" } : { duration: 0.3 },
+                  rotateZ: isActive ? { repeat: Infinity, duration: 5, ease: "easeInOut" } : { duration: 0.3 },
+                  layout: { type: "spring", stiffness: 150, damping: 20 }
+                }}
               >
                 
                 {/* Comic style neon shadow backdrop */}
                 <div 
-                  className="absolute inset-0 rounded-2xl pointer-events-none translate-x-[6px] translate-y-[6px] transition-all duration-300"
+                  className="absolute inset-0 rounded-2xl pointer-events-none translate-x-[6px] translate-y-[6px] transition-opacity duration-300 transform-gpu will-change-opacity"
                   style={{ 
                     backgroundColor: guild.color,
                     opacity: isActive ? 0.85 : 0.2,
-                    boxShadow: isActive ? `0 0 35px ${guild.shadowColor}` : 'none'
+                    boxShadow: `0 0 35px ${guild.shadowColor}`
                   }}
                 ></div>
 

@@ -17,11 +17,10 @@ export const RegistrationGateway = () => {
     }
   };
   const letterVar: any = {
-    hidden: { opacity: 0, y: 15, filter: "blur(6px)", scale: 1.3 },
+    hidden: { opacity: 0, y: 15, scale: 1.3 },
     visible: { 
       opacity: 1, 
       y: 0, 
-      filter: "blur(0px)", 
       scale: 1,
       transition: { type: "spring", stiffness: 120, damping: 14 }
     }

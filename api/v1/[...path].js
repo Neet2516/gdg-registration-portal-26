@@ -19,7 +19,7 @@ const readRequestBody = async (req) => {
 };
 
 export default async function handler(req, res) {
-  const backendUrl = process.env.BACKEND_URL?.trim();
+  const backendUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL)?.trim();
 
   if (!backendUrl) {
     res.status(500).json({

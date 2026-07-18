@@ -44,11 +44,11 @@ export const Card: React.FC<CardProps> = ({
   shadowColor = '#E11D48'
 }) => {
   return (
-    <div className={`w-full relative p-7 select-none group active:translate-x-[1px] active:translate-y-[1px] ${className}`} style={{ background: 'none', border: 'none' }}>
+    <div className={`w-full relative p-7 select-none group active:translate-x-[1px] active:translate-y-[1px] transform-gpu will-change-transform ${className}`} style={{ background: 'none', border: 'none' }}>
       
       {/* Smooth block shadow */}
       <div 
-        className="absolute inset-0 w-full h-full pointer-events-none translate-x-[5px] translate-y-[5px] transition-all duration-200 group-hover:translate-x-[7px] group-hover:translate-y-[7px] opacity-90"
+        className="absolute inset-0 w-full h-full pointer-events-none translate-x-[5px] translate-y-[5px] transition-transform duration-200 group-hover:translate-x-[7px] group-hover:translate-y-[7px] opacity-90 transform-gpu will-change-transform"
         style={{ 
           backgroundColor: shadowColor,
           borderRadius: '16px'

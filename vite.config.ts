@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const backendUrl = env.BACKEND_URL?.trim();
+  const backendUrl = (env.NEXT_PUBLIC_BACKEND_URL || env.BACKEND_URL || 'http://localhost:7773/api/v1').trim();
 
   const server = backendUrl
     ? (() => {

@@ -54,7 +54,7 @@ export const Button: React.FC<ButtonProps> = ({
         type={type}
         onClick={onClick}
         disabled={isDisabled}
-        className={`font-oswald text-xs md:text-sm tracking-wider py-3.5 px-7 cursor-pointer select-none uppercase transition-all duration-200 bg-transparent text-[#71717A] hover:text-white hover:bg-zinc-900/50 flex items-center justify-center gap-2 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+        className={`font-oswald text-xs md:text-sm tracking-wider py-3.5 px-7 cursor-pointer select-none uppercase transition-colors duration-200 bg-transparent text-[#71717A] hover:text-white hover:bg-zinc-900/50 flex items-center justify-center gap-2 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       >
         {loading ? (
           <Loader2 className="animate-spin" size={14} />
@@ -94,17 +94,17 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={isDisabled}
-      className={`font-oswald text-xs md:text-sm tracking-wider py-4 px-8 cursor-pointer select-none uppercase relative flex items-center justify-center gap-2 active:translate-x-[2px] active:translate-y-[2px] group transition-all duration-200 hover:-translate-x-[2px] hover:-translate-y-[2px] ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`font-oswald text-xs md:text-sm tracking-wider py-4 px-8 cursor-pointer select-none uppercase relative flex items-center justify-center gap-2 active:translate-x-[2px] active:translate-y-[2px] group transition-transform duration-200 hover:-translate-x-[2px] hover:-translate-y-[2px] transform-gpu will-change-transform ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       style={{ background: 'none', border: 'none' }}
     >
       {/* Smooth block shadow */}
       <div 
-        className={`absolute inset-0 w-full h-full pointer-events-none translate-x-[4px] translate-y-[4px] transition-all duration-200 group-hover:translate-x-[6px] group-hover:translate-y-[6px] rounded-xl ${currentStyles.shadow}`}
+        className={`absolute inset-0 w-full h-full pointer-events-none translate-x-[4px] translate-y-[4px] transition-transform duration-200 group-hover:translate-x-[6px] group-hover:translate-y-[6px] rounded-xl transform-gpu will-change-transform ${currentStyles.shadow}`}
       />
 
       {/* Smooth border & fill */}
       <div 
-        className={`absolute inset-0 w-full h-full pointer-events-none border-[3.5px] rounded-xl transition-all duration-200 ${currentStyles.border}`}
+        className={`absolute inset-0 w-full h-full pointer-events-none border-[3.5px] rounded-xl transition-colors duration-200 ${currentStyles.border}`}
       />
 
       {/* Spider Web corners decoration */}

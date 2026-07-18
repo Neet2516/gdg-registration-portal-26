@@ -32,6 +32,14 @@ let backendConnectionPromise: Promise<boolean> | null = null;
 const parseJsonResponse = async (response: Response) => {
   const text = await response.text();
 
+  if (response.status === 405) {
+    throw new Error('ROUTING ERROR (405): Method Not Allowed. The request was intercepted by a static page rewrite. Check vercel.json configuration.');
+  }
+
+  if (!response.ok && response.status === 500 && text.includes('BACKEND_URL')) {
+    throw new Error('CONFIGURATION ERROR (500): BACKEND_URL environment variable is missing on the secure gateway.');
+  }
+
   if (!text) {
     return null;
   }
@@ -39,6 +47,9 @@ const parseJsonResponse = async (response: Response) => {
   try {
     return JSON.parse(text);
   } catch {
+    if (text.trim().startsWith('<!DOCTYPE html>') || text.trim().startsWith('<html')) {
+      throw new Error('ROUTING ERROR: Received HTML page instead of API response. This indicates a routing mismatch or redirection to index.html.');
+    }
     throw new Error('INVALID RESPONSE RECEIVED FROM SECURE GATEWAY.');
   }
 };

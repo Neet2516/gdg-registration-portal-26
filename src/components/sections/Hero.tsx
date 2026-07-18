@@ -24,7 +24,7 @@ export const Hero = () => {
       <motion.img 
         src={spidermanHanging} 
         alt="Spider-Man Hanging" 
-        className="absolute -top-24 right-2 sm:right-4 md:right-16 w-16 sm:w-24 md:w-36 pointer-events-none select-none z-20 animate-swing-slow-2"
+        className="absolute -top-24 right-2 sm:right-4 md:right-16 w-16 sm:w-24 md:w-36 pointer-events-none select-none z-20 animate-swing-slow-2 transform-gpu will-change-transform-opacity"
         initial={{ y: -150, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 40, delay: 0.6 }}
@@ -39,17 +39,17 @@ export const Hero = () => {
           <motion.img 
             src={proximityImg}
             alt="PROXIMITY" 
-            className="w-[95vw] max-w-[840px] h-auto object-contain mx-auto select-none pointer-events-none drop-shadow-[0_0_35px_rgba(225,29,72,0.6)]"
+            className="w-[95vw] max-w-[840px] h-auto object-contain mx-auto select-none pointer-events-none drop-shadow-[0_0_35px_rgba(225,29,72,0.6)] transform-gpu will-change-transform-opacity"
             initial={{ scale: 0.7, scaleX: initialScaleXVal, opacity: 0, rotate: -2 }}
             animate={{ scale: 1, scaleX: scaleXVal, scaleY: 1, opacity: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 10, delay: 0.2 }}
           />
           
           <motion.p 
-            className="subtitle-spiderman text-[10px] sm:text-xs md:text-sm lg:text-lg text-zinc-300 font-light select-none tracking-[0.2em] sm:tracking-[0.35em]"
-            initial={{ opacity: 0, letterSpacing: "0.1em" }}
-            animate={{ opacity: 1, letterSpacing: "0.35em" }}
-            transition={{ duration: 1, delay: 0.5 }}
+            className="subtitle-spiderman text-[10px] sm:text-xs md:text-sm lg:text-lg text-zinc-300 font-light select-none tracking-[0.35em] transform-gpu will-change-transform-opacity"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5, type: 'spring', stiffness: 80 }}
           >
             GDG AKGEC RECRUITMENT PORTAL
           </motion.p>

@@ -59,19 +59,33 @@ export const MissionCard: React.FC<MissionCardProps> = ({
   return (
     <div
       ref={cardRef}
-      className="w-full relative group transition-all duration-300 ease-out select-none rounded-card"
+      className="w-full relative group select-none rounded-card transform-gpu will-change-transform"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       style={{
         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(${isHovered ? '-10px' : '0px'})`,
-        boxShadow: isHovered 
-          ? `0 25px 50px -12px ${activeGlow}, 0 0 25px -2px ${color}50` 
-          : `0 10px 30px -15px rgba(0, 0, 0, 0.8)`,
+        transition: isHovered ? 'transform 0.05s ease-out' : 'transform 0.5s ease-out',
       }}
     >
+      {/* High-performance shadow layers */}
+      <div 
+        className="absolute inset-0 rounded-card pointer-events-none transition-opacity duration-300 transform-gpu will-change-opacity z-0"
+        style={{
+          boxShadow: `0 25px 50px -12px ${activeGlow}, 0 0 25px -2px ${color}50`,
+          opacity: isHovered ? 1 : 0
+        }}
+      />
+      <div 
+        className="absolute inset-0 rounded-card pointer-events-none transition-opacity duration-300 transform-gpu will-change-opacity z-0"
+        style={{
+          boxShadow: `0 10px 30px -15px rgba(0, 0, 0, 0.8)`,
+          opacity: isHovered ? 0 : 1
+        }}
+      />
+
       {/* 3D holographic shadow sweep border */}
-      <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none z-10">
         <div className="absolute inset-[1px] rounded-xl bg-zinc-950/90 backdrop-blur-2xl z-10" />
         
         {/* Conic sweep element */}
@@ -181,13 +195,13 @@ export const EvaluationPath = () => {
       });
 
       entranceTl.fromTo(card1, 
-        { opacity: 0, x: -40, filter: 'blur(6px)', scale: 0.96 },
-        { opacity: 1, x: 0, filter: 'blur(0px)', scale: 1, duration: 0.8, ease: 'power2.out' }
+        { opacity: 0, x: -40, scale: 0.96 },
+        { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power2.out' }
       );
 
       entranceTl.fromTo(card2,
-        { opacity: 0, x: 40, filter: 'blur(6px)', scale: 0.96 },
-        { opacity: 1, x: 0, filter: 'blur(0px)', scale: 1, duration: 0.8, ease: 'power2.out' },
+        { opacity: 0, x: 40, scale: 0.96 },
+        { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power2.out' },
         '-=0.4'
       );
 
@@ -228,11 +242,10 @@ export const EvaluationPath = () => {
     }
   };
   const letterVar: any = {
-    hidden: { opacity: 0, y: 15, filter: "blur(6px)", scale: 1.3 },
+    hidden: { opacity: 0, y: 15, scale: 1.3 },
     visible: { 
       opacity: 1, 
       y: 0, 
-      filter: "blur(0px)", 
       scale: 1,
       transition: { type: "spring", stiffness: 120, damping: 14 }
     }

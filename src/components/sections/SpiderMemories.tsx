@@ -156,12 +156,10 @@ const MemoryCard: React.FC<{
           initial={{
             x: isEven ? -40 : 40,
             scale: 0.95,
-            filter: 'blur(8px)',
           }}
           whileInView={{
             x: 0,
             scale: 1,
-            filter: 'blur(0px)',
           }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{
@@ -171,7 +169,7 @@ const MemoryCard: React.FC<{
             delay: 0.05,
           }}
           whileHover="hover"
-          className={`group relative rounded-[16px] border-2 border-zinc-800 bg-[#0d0d10] p-4 shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden ${colorTheme.hoverBorder} ${colorTheme.hoverGlow}`}
+          className={`group relative rounded-[16px] border-2 border-zinc-800 bg-[#0d0d10] p-4 shadow-2xl transition-colors duration-300 cursor-pointer overflow-hidden transform-gpu will-change-transform-opacity ${colorTheme.hoverBorder} ${colorTheme.hoverGlow}`}
         >
           {/* Comic Halftone Overlay (inside card background) */}
           <div className="absolute inset-0 bg-radial-gradient(circle_at_center,rgba(255,255,255,0.01)_1px,transparent_1px) bg-[size:10px_10px] pointer-events-none opacity-40" />
@@ -193,7 +191,7 @@ const MemoryCard: React.FC<{
                 stiffness: 90,
                 damping: 15,
               }}
-              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 pointer-events-none"
+              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none transform-gpu will-change-filter"
             />
             
             {/* Diagonal Shine Sweep overlay */}
@@ -346,7 +344,7 @@ const MobileMemories: React.FC = () => {
                   stiffness: 150,
                   damping: 18
                 }}
-                className={`group relative shrink-0 rounded-[16px] border-2 bg-[#0d0d10] p-3 shadow-2xl transition-colors duration-300 overflow-hidden ${
+                className={`group relative shrink-0 rounded-[16px] border-2 bg-[#0d0d10] p-3 shadow-2xl transition-colors duration-300 overflow-hidden transform-gpu will-change-transform-opacity ${
                   isActive ? `${colorTheme.border} ${colorTheme.glow}` : 'border-zinc-800'
                 }`}
                 style={{
@@ -434,11 +432,10 @@ export const SpiderMemories: React.FC = () => {
     }
   };
   const letterVar: any = {
-    hidden: { opacity: 0, y: 15, filter: "blur(6px)", scale: 1.3 },
+    hidden: { opacity: 0, y: 15, scale: 1.3 },
     visible: { 
       opacity: 1, 
       y: 0, 
-      filter: "blur(0px)", 
       scale: 1,
       transition: { type: "spring", stiffness: 120, damping: 14 }
     }
