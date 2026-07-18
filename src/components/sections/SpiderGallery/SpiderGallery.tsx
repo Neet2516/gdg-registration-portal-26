@@ -14,7 +14,6 @@ import img6 from '../../../assets/images/gdg-last-glimpses/image6.jpg';
 import img7 from '../../../assets/images/gdg-last-glimpses/image7.jpg';
 import img8 from '../../../assets/images/gdg-last-glimpses/image8.jpg';
 import img9 from '../../../assets/images/gdg-last-glimpses/image9.jpg';
-import img10 from '../../../assets/images/gdg-last-glimpses/image10.jpg';
 
 interface MemoryItem {
   src: string;
@@ -32,7 +31,6 @@ const MEMORIES: MemoryItem[] = [
   { src: img7, title: 'Google I/O Extended Meetup', date: 'MAY 2025' },
   { src: img8, title: 'Generative AI Sprint', date: 'JUN 2025' },
   { src: img9, title: 'UI/UX Interactive Design Sprint', date: 'JUL 2025' },
-  { src: img10, title: 'Open Source Days Summit', date: 'AUG 2025' },
   { src: img1, title: 'Kubernetes Hands-on Workshop', date: 'SEP 2025' },
   { src: img2, title: 'Tech Career Mentorship Panel', date: 'OCT 2025' },
   { src: img3, title: 'Women Techmakers Meet', date: 'NOV 2025' },

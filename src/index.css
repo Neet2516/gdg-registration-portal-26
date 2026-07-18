@@ -190,3 +190,34 @@ input:not([type="radio"]), select, textarea {
   animation: web-glow-blue 4s ease-in-out infinite;
   will-change: opacity;
 }
+
+/* Hide default browser scrollbar for a clean presentation */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide all margin web ropes/scroll tracks running down the page */
+.absolute.inset-y-0.left-2,
+.absolute.inset-y-0.right-2,
+.absolute.inset-y-0.left-6,
+.absolute.inset-y-0.right-6,
+div[style*="web rope"],
+div[style*="web-rope"],
+div[class*="web-rope"],
+[class*="rope"],
+[style*="rope"] {
+  display: none !important;
+}
+
+/* Hide custom scrolling spider indicators and tracks */
+[class*="spider-indicator"],
+[class*="SpiderIndicator"],
+[alt*="Spider Indicator"],
+[src*="web-spider"] {
+  display: none !important;
+}
