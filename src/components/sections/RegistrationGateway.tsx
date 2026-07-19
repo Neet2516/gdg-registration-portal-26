@@ -57,6 +57,7 @@ export const RegistrationGateway = () => {
                 <img 
                   src={spidermanSideLook} 
                   alt="Spider-Man Side Look" 
+                  loading="lazy"
                   className="w-full max-w-xs h-auto object-contain relative z-10 filter drop-shadow-[0_0_15px_rgba(225,29,72,0.4)] transition-transform duration-500 group-hover:scale-105 pointer-events-none" 
                 />
               </div>

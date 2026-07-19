@@ -16,7 +16,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         {/* Brand Column (5 cols) */}
         <div className="md:col-span-5 space-y-6 text-left">
           <div className="flex items-center gap-3">
-            <img src={gdgLogo} alt="GDG Logo" className="w-20 h-20 object-contain animate-pulse" />
+            <img src={gdgLogo} alt="GDG Logo" loading="lazy" className="w-20 h-20 object-contain animate-pulse" />
             <div className="space-y-0.5">
               <h3 className="font-oswald text-2xl text-white tracking-wider uppercase leading-none">
                 GDG AKGEC

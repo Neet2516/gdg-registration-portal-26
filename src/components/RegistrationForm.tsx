@@ -168,6 +168,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
             <img 
               src={spidermanSideLook} 
               alt="Spider-Man Watermark" 
+              loading="lazy"
               className="w-full max-w-xs h-auto object-contain filter drop-shadow-[0_0_15px_rgba(225,29,72,0.25)]"
             />
           </div>

@@ -278,6 +278,7 @@ export const Domains = () => {
               <img 
                 src={webRope} 
                 alt="Web Rope" 
+                loading="lazy"
                 className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-24 object-fill pointer-events-none select-none z-20"
                 style={{
                   opacity: hasBeenActive ? 0.9 : 0.4,
