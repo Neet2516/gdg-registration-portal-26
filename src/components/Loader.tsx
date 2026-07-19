@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { checkBackendConnection } from '../services/api';
+import { motion } from 'framer-motion';
 
 // Import images to resolve their build URLs
 import heroBackground from '../assets/images/hero-background.png';
@@ -11,16 +12,6 @@ import spidermanHanging from '../assets/images/spiderman hanging.png';
 import webBg from '../assets/images/web.png';
 import spiderswingVideo from '../assets/video/spiderswing.mp4';
 
-import img1 from '../assets/images/gdg-last-glimpses/image1.jpg';
-import img2 from '../assets/images/gdg-last-glimpses/image2.jpg';
-import img3 from '../assets/images/gdg-last-glimpses/image3.jpg';
-import img4 from '../assets/images/gdg-last-glimpses/image4.jpg';
-import img5 from '../assets/images/gdg-last-glimpses/image5.jpg';
-import img6 from '../assets/images/gdg-last-glimpses/image6.jpg';
-import img7 from '../assets/images/gdg-last-glimpses/image7.jpg';
-import img8 from '../assets/images/gdg-last-glimpses/image8.jpg';
-import img9 from '../assets/images/gdg-last-glimpses/image9.jpg';
-
 const IMAGES_TO_PRELOAD = [
   heroBackground,
   webRope,
@@ -28,16 +19,7 @@ const IMAGES_TO_PRELOAD = [
   topLeftWeb,
   topRightWeb,
   spidermanHanging,
-  webBg,
-  img1,
-  img2,
-  img3,
-  img4,
-  img5,
-  img6,
-  img7,
-  img8,
-  img9
+  webBg
 ];
 
 interface LoaderProps {
@@ -46,21 +28,13 @@ interface LoaderProps {
 
 export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
-  const [statusText, setStatusText] = useState('Initializing Web-Shooters...');
+  const [isHolding, setIsHolding] = useState(false);
+  const [isZooming, setIsZooming] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    if (progress >= 100) {
-      setStatusText('Connection synchronized. System operational.');
-    } else if (progress >= 75) {
-      setStatusText('Establishing neural link to backend database...');
-    } else if (progress >= 50) {
-      setStatusText('Preloading memories & gallery assets...');
-    } else if (progress >= 25) {
-      setStatusText('Decrypting Spider-Verse Files...');
-    } else {
-      setStatusText('Initializing Web-Shooters...');
-    }
-  }, [progress]);
+  const handleVideoLoad = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    e.currentTarget.currentTime = 1.5;
+  };
 
   useEffect(() => {
     let loadedImages = 0;
@@ -68,14 +42,28 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
     let backendReady = false;
     let assetsReady = false;
     let isCancelled = false;
-    let completionTimeout: ReturnType<typeof setTimeout> | null = null;
+    
+    let holdTimeout: ReturnType<typeof setTimeout> | null = null;
+    let zoomTimeout: ReturnType<typeof setTimeout> | null = null;
     let connectionTimeout: ReturnType<typeof setTimeout> | null = null;
 
     const checkComplete = (currentProgress: number) => {
-      if (currentProgress >= 100 && !completionTimeout) {
-        completionTimeout = setTimeout(() => {
-          onComplete();
-        }, 800);
+      if (currentProgress >= 100 && !holdTimeout) {
+        // Phase 1: Enter Holding state (100% complete, resting view)
+        setIsHolding(true);
+
+        // Compulsory pause for 1000ms for visual weight and pacing
+        holdTimeout = setTimeout(() => {
+          if (isCancelled) return;
+          // Phase 2: Start Zooming
+          setIsZooming(true);
+
+          // Allow zoom animation to finish (900ms) before entering website
+          zoomTimeout = setTimeout(() => {
+            if (isCancelled) return;
+            onComplete();
+          }, 900);
+        }, 1000);
       }
     };
 
@@ -84,10 +72,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
       const img = new Image();
       img.src = src;
       img.onload = () => {
-        if (isCancelled) {
-          return;
-        }
-
+        if (isCancelled) return;
         loadedImages++;
         const imageProgress = Math.floor((loadedImages / totalImages) * 75); // Max 75% for images
         setProgress((prev) => {
@@ -104,10 +89,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
         }
       };
       img.onerror = () => {
-        if (isCancelled) {
-          return;
-        }
-
+        if (isCancelled) return;
         loadedImages++;
         const imageProgress = Math.floor((loadedImages / totalImages) * 75);
         setProgress((prev) => {
@@ -121,9 +103,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
     // 2. Preload/Check Backend connection
     const verifyConnection = async () => {
       const isConnected = await checkBackendConnection();
-      if (isCancelled) {
-        return;
-      }
+      if (isCancelled) return;
 
       backendReady = true;
       if (isConnected) {
@@ -149,47 +129,49 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
 
     return () => {
       isCancelled = true;
-      if (connectionTimeout) {
-        clearTimeout(connectionTimeout);
-      }
-      if (completionTimeout) {
-        clearTimeout(completionTimeout);
-      }
+      if (connectionTimeout) clearTimeout(connectionTimeout);
+      if (holdTimeout) clearTimeout(holdTimeout);
+      if (zoomTimeout) clearTimeout(zoomTimeout);
     };
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-[#020202] z-[9999] flex flex-col items-center justify-center select-none overflow-hidden">
+    <div className="fixed inset-0 bg-[#020202] z-[9999] flex flex-col items-center justify-between select-none overflow-hidden p-6 md:p-12">
       
-      {/* Full-screen Background Video */}
+      {/* Full-screen Background Video - Hidden on mobile for clear black background performance */}
       <video
+        ref={videoRef}
         src={spiderswingVideo}
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-65 z-0 pointer-events-none transform-gpu"
+        onLoadedMetadata={handleVideoLoad}
+        className="absolute inset-0 w-full h-full object-cover opacity-25 z-0 pointer-events-none transform-gpu"
       />
 
-      {/* Progress & Status Container positioned near bottom of screen */}
-      <div className="absolute bottom-12 left-0 right-0 flex flex-col items-center justify-center z-30">
+      {/* Massive Screen-Sized GDG Text Container */}
+      <div className="relative z-10 w-full h-full flex flex-col items-center justify-center overflow-visible">
         
-        {/* Cyber Title */}
-        <h2 className="title-spiderman text-xl sm:text-2xl font-black tracking-[0.25em] text-white uppercase text-shadow-glow mb-2">
-          GDG Portal
-        </h2>
+        {/* Horizontal on Desktop (tighter gap), Stacked Vertically on Mobile (tighter leading) */}
+        {/* Zooms in dynamically when loading is completed after the hold pause */}
+        <motion.h1 
+          className="font-sans font-black uppercase text-white tracking-tighter text-shadow-glow flex flex-col sm:flex-row items-center justify-center text-[28vh] sm:text-[32vw] md:text-[30vw] leading-[0.75] sm:leading-none select-none gap-0 sm:gap-2"
+          animate={isZooming ? { scale: 35, opacity: 0 } : { scale: 1, opacity: 1 }}
+          transition={{
+            scale: { duration: 0.9, ease: [0.76, 0, 0.24, 1] },
+            opacity: { duration: 0.6, ease: 'easeOut', delay: 0.15 }
+          }}
+          style={{
+            textShadow: '0 0 50px rgba(225, 29, 72, 0.55)',
+            transformOrigin: 'center center' // Zooms right through the center letter 'D'
+          }}
+        >
+          <span>G</span>
+          <span>D</span>
+          <span>G</span>
+        </motion.h1>
 
-        {/* Percentage read-out */}
-        <div className="font-mono text-[9px] tracking-[0.25em] text-zinc-400">
-          SPIDER-LINK STATUS: <span className="text-white font-bold">{progress}%</span>
-        </div>
-
-        {/* Interactive status feed */}
-        <div className="mt-3 max-w-[280px] text-center px-4">
-          <p className="font-mono text-[8px] uppercase tracking-widest text-zinc-500 line-clamp-1">
-            {statusText}
-          </p>
-        </div>
       </div>
 
     </div>

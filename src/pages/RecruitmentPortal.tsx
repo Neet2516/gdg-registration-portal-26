@@ -10,32 +10,15 @@ import { RegistrationGateway } from '../components/sections/RegistrationGateway'
 import { Button } from '../components/Button';
 import { Footer } from '../components/Footer';
 import { Loader } from '../components/Loader';
-import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import heroBackground from '../assets/images/hero-background.png';
 import webRope from '../assets/images/web rope.png';
 import gdgLogo from '../assets/images/gdg-logo.png';
 import topLeftWeb from '../assets/images/top-left-web.png';
 import topRightWeb from '../assets/images/top-right.png';
-import symbioteGlb from '../assets/images/spider-man_symbiote_spider-man_2_ps5_blend.glb';
 
 export const RecruitmentPortal = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsDesktop(window.innerWidth >= 1024);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  const { scrollY } = useScroll();
-  const rotateYVal = useTransform(scrollY, [0, 4000], [0, 360]);
-  const rotateXVal = useTransform(scrollY, [0, 2000], [-10, 15]);
-  
-  // Responsive vertical offsets (halfway off-screen baselines)
-  const mobileYOffset = useTransform(scrollY, [0, 4000], [130, 70]);
-  const desktopYOffset = useTransform(scrollY, [0, 4000], [220, 130]);
 
   useEffect(() => {
     if (isLoading) {
@@ -95,44 +78,7 @@ export const RecruitmentPortal = () => {
         <img src={topRightWeb} alt="Top Right Web" className="w-full h-full object-contain animate-web-glow-blue" />
       </div>
 
-      {/* Floating 3D Spider-Man Symbiote Mask */}
-      <motion.div
-        className="fixed z-40 pointer-events-none select-none transform-gpu"
-        style={{
-          left: '50%',
-          bottom: '0px',
-          top: 'auto',
-          width: isDesktop ? 440 : 260,
-          height: isDesktop ? 440 : 260,
-          x: '-50%',
-          y: isDesktop ? desktopYOffset : mobileYOffset,
-        }}
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 0.85, scale: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-      >
-        <motion.div
-          className="w-full h-full transform-gpu"
-          style={{
-            rotateY: rotateYVal,
-            rotateX: rotateXVal,
-          }}
-        >
-          <model-viewer
-            src={symbioteGlb}
-            alt="Spider-Man Symbiote 3D Model"
-            auto-rotate
-            camera-controls
-            disable-zoom
-            interaction-prompt="none"
-            shadow-intensity="0.5"
-            min-camera-orbit="auto 75deg auto"
-            max-camera-orbit="auto 75deg auto"
-            className="w-full h-full bg-transparent pointer-events-auto"
-            style={{ width: '100%', height: '100%', outline: 'none' }}
-          />
-        </motion.div>
-      </motion.div>
+
 
       {/* Absolute background patterns */}
       <div className="absolute inset-0 dither-bg opacity-15 pointer-events-none z-0"></div>
