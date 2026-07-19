@@ -33,9 +33,9 @@ export const RecruitmentPortal = () => {
   const rotateYVal = useTransform(scrollY, [0, 4000], [0, 360]);
   const rotateXVal = useTransform(scrollY, [0, 2000], [-10, 15]);
   
-  // Responsive vertical offsets
-  const mobileYOffset = useTransform(scrollY, [0, 4000], [0, -60]);
-  const desktopYOffset = useTransform(scrollY, [0, 4000], [160, 100]);
+  // Responsive vertical offsets (halfway off-screen baselines)
+  const mobileYOffset = useTransform(scrollY, [0, 4000], [130, 70]);
+  const desktopYOffset = useTransform(scrollY, [0, 4000], [220, 130]);
 
   useEffect(() => {
     if (isLoading) {
@@ -75,14 +75,11 @@ export const RecruitmentPortal = () => {
       <AnimatePresence mode="wait">
         {isLoading && (
           <motion.div
-            key="global-loader"
+            key="loader"
             initial={{ opacity: 1 }}
-            exit={{ 
-              opacity: 0,
-              y: -80,
-              transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] }
-            }}
-            className="fixed inset-0 z-[9999]"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-50 bg-[#020202] flex items-center justify-center"
           >
             <Loader onComplete={() => setIsLoading(false)} />
           </motion.div>
@@ -102,11 +99,11 @@ export const RecruitmentPortal = () => {
       <motion.div
         className="fixed z-40 pointer-events-none select-none transform-gpu"
         style={{
-          left: isDesktop ? '50%' : '0px',
-          bottom: isDesktop ? '0px' : '24px',
+          left: '50%',
+          bottom: '0px',
           top: 'auto',
-          width: isDesktop ? 320 : 176,
-          height: isDesktop ? 320 : 176,
+          width: isDesktop ? 440 : 260,
+          height: isDesktop ? 440 : 260,
           x: '-50%',
           y: isDesktop ? desktopYOffset : mobileYOffset,
         }}
