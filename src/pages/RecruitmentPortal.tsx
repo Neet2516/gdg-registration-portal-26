@@ -20,10 +20,22 @@ import symbioteGlb from '../assets/images/spider-man_symbiote_spider-man_2_ps5_b
 
 export const RecruitmentPortal = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   const { scrollY } = useScroll();
   const rotateYVal = useTransform(scrollY, [0, 4000], [0, 360]);
   const rotateXVal = useTransform(scrollY, [0, 2000], [-10, 15]);
-  const yOffsetVal = useTransform(scrollY, [0, 4000], [0, -60]);
+  
+  // Responsive vertical offsets
+  const mobileYOffset = useTransform(scrollY, [0, 4000], [0, -60]);
+  const desktopYOffset = useTransform(scrollY, [0, 4000], [160, 100]);
 
   useEffect(() => {
     if (isLoading) {
@@ -86,31 +98,43 @@ export const RecruitmentPortal = () => {
         <img src={topRightWeb} alt="Top Right Web" className="w-full h-full object-contain animate-web-glow-blue" />
       </div>
 
-      {/* Floating 3D Spider-Man Symbiote Mask on the leftmost side */}
+      {/* Floating 3D Spider-Man Symbiote Mask */}
       <motion.div
-        className="fixed left-0 -translate-x-1/2 bottom-6 top-auto w-44 h-44 sm:bottom-auto sm:top-[25vh] sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 z-40 pointer-events-none select-none transform-gpu"
+        className="fixed z-40 pointer-events-none select-none transform-gpu"
         style={{
-          rotateY: rotateYVal,
-          rotateX: rotateXVal,
-          y: yOffsetVal,
+          left: isDesktop ? '50%' : '0px',
+          bottom: isDesktop ? '0px' : '24px',
+          top: 'auto',
+          width: isDesktop ? 320 : 176,
+          height: isDesktop ? 320 : 176,
+          x: '-50%',
+          y: isDesktop ? desktopYOffset : mobileYOffset,
         }}
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 0.85, scale: 1 }}
         transition={{ delay: 1, duration: 1 }}
       >
-        <model-viewer
-          src={symbioteGlb}
-          alt="Spider-Man Symbiote 3D Model"
-          auto-rotate
-          camera-controls
-          disable-zoom
-          interaction-prompt="none"
-          shadow-intensity="0.5"
-          min-camera-orbit="auto 75deg auto"
-          max-camera-orbit="auto 75deg auto"
-          className="w-full h-full bg-transparent pointer-events-auto"
-          style={{ width: '100%', height: '100%', outline: 'none' }}
-        />
+        <motion.div
+          className="w-full h-full transform-gpu"
+          style={{
+            rotateY: rotateYVal,
+            rotateX: rotateXVal,
+          }}
+        >
+          <model-viewer
+            src={symbioteGlb}
+            alt="Spider-Man Symbiote 3D Model"
+            auto-rotate
+            camera-controls
+            disable-zoom
+            interaction-prompt="none"
+            shadow-intensity="0.5"
+            min-camera-orbit="auto 75deg auto"
+            max-camera-orbit="auto 75deg auto"
+            className="w-full h-full bg-transparent pointer-events-auto"
+            style={{ width: '100%', height: '100%', outline: 'none' }}
+          />
+        </motion.div>
       </motion.div>
 
       {/* Absolute background patterns */}
