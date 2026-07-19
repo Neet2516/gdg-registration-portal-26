@@ -27,6 +27,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss()],
     server,
+    assetsInclude: ['**/*.glb'],
     build: {
       chunkSizeWarningLimit: 1600,
     },
