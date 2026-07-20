@@ -143,7 +143,7 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ email, formDat
               </div>
             </div>
           </div>
- 
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-3">
               <label className="block font-mono text-xs text-white tracking-widest uppercase text-center">
@@ -166,11 +166,10 @@ export const OtpVerification: React.FC<OtpVerificationProps> = ({ email, formDat
                 ))}
               </div>
               <span className="block font-mono text-[9px] text-center text-zinc-600 tracking-wider uppercase leading-normal">
-                (Note: Check college email inbox & spam folder.<br />
-                Use bypass email <span className="text-zinc-500 underline font-bold">razortest2515312@akgec.ac.in</span> and any OTP code to test frontend.)
+                (Note: Check college email inbox & spam folder)
               </span>
             </div>
- 
+
             {error && (
               <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-3 py-2 text-center animate-pulse rounded-xl">
                 {error}
