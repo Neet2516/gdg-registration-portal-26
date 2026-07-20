@@ -27,8 +27,6 @@ interface LoaderProps {
 }
 
 export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
-  const [progress, setProgress] = useState(0);
-  const [isHolding, setIsHolding] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -42,28 +40,34 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
     let backendReady = false;
     let assetsReady = false;
     let isCancelled = false;
+    let isFinished = false;
     
     let holdTimeout: ReturnType<typeof setTimeout> | null = null;
     let zoomTimeout: ReturnType<typeof setTimeout> | null = null;
     let connectionTimeout: ReturnType<typeof setTimeout> | null = null;
+    let fallbackTimeout: ReturnType<typeof setTimeout> | null = null;
 
-    const checkComplete = (currentProgress: number) => {
-      if (currentProgress >= 100 && !holdTimeout) {
-        // Phase 1: Enter Holding state (100% complete, resting view)
-        setIsHolding(true);
+    const startCompletionSequence = () => {
+      if (isFinished || isCancelled) return;
+      isFinished = true;
 
-        // Compulsory pause for 1000ms for visual weight and pacing
-        holdTimeout = setTimeout(() => {
+      // Pause for visual weight and pacing before zooming
+      holdTimeout = setTimeout(() => {
+        if (isCancelled) return;
+        // Start Zooming animation
+        setIsZooming(true);
+
+        // Allow zoom animation to finish (900ms) before entering website
+        zoomTimeout = setTimeout(() => {
           if (isCancelled) return;
-          // Phase 2: Start Zooming
-          setIsZooming(true);
+          onComplete();
+        }, 900);
+      }, 600);
+    };
 
-          // Allow zoom animation to finish (900ms) before entering website
-          zoomTimeout = setTimeout(() => {
-            if (isCancelled) return;
-            onComplete();
-          }, 900);
-        }, 1000);
+    const checkAllReady = () => {
+      if (assetsReady && backendReady) {
+        startCompletionSequence();
       }
     };
 
@@ -74,64 +78,49 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
       img.onload = () => {
         if (isCancelled) return;
         loadedImages++;
-        const imageProgress = Math.floor((loadedImages / totalImages) * 75); // Max 75% for images
-        setProgress((prev) => {
-          const next = Math.max(prev, imageProgress);
-          checkComplete(next);
-          return next;
-        });
         if (loadedImages === totalImages) {
           assetsReady = true;
-          if (backendReady) {
-            setProgress(100);
-            checkComplete(100);
-          }
+          checkAllReady();
         }
       };
       img.onerror = () => {
         if (isCancelled) return;
         loadedImages++;
-        const imageProgress = Math.floor((loadedImages / totalImages) * 75);
-        setProgress((prev) => {
-          const next = Math.max(prev, imageProgress);
-          checkComplete(next);
-          return next;
-        });
+        if (loadedImages === totalImages) {
+          assetsReady = true;
+          checkAllReady();
+        }
       };
     });
 
     // 2. Preload/Check Backend connection
     const verifyConnection = async () => {
-      const isConnected = await checkBackendConnection();
+      await checkBackendConnection();
       if (isCancelled) return;
 
       backendReady = true;
-      if (isConnected) {
-        setProgress((prev) => {
-          const next = prev < 75 ? 75 : prev;
-          const finalVal = assetsReady ? 100 : next + 15;
-          checkComplete(finalVal);
-          return finalVal;
-        });
-      } else {
-        setProgress((prev) => {
-          const next = prev < 75 ? 75 : prev;
-          const finalVal = assetsReady ? 100 : next + 15;
-          checkComplete(finalVal);
-          return finalVal;
-        });
-      }
+      checkAllReady();
     };
 
     connectionTimeout = setTimeout(() => {
       verifyConnection();
-    }, 600);
+    }, 400);
+
+    // Fallback: Ensure loader completes even if backend or assets stall
+    fallbackTimeout = setTimeout(() => {
+      if (!isFinished && !isCancelled) {
+        assetsReady = true;
+        backendReady = true;
+        startCompletionSequence();
+      }
+    }, 4000);
 
     return () => {
       isCancelled = true;
       if (connectionTimeout) clearTimeout(connectionTimeout);
       if (holdTimeout) clearTimeout(holdTimeout);
       if (zoomTimeout) clearTimeout(zoomTimeout);
+      if (fallbackTimeout) clearTimeout(fallbackTimeout);
     };
   }, [onComplete]);
 
