@@ -231,11 +231,11 @@ export const Domains = () => {
       {/* 4. Horizontal Scroll Track Wrapper */}
       <div 
         ref={exitRef}
-        className="w-full h-[65vh] relative z-10 flex items-center justify-start overflow-visible"
+        className="w-full h-[58vh] relative z-10 flex items-center justify-start overflow-visible"
       >
         <div 
           ref={scrollRef} 
-          className="flex items-center gap-16 md:gap-32 pl-[25vw] pr-[15vw] md:pr-[35vw] h-[65vh] w-fit relative"
+          className="flex items-center gap-12 md:gap-20 pl-[25vw] pr-[15vw] md:pr-[35vw] h-[58vh] w-fit relative"
         >
         
         {/* Horizontal cable running through the top anchors */}
@@ -271,7 +271,7 @@ export const Domains = () => {
           return (
             <div 
               key={guild.id}
-              className="flex flex-col items-center pt-24 relative select-none w-[75vw] max-w-[340px] md:w-[28vw] shrink-0"
+              className="flex flex-col items-center pt-20 relative select-none w-[70vw] max-w-[280px] md:w-[22vw] md:max-w-[300px] shrink-0"
             >
               
               {/* Vertical web rope cable hanging card */}
@@ -279,7 +279,7 @@ export const Domains = () => {
                 src={webRope} 
                 alt="Web Rope" 
                 loading="lazy"
-                className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-24 object-fill pointer-events-none select-none z-20"
+                className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-20 object-fill pointer-events-none select-none z-20"
                 style={{
                   opacity: hasBeenActive ? 0.9 : 0.4,
                   filter: hasBeenActive ? `drop-shadow(0 0 5px ${guild.color})` : 'none'
@@ -288,13 +288,13 @@ export const Domains = () => {
               
               {/* Pulsing web node junction */}
               <div 
-                className={`absolute top-[88px] left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-white z-30 transition-colors duration-300 transform-gpu ${
+                className={`absolute top-[72px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full border border-white z-30 transition-colors duration-300 transform-gpu ${
                   isActive ? 'scale-125 animate-ping' : 'scale-100'
                 }`}
                 style={{ backgroundColor: guild.color }}
               ></div>
               <div 
-                className="absolute top-[88px] left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-white z-30 transition-colors duration-300 shadow-md transform-gpu"
+                className="absolute top-[72px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full border border-white z-30 transition-colors duration-300 shadow-md transform-gpu"
                 style={{ 
                   backgroundColor: guild.color,
                   boxShadow: isActive ? `0 0 10px ${guild.color}` : 'none'
@@ -306,10 +306,10 @@ export const Domains = () => {
                 layout
                 className="w-full relative rounded-2xl cursor-pointer transform-gpu will-change-transform-opacity"
                 animate={{
-                  scale: isActive ? (isDesktop ? 1.10 : 1.05) : hasBeenActive ? 1.0 : 0.90,
+                  scale: isActive ? (isDesktop ? 1.04 : 1.02) : hasBeenActive ? 0.95 : 0.88,
                   opacity: isActive || hasBeenActive ? 1.0 : 0.40,
                   zIndex: isActive ? 20 : 10,
-                  y: isActive ? [0, -10, 0] : 0,
+                  y: isActive ? [0, -8, 0] : 0,
                   rotateZ: isActive ? [0, 0.5, 0, -0.5, 0] : 0,
                 }}
                 transition={{
@@ -324,46 +324,46 @@ export const Domains = () => {
                 
                 {/* Comic style neon shadow backdrop */}
                 <div 
-                  className="absolute inset-0 rounded-2xl pointer-events-none translate-x-[6px] translate-y-[6px] transition-opacity duration-300 transform-gpu will-change-opacity"
+                  className="absolute inset-0 rounded-2xl pointer-events-none translate-x-[4px] translate-y-[4px] transition-opacity duration-300 transform-gpu will-change-opacity"
                   style={{ 
                     backgroundColor: guild.color,
                     opacity: isActive ? 0.85 : 0.2,
-                    boxShadow: `0 0 35px ${guild.shadowColor}`
+                    boxShadow: `0 0 25px ${guild.shadowColor}`
                   }}
                 ></div>
 
                 {/* Main Card Container */}
-                <div className="relative border-2 border-white rounded-2xl p-6 bg-zinc-950/95 overflow-hidden text-left h-[45vh] md:h-[48vh] flex flex-col justify-between select-none">
+                <div className="relative border-2 border-white rounded-2xl p-5 bg-zinc-950/95 overflow-hidden text-left h-[38vh] min-h-[300px] md:h-[40vh] md:min-h-[320px] flex flex-col justify-between select-none">
                   
                   {/* Comic book halftone pattern overlay */}
                   <div className="absolute inset-0 opacity-10 pointer-events-none bg-repeat halftone-bg"></div>
 
-                  <div className="space-y-4 relative z-10">
+                  <div className="space-y-3 relative z-10">
 
                     {/* Guild Title */}
                     <div className="space-y-1">
-                      <h3 className="font-oswald text-2xl md:text-3xl text-white uppercase flex items-center gap-2.5">
-                        <Icon size={22} style={{ color: guild.color }} />
+                      <h3 className="font-oswald text-xl md:text-2xl text-white uppercase flex items-center gap-2">
+                        <Icon size={18} style={{ color: guild.color }} />
                         {guild.title}
                       </h3>
                     </div>
 
                     {/* Description */}
-                    <p className="font-sans text-md text-zinc-400 leading-relaxed">
+                    <p className="font-sans text-xs md:text-sm text-zinc-400 leading-relaxed">
                       {guild.description}
                     </p>
 
                   </div>
 
                   {/* Actions / Enrollment (Visible on active cards) */}
-                  <div className="space-y-4 relative z-10 border-t border-zinc-800/80 pt-4">
+                  <div className="space-y-3 relative z-10 border-t border-zinc-800/80 pt-3">
                     
                     {/* Call to action element */}
                     <AnimatePresence>
                       {isActive && (
                         <motion.a 
                           href="#registration-terminal"
-                          className="flex items-center justify-between font-mono text-[10px] uppercase text-white hover:underline pt-2 w-full"
+                          className="flex items-center justify-between font-mono text-[10px] uppercase text-white hover:underline pt-1 w-full"
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0 }}
