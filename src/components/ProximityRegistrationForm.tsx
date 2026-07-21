@@ -626,7 +626,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
           <div className="pt-4">
             <button
               type="submit"
-              className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-4 border border-white rounded-xl cursor-pointer transition-snap"
+              className="w-full bg-white hover:bg-black hover:text-white text-black font-mono text-xs font-bold tracking-widest py-2.5 border border-white rounded-xl cursor-pointer transition-snap"
             >
               INITIALIZE RECRUITMENT GATEWAY
             </button>

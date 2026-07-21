@@ -221,3 +221,17 @@ div[class*="web-rope"],
 [src*="web-spider"] {
   display: none !important;
 }
+
+/* Make Google reCAPTCHA v3 badge subtle & compact */
+.grecaptcha-badge {
+  transform: scale(0.6) !important;
+  transform-origin: bottom right !important;
+  opacity: 0.3 !important;
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+  z-index: 40 !important;
+}
+
+.grecaptcha-badge:hover {
+  opacity: 0.95 !important;
+  transform: scale(0.85) !important;
+}

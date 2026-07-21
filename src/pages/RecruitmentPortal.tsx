@@ -117,8 +117,8 @@ export const RecruitmentPortal = () => {
 
           <nav className="hidden sm:flex items-center gap-6 lg:gap-8 font-sans text-xs lg:text-sm tracking-widest uppercase">
             <a href="#hero" className="text-zinc-400 hover:text-white transition-colors duration-150">Home</a>
-            <a href="#domains" className="text-zinc-400 hover:text-white transition-colors duration-150">Domains</a>
             <a href="#evaluation-path" className="text-zinc-400 hover:text-white transition-colors duration-150">Path</a>
+            <a href="#domains" className="text-zinc-400 hover:text-white transition-colors duration-150">Domains</a>
             <a href="#spider-memories" className="text-zinc-400 hover:text-white transition-colors duration-150">Memories</a>
             <a href="#faq" className="text-zinc-400 hover:text-white transition-colors duration-150">FAQ</a>
             <a href="#registration-terminal" className="text-zinc-400 hover:text-white transition-colors duration-150">Register</a>
@@ -140,8 +140,8 @@ export const RecruitmentPortal = () => {
       {/* Main Scrollable Content */}
       <div className="max-w-6xl mx-auto px-4 pt-12 pb-6 space-y-24 relative z-10">
         <Hero />
-        <Domains />
         <EvaluationPath />
+        <Domains />
       </div>
 
       <SpiderMemories />

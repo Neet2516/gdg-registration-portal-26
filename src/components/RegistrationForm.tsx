@@ -309,9 +309,9 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
               <Button
                 type="submit"
                 variant="primary"
-                className="w-full py-4 text-sm"
+                className="w-full py-3 text-xs sm:text-sm md:text-base tracking-wider font-bold"
               >
-                <span className='text-2xl'>INITIALIZE RECRUITMENT GATEWAY</span>
+                INITIALIZE RECRUITMENT GATEWAY
               </Button>
             </div>
           </div>
