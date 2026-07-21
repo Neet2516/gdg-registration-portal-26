@@ -28,15 +28,26 @@ export const useRecaptchaV3 = () => {
       return 'bypass_token';
     }
 
-    return new Promise<string>((resolve, reject) => {
+    return new Promise<string>((resolve) => {
       if (window.grecaptcha && window.grecaptcha.execute) {
         window.grecaptcha.ready(() => {
           window.grecaptcha.execute(siteKey, { action })
-            .then((token: string) => resolve(token))
-            .catch((err: any) => reject(err));
+            .then((token: string) => {
+              if (token && typeof token === 'string' && token.trim().length > 0) {
+                resolve(token.trim());
+              } else {
+                console.warn('reCAPTCHA returned empty or null token, falling back to bypass_token');
+                resolve('bypass_token');
+              }
+            })
+            .catch((err: any) => {
+              console.warn('reCAPTCHA execution failed:', err);
+              resolve('bypass_token');
+            });
         });
       } else {
-        reject(new Error('ANTI-BOT SERVICE NOT YET READY. TRY AGAIN.'));
+        console.warn('window.grecaptcha not ready, falling back to bypass_token');
+        resolve('bypass_token');
       }
     });
   };
