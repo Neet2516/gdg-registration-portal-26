@@ -139,6 +139,114 @@ html, body, #root {
   transform-origin: top center;
 }
 
+/* BYTE TALKS Retro Poster 3D Typography */
+.hero-3d-red {
+  color: #dd4531;
+  font-family: var(--font-display);
+  paint-order: stroke fill;
+  -webkit-text-stroke: 4px #1c242b;
+  text-shadow:
+    1px 1px 0 #952a1b,
+    2px 2px 0 #952a1b,
+    3px 3px 0 #952a1b,
+    4px 4px 0 #952a1b,
+    5px 5px 0 #952a1b,
+    6px 6px 0 #952a1b,
+    7px 7px 0 #952a1b,
+    8px 8px 0 #952a1b,
+    9px 9px 0 #1c242b,
+    10px 10px 0 #1c242b,
+    11px 11px 0 #1c242b;
+}
+
+.hero-3d-yellow {
+  color: #e2a444;
+  font-family: var(--font-display);
+  paint-order: stroke fill;
+  -webkit-text-stroke: 4px #1c242b;
+  text-shadow:
+    1px 1px 0 #966421,
+    2px 2px 0 #966421,
+    3px 3px 0 #966421,
+    4px 4px 0 #966421,
+    5px 5px 0 #966421,
+    6px 6px 0 #966421,
+    7px 7px 0 #966421,
+    8px 8px 0 #966421,
+    9px 9px 0 #1c242b,
+    10px 10px 0 #1c242b,
+    11px 11px 0 #1c242b;
+}
+
+.hero-2026-box {
+  background-color: #11254e;
+  border: 2.5px solid #1c242b;
+  box-shadow: 10px 10px 0px 0px #2a5caa, 10px 10px 0px 2px #1c242b;
+}
+
+.badge-3d-red {
+  background-color: #de432c;
+  border: 1.5px solid #1c242b;
+  box-shadow: 2.5px 2.5px 0px #1c242b;
+}
+
+.badge-3d-blue {
+  background-color: #3168e0;
+  border: 1.5px solid #1c242b;
+  box-shadow: 2.5px 2.5px 0px #1c242b;
+}
+
+.btn-3d-red {
+  background-color: #de432c;
+  color: #ffffff;
+  border: 2px solid #1c242b;
+  box-shadow: 5px 5px 0px #1c242b;
+  transition: all 120ms ease;
+}
+.btn-3d-red:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0px #1c242b;
+}
+
+.btn-3d-white {
+  background-color: #ffffff;
+  color: #1c242b;
+  border: 2px solid #1c242b;
+  box-shadow: 5px 5px 0px #1c242b;
+  transition: all 120ms ease;
+}
+.btn-3d-white:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0px #1c242b;
+}
+
+/* Halftone dot pattern overlays */
+.bg-dot-pattern {
+  background-image: radial-gradient(#1c242b 1.8px, transparent 1.8px);
+  background-size: 10px 10px;
+}
+
+.bg-dot-pattern-light {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1.8px, transparent 1.8px);
+  background-size: 10px 10px;
+}
+
+/* Giant outlined retro typography for footer */
+.text-stroke-footer {
+  color: transparent;
+  -webkit-text-stroke: 2px #404b5c;
+  letter-spacing: 0.04em;
+}
+
+/* Retro sparkle star */
+.sparkle-star {
+  display: inline-block;
+  user-select: none;
+  font-family: monospace;
+}
+
+
+
 .animate-swing-slow-2 {
   animation: web-swing 6s ease-in-out infinite;
   transform-origin: top center;

@@ -1,8 +1,11 @@
 import { useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
-import { ArrowDown, ArrowUpRight, CalendarDays, CheckCircle2, Clock3, LoaderCircle, MapPin, Menu, X } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, ChevronRight, LoaderCircle, Menu, X } from 'lucide-react';
 import campusIllustration from '../assets/images/byte-talks/raw-05.png';
 import compassIllustration from '../assets/images/byte-talks/compass.svg';
+import arrowMarker from '../assets/images/byte-talks/ArrowMarker.png';
+import micAsset from '../assets/images/byte-talks/mic-asset.png';
+import speakerPhoto from '../assets/images/byte-talks/speaker_portrait.jpg';
 import { BRANCHES, DOMAINS } from '../constants/recruitment';
 import { useRecaptchaV3 } from '../hooks/useRecaptchaV3';
 import { registerStudent, sendOtp, verifyOtp } from '../services/api';
@@ -101,31 +104,77 @@ function EventHeader() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className={`${contentWidth} relative z-10 flex min-h-[76px] items-center justify-between border-b border-[#20252a]/25 bg-[#BBDED9] text-[#20252a] before:absolute before:left-1/2 before:top-0 before:z-[-1] before:h-full before:w-screen before:-translate-x-1/2 before:bg-[#BBDED9] before:content-[''] max-sm:min-h-[44px]`}>
-      <a className="inline-flex items-center gap-2.5 whitespace-nowrap font-display text-base tracking-[-.04em] max-sm:gap-1.5 max-sm:text-xs" href="#home" onClick={closeMenu} aria-label="BYTE TALKS home">
-        <span className="grid size-7 place-items-center border border-byte-text bg-byte-teal text-lg leading-none text-[#10131a] max-sm:size-5 max-sm:text-sm">B</span>
-        <span>BYTE TALKS</span>
-      </a>
-      <button
-        className="hidden border border-[#20252a]/40 bg-transparent p-2 text-[#20252a] focus-visible:outline-3 focus-visible:outline-byte-yellow max-sm:inline-flex max-sm:p-1"
-        type="button"
-        aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen((open) => !open)}
-      >
-        {menuOpen ? <X size={16} /> : <Menu size={16} />}
-      </button>
-      <nav
-        className={`${menuOpen ? 'max-sm:flex' : 'max-sm:hidden'} flex items-center gap-[clamp(1.25rem,3vw,2.75rem)] font-mono text-[.73rem] uppercase max-sm:absolute max-sm:left-0 max-sm:right-0 max-sm:top-full max-sm:flex-col max-sm:items-stretch max-sm:gap-0 max-sm:border max-sm:border-[#20252a]/25 max-sm:bg-[#BBDED9] max-sm:px-4 max-sm:pb-4`}
-        aria-label="Main navigation"
-      >
-        <a className="text-[#20252a] transition-colors hover:text-[#176d68] max-sm:border-b max-sm:border-[#20252a]/20 max-sm:py-3.5" href="#about" onClick={closeMenu}>About</a>
-        <a className="text-[#20252a] transition-colors hover:text-[#176d68] max-sm:border-b max-sm:border-[#20252a]/20 max-sm:py-3.5" href="#faq" onClick={closeMenu}>FAQs</a>
-        <a className="text-[#20252a] transition-colors hover:text-[#176d68] max-sm:border-b max-sm:border-[#20252a]/20 max-sm:py-3.5" href="#speakers" onClick={closeMenu}>Mentors</a>
-        <a className={`${buttonStyle} min-h-[38px] px-3 py-2 text-[.68rem] max-sm:mt-3`} href="#register" onClick={closeMenu}>
-          Register <ArrowUpRight size={15} aria-hidden="true" />
+    <header className="relative z-20 w-full pt-6 pb-2">
+      <div className="mx-auto flex w-[min(1320px,calc(100%-48px))] items-center justify-between max-sm:w-[calc(100%-32px)]">
+        {/* Brand */}
+        <a 
+          className="inline-flex items-center gap-3 no-underline group" 
+          href="#home" 
+          onClick={closeMenu} 
+          aria-label="BYTE TALKS home"
+        >
+          <span 
+            className="block size-6 shrink-0 border-[1.5px] border-[#1c242b] bg-[#de432c] shadow-[2px_2px_0_#1c242b] transition-transform group-hover:scale-105" 
+            aria-hidden="true" 
+          />
+          <div className="flex flex-col">
+            <span className="font-display text-[1.22rem] font-black leading-none tracking-tight text-[#1c242b]">
+              BYTE TALKS
+            </span>
+            <span className="mt-1 font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#2c373d] leading-none">
+              AKGEC CAMPUS
+            </span>
+          </div>
         </a>
-      </nav>
+
+        {/* Mobile toggle */}
+        <button
+          className="hidden border-2 border-[#1c242b] bg-white p-2 text-[#1c242b] shadow-[3px_3px_0_#1c242b] focus-visible:outline-2 max-md:inline-flex"
+          type="button"
+          aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+
+        {/* Links */}
+        <nav
+          className={`${
+            menuOpen ? 'max-md:flex' : 'max-md:hidden'
+          } flex items-center gap-8 md:gap-10 font-mono text-[0.95rem] font-bold text-[#1c242b] max-md:absolute max-md:left-4 max-md:right-4 max-md:top-full max-md:mt-3 max-md:flex-col max-md:items-stretch max-md:gap-0 max-md:border-2 max-md:border-[#1c242b] max-md:bg-[#B4DDD7] max-md:p-4 max-md:shadow-[5px_5px_0_#1c242b]`}
+          aria-label="Main navigation"
+        >
+          <a 
+            className="text-[#1c242b] transition-colors hover:text-[#de432c] max-md:border-b max-md:border-[#1c242b]/20 max-md:py-3" 
+            href="#about" 
+            onClick={closeMenu}
+          >
+            About
+          </a>
+          <a 
+            className="text-[#1c242b] transition-colors hover:text-[#de432c] max-md:border-b max-md:border-[#1c242b]/20 max-md:py-3" 
+            href="#faq" 
+            onClick={closeMenu}
+          >
+            FAQs
+          </a>
+          <a 
+            className="text-[#1c242b] transition-colors hover:text-[#de432c] max-md:border-b max-md:border-[#1c242b]/20 max-md:py-3" 
+            href="#speakers" 
+            onClick={closeMenu}
+          >
+            Mentors
+          </a>
+          <a 
+            className="btn-3d-red inline-flex items-center justify-center px-4 py-1.5 font-mono text-[0.8rem] font-bold uppercase tracking-wider text-white no-underline max-md:mt-3" 
+            href="#register" 
+            onClick={closeMenu}
+          >
+            REGISTER
+          </a>
+        </nav>
+      </div>
     </header>
   );
 }
@@ -134,89 +183,246 @@ function EventHero() {
   const countdown = useMemo(getEventCountdown, []);
 
   return (
-    <section className={`${contentWidth} relative isolate grid min-h-[690px] grid-cols-[.9fr_1.1fr] items-center pt-[4.5rem] text-[#20252a] before:absolute before:left-1/2 before:top-0 before:z-[-1] before:h-full before:w-screen before:-translate-x-1/2 before:bg-[#BBDED9] before:content-[''] max-[820px]:min-h-0 max-[820px]:grid-cols-2 max-[820px]:pb-[120px] max-sm:flex max-sm:min-h-[690px] max-sm:flex-col max-sm:items-stretch max-sm:pt-1 max-sm:pb-0`} id="home" aria-labelledby="bt-title">
-      <div
-        className="pointer-events-none absolute inset-x-[calc((1128px-100vw)/2)] inset-y-0 bottom-[58px] bg-[linear-gradient(#20252a24_1px,transparent_1px),linear-gradient(90deg,#20252a24_1px,transparent_1px)] bg-[size:42px_42px] [mask-image:linear-gradient(to_bottom,#000_0%,#000_70%,transparent_100%)] max-sm:inset-x-[-16px] max-sm:bottom-[125px]"
-        aria-hidden="true"
-      />
-      <div className="relative z-[2] pb-20 max-sm:pb-0">
-        <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-2.5 font-mono text-[.68rem] font-bold uppercase tracking-[.12em] text-[#176d68] max-sm:bg-[#e75842] max-sm:px-1 max-sm:py-[2px] max-sm:text-[.4rem] max-sm:tracking-normal max-sm:text-white">
-            <span className="size-2 rounded-full bg-byte-coral shadow-[0_0_0_4px_#e758422b] max-sm:hidden" />
-            <span className="max-sm:hidden">CAMPUS EDITION · AKGEC</span>
-            <span className="hidden max-sm:inline">REGISTRATION PREVIEW</span>
-          </span>
-          <span className="hidden bg-[#315e9e] px-1 py-[2px] font-mono text-[.4rem] font-bold uppercase tracking-normal text-white max-sm:inline">
-            AKGEC · GHAZIABAD
-          </span>
+    <section 
+      className="relative isolate overflow-hidden text-[#1c242b]" 
+      id="home" 
+      aria-labelledby="bt-title"
+    >
+      <div className="relative mx-auto w-[min(1320px,calc(100%-48px))] pt-5 md:pt-9 max-sm:w-[calc(100%-32px)]">
+        {/* Two-column Hero Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.12fr_0.88fr] items-start gap-8 lg:gap-10">
+          {/* Left Column */}
+          <div className="relative z-10">
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="badge-3d-red px-2.5 py-0.5 font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-wider text-white">
+                REGISTRATION OPEN
+              </span>
+              <span className="badge-3d-blue px-2.5 py-0.5 font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-wider text-white">
+                AKGEC • GHAZIABAD
+              </span>
+            </div>
+
+            {/* Giant 3D Typography */}
+            <h1 id="bt-title" className="mt-4 mb-2 flex flex-col font-display font-black leading-[0.82] uppercase select-none">
+              <span className="hero-3d-red text-[clamp(4.8rem,11.2vw,9.4rem)] tracking-tight">
+                BYTE
+              </span>
+              <span className="hero-3d-yellow text-[clamp(4.8rem,11.2vw,9.4rem)] tracking-tight -mt-2 md:-mt-3">
+                TALKS
+              </span>
+              <div className="hero-2026-box px-6 py-1.5 md:px-7 md:py-2 mt-3 md:mt-4 w-fit">
+                <span className="text-white text-[clamp(2.8rem,6.8vw,5.5rem)] font-display font-black leading-none tracking-tight block">
+                  2026
+                </span>
+              </div>
+            </h1>
+
+            {/* Tagline */}
+            <div className="my-5 font-mono font-bold text-[1.25rem] md:text-[1.4rem] text-[#1c242b] leading-snug">
+              <p className="m-0">Event tagline</p>
+              <p className="m-0 mt-0.5">.</p>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-1 mb-8">
+              <a 
+                href="#register" 
+                className="btn-3d-red inline-flex items-center gap-3 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline"
+              >
+                <span>REGISTER NOW</span>
+                <span className="text-base leading-none" aria-hidden="true">→</span>
+              </a>
+              <a 
+                href="#about" 
+                className="btn-3d-white inline-flex items-center gap-2 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline"
+              >
+                SEE DETAILS
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: Compass Dial Clock Artwork */}
+          <div className="relative z-10 flex justify-center lg:justify-end -mt-2 lg:-mt-10">
+            <div className="w-[min(100%,540px)] max-lg:max-w-[440px]">
+              <img
+                src={compassIllustration}
+                alt={`BYTE TALKS countdown clock: ${countdown}`}
+                className="w-full h-auto object-contain select-none drop-shadow-[8px_8px_0px_rgba(28,36,43,0.18)]"
+              />
+            </div>
+          </div>
         </div>
-        <h1 id="bt-title" className="my-5 flex flex-col font-display text-[clamp(4.4rem,9vw,8.9rem)] leading-[.78] tracking-[-.08em] uppercase max-[820px]:text-[clamp(4rem,11vw,6.2rem)] max-sm:my-1 max-sm:max-w-[66%] max-sm:text-[clamp(2.4rem,15vw,5.6rem)]">
-          <span className="max-sm:text-[#d74a33]">BYTE</span>
-          <span className="text-byte-coral max-sm:text-[#e8ae56]">TALKS</span>
-          <span className="mt-3 text-[.56em] tracking-[-.045em] text-transparent [-webkit-text-stroke:1px_#20252a] max-sm:mt-2 max-sm:w-fit max-sm:bg-[#183762] max-sm:px-2 max-sm:py-1 max-sm:text-byte-text max-sm:shadow-[5px_5px_0_#3975a4] max-sm:[-webkit-text-stroke:0]">2026</span>
-        </h1>
-        <p className="my-6 max-w-[410px] font-mono text-[.9rem] uppercase leading-[1.8] text-[#35464a] max-sm:my-1.5 max-sm:max-w-[64%] max-sm:text-[.61rem]">
-          Join us live. Learn. Connect. Inspire.
-        </p>
-        <div className="flex flex-wrap items-center gap-6 max-sm:gap-2.5">
-          <a className={`${buttonStyle} max-sm:min-h-9 max-sm:px-2.5 max-sm:py-2 max-sm:text-[.48rem]`} href="#register">
-            Register now <ArrowUpRight size={14} aria-hidden="true" />
-          </a>
-          <a className="inline-flex items-center gap-2 border border-[#20252a] bg-[#f5f0e7] px-2.5 py-2 font-mono text-[.68rem] uppercase text-[#20252a] shadow-[3px_3px_0_#20252a] transition-colors hover:bg-white max-sm:gap-1.5 max-sm:px-2 max-sm:py-2 max-sm:text-[.46rem]" href="#about">
-            See details <ArrowDown size={13} aria-hidden="true" />
-          </a>
+
+        {/* Campus Sticker Illustration positioned at bottom left-to-center */}
+        <div className="relative z-20 -mt-8 sm:-mt-16 md:-mt-26 lg:-mt-40 w-[min(98%,880px)] lg:w-[68%] -ml-1 sm:-ml-3 lg:-ml-6">
+          <img
+            src={campusIllustration}
+            alt="Illustrated AKGEC Campus Sticker"
+            className="w-full h-auto object-contain select-none drop-shadow-[8px_14px_0px_rgba(28,36,43,0.25)]"
+          />
         </div>
-      </div>
-      <div className="relative isolate min-h-[480px] max-[820px]:min-h-[360px] max-sm:absolute max-sm:inset-x-0 max-sm:bottom-[192px] max-sm:top-[40px] max-sm:min-h-0" aria-label="BYTE TALKS compass and AKGEC campus artwork">
-        <img
-          className="absolute right-0 top-0 z-[2] w-[min(62%,390px)] max-[820px]:w-[min(60%,300px)] max-sm:right-[-22%] max-sm:top-[8%] max-sm:w-[58%]"
-          src={compassIllustration}
-          alt={`BYTE TALKS event countdown: ${countdown}`}
-        />
-        <img
-          className="absolute bottom-0 left-[-8%] z-[1] w-[105%] max-h-[360px] rotate-[-3deg] object-contain drop-shadow-[11px_13px_0_#0e111a] max-[820px]:w-[115%] max-[820px]:max-h-[270px] max-sm:bottom-[112px] max-sm:left-[-12%] max-sm:w-[124%] max-sm:max-h-none"
-          src={campusIllustration}
-          alt="Illustrated AKGEC campus"
-        />
-        <span className="absolute left-[5%] top-[20%] z-[2] text-2xl text-byte-yellow" aria-hidden="true">✳</span>
-        <span className="absolute bottom-[15%] right-[8%] z-[2] text-2xl text-byte-teal" aria-hidden="true">✳</span>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 z-[2] grid min-h-[98px] grid-cols-[1fr_1fr_1.2fr_auto] items-center border-y border-byte-line bg-byte-page max-[820px]:grid-cols-3 max-sm:absolute max-sm:grid-cols-1">
-        <div className="flex items-center gap-3 border-r border-byte-line/40 px-4 py-3 text-byte-teal max-sm:min-h-16 max-sm:border-r-0 max-sm:border-b">
-          <CalendarDays size={19} aria-hidden="true" />
-          <div className="grid gap-1"><span className="font-mono text-[.56rem] tracking-[.13em] text-byte-muted">DATE</span><strong className="font-mono text-[.72rem] text-byte-text max-[820px]:text-[.59rem] max-sm:text-[.66rem]">30 OCT 2026</strong></div>
-        </div>
-        <div className="flex items-center gap-3 border-r border-byte-line/40 px-4 py-3 text-byte-teal max-sm:min-h-16 max-sm:border-r-0 max-sm:border-b">
-          <Clock3 size={19} aria-hidden="true" />
-          <div className="grid gap-1"><span className="font-mono text-[.56rem] tracking-[.13em] text-byte-muted">TIME</span><strong className="font-mono text-[.72rem] text-byte-text max-[820px]:text-[.59rem] max-sm:text-[.66rem]">TO BE ANNOUNCED</strong></div>
-        </div>
-        <div className="flex items-center gap-3 border-r border-byte-line/40 px-4 py-3 text-byte-teal max-sm:min-h-16 max-sm:border-r-0 max-sm:border-b-0">
-          <MapPin size={19} aria-hidden="true" />
-          <div className="grid gap-1"><span className="font-mono text-[.56rem] tracking-[.13em] text-byte-muted">VENUE</span><strong className="font-mono text-[.72rem] text-byte-text max-[820px]:text-[.59rem] max-sm:text-[.66rem]">CSIT SEMINAR HALL</strong></div>
-        </div>
-        <a className="inline-flex items-center gap-2 py-4 pl-4 font-mono text-[.62rem] font-bold text-byte-coral max-[820px]:hidden" href="#register">EVENT DETAILS <ArrowUpRight size={15} aria-hidden="true" /></a>
       </div>
     </section>
   );
 }
 
-function AboutSection() {
+function EventInfoBar() {
   return (
-    <section className={`${contentWidth} scroll-mt-8 pt-[7.5rem] max-[820px]:pt-[5.5rem] max-sm:pt-[4.5rem]`} id="about">
-      <SectionHeading eyebrow="01 / THE EVENT">WHAT IS BYTE TALKS?</SectionHeading>
-      <div className="grid grid-cols-[1fr_.8fr] gap-[clamp(2rem,7vw,7rem)] py-14 max-sm:grid-cols-1 max-sm:gap-6 max-sm:py-8">
-        <p className="m-0 max-w-[550px] font-display text-[clamp(2rem,4.7vw,4rem)] leading-[1.05] tracking-[-.07em] max-sm:text-[clamp(2.2rem,11vw,3.4rem)]">
-          A day for fresh ideas, thoughtful conversations, and the people shaping what comes next.
-        </p>
-        <div className="pt-1 font-mono text-[.79rem] leading-[1.9] text-byte-muted">
-          <p className="mb-6 mt-0">BYTE TALKS brings the campus community together around technology and creativity. Join us at AKGEC for an afternoon of learning, sharing, and connecting.</p>
-          <p className="border-l-[3px] border-byte-coral bg-byte-surface p-4 text-[.68rem] text-byte-text"><span className="mb-1 block text-[.58rem] font-bold text-byte-coral">NOTE</span>Speaker announcements and entry information will be shared by the organizers.</p>
+    <div className="relative z-20 w-full bg-[#13171e] text-white">
+      {/* Retro diagonal striped hazard/accent line */}
+      <div 
+        className="h-2.5 w-full bg-[repeating-linear-gradient(45deg,#1c242b,#1c242b_8px,#ffffff_8px,#ffffff_16px)]" 
+        aria-hidden="true" 
+      />
+      <div className="mx-auto grid w-[min(1320px,calc(100%-48px))] grid-cols-2 md:grid-cols-4 items-center gap-6 py-6 md:py-8 max-sm:w-[calc(100%-32px)]">
+        {/* Date */}
+        <div className="border-r border-white/15 pr-4 max-sm:border-r-0">
+          <span className="block font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8]">
+            DATE
+          </span>
+          <strong className="mt-1 block font-display text-lg md:text-2xl font-black text-white tracking-tight">
+            30 OCT 2026
+          </strong>
+        </div>
+
+        {/* Time */}
+        <div className="border-r border-white/15 pr-4 max-md:border-r-0">
+          <span className="block font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8]">
+            TIME
+          </span>
+          <strong className="mt-1 block font-display text-lg md:text-2xl font-black text-white tracking-tight">
+            4:00 PM
+          </strong>
+        </div>
+
+        {/* Venue */}
+        <div className="border-r border-white/15 pr-4 max-sm:border-r-0">
+          <span className="block font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8]">
+            VENUE
+          </span>
+          <strong className="mt-1 block font-display text-lg md:text-2xl font-black text-white tracking-tight">
+            CSIT SEMINAR HALL
+          </strong>
+        </div>
+
+        {/* Countdown */}
+        <div>
+          <span className="block font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8] mb-1.5">
+            REGISTRATION CLOSES IN
+          </span>
+          <div className="flex items-center gap-2">
+            <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
+              07
+            </div>
+            <span className="font-mono text-xs font-bold text-white/70">:</span>
+            <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
+              12
+            </div>
+            <span className="font-mono text-xs font-bold text-white/70">:</span>
+            <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
+              35
+            </div>
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 border-y border-byte-line max-sm:grid-cols-1">
-        <div className="flex min-h-[78px] items-center gap-4 border-r border-byte-line/40 p-4 max-sm:min-h-16 max-sm:border-r-0 max-sm:border-b"><span className="font-display text-2xl text-byte-coral">01</span><strong className="font-mono text-[.63rem]">ONE CAMPUS</strong></div>
-        <div className="flex min-h-[78px] items-center gap-4 border-r border-byte-line/40 p-4 max-sm:min-h-16 max-sm:border-r-0 max-sm:border-b"><span className="font-display text-2xl text-byte-coral">30</span><strong className="font-mono text-[.63rem]">OCTOBER 2026</strong></div>
-        <div className="flex min-h-[78px] items-center gap-4 p-4 max-sm:min-h-16"><span className="font-display text-2xl text-byte-coral">∞</span><strong className="font-mono text-[.63rem]">IDEAS TO SHARE</strong></div>
+    </div>
+  );
+}
+
+function StatsBar() {
+  return (
+    <div className="relative z-20 w-full border-y-2 border-[#1c242b] bg-[#de432c] text-white">
+      <div className="mx-auto grid w-[min(1320px,calc(100%-48px))] grid-cols-2 md:grid-cols-4 max-sm:w-[calc(100%-32px)]">
+        <div className="border-r-2 border-[#1c242b] py-6 px-4 text-center max-sm:border-b-2">
+          <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white">04</div>
+          <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">DAYS</div>
+        </div>
+        <div className="border-r-0 md:border-r-2 border-[#1c242b] py-6 px-4 text-center max-sm:border-b-2">
+          <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white">04</div>
+          <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">SPEAKERS</div>
+        </div>
+        <div className="border-r-2 border-[#1c242b] py-6 px-4 text-center">
+          <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white">65</div>
+          <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">MIN PER TALK</div>
+        </div>
+        <div className="py-6 px-4 text-center">
+          <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white">200</div>
+          <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">SEATS ONLY</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AboutSection() {
+  return (
+    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="about">
+      {/* Decorative sparkle stars */}
+      <span className="sparkle-star absolute left-8 top-12 text-2xl text-[#1c242b]/40" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-16 top-20 text-3xl text-[#1c242b]/30" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute left-1/4 bottom-10 text-xl text-[#de432c]/50" aria-hidden="true">✦</span>
+
+      <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-12 lg:gap-16">
+          {/* Left: Vintage Tech Poster Card & Overview */}
+          <div>
+            {/* Vintage Tech Poster Card */}
+            <div className="relative mb-8 max-w-[420px] border-2 border-[#1c242b] bg-[#141b27] p-6 shadow-[8px_8px_0_#1c242b]">
+              <div className="mb-4 flex items-center justify-between border-b border-white/20 pb-3 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-[#55a8a8]">
+                <span>SPECIAL EDITION</span>
+                <span>AKGEC CAMPUS</span>
+              </div>
+              <div className="relative flex items-center justify-center py-6">
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:16px_16px]" />
+                <div className="relative z-10 text-center">
+                  <div className="font-display text-3xl font-black text-white leading-none tracking-tight">
+                    JOIN US FOR<br /><span className="text-[#e2a444]">TECH TALKS</span>
+                  </div>
+                  <p className="mt-2 font-mono text-[0.68rem] font-bold uppercase text-white/80">
+                    CONVERSATIONS &amp; IDEAS
+                  </p>
+                </div>
+              </div>
+              <div className="mt-3 flex items-center justify-between border-t border-white/20 pt-3">
+                <span className="badge-3d-red px-2 py-0.5 font-mono text-[0.58rem] font-bold uppercase text-white">
+                  30 OCT 2026
+                </span>
+                <span className="font-mono text-[0.6rem] font-bold text-white/60">
+                  CSIT HALL
+                </span>
+              </div>
+            </div>
+
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-2 mb-3">
+              <span className="badge-3d-blue px-2.5 py-0.5 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-white">
+                CAMPUS EVENT
+              </span>
+              <span className="border-1.5 border-[#1c242b] bg-[#387a5b] px-2.5 py-0.5 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#1c242b]">
+                INNOVATION
+              </span>
+            </div>
+
+            <h2 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] font-black leading-[1.05] tracking-tight text-[#1c242b] my-4">
+              A day for fresh ideas, thoughtful conversations, and the people shaping what comes next.
+            </h2>
+            <p className="font-mono text-[0.88rem] md:text-[0.94rem] leading-relaxed text-[#35464a] max-w-xl">
+              BYTE TALKS brings the campus community together around technology and creativity. Join us at AKGEC for an afternoon of learning, sharing, and connecting with builders and thinkers.
+            </p>
+          </div>
+
+          {/* Right: Directional Signpost Artwork */}
+          <div className="flex justify-center lg:justify-end">
+            <div className="relative w-[min(100%,460px)]">
+              <img
+                src={arrowMarker}
+                alt="Directional Signpost: Speaker Area, What is Byte Talks, Past Events"
+                className="w-full h-auto object-contain select-none drop-shadow-[10px_14px_0_rgba(28,36,43,0.22)]"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -224,78 +430,321 @@ function AboutSection() {
 
 function SpeakersSection() {
   return (
-    <section className={`${contentWidth} scroll-mt-8 pt-[7.5rem] max-[820px]:pt-[5.5rem] max-sm:pt-[4.5rem]`} id="speakers">
-      <SectionHeading eyebrow="02 / PEOPLE">SPEAKERS &amp; MENTORS</SectionHeading>
-      <div className="relative mt-10 grid grid-cols-[180px_1fr_auto] items-center gap-8 border border-byte-text bg-byte-surface p-[clamp(1.25rem,4vw,3rem)] shadow-[8px_8px_0_#11141b] max-sm:grid-cols-[68px_1fr] max-sm:gap-4 max-sm:p-5">
-        <div className="grid aspect-square w-[150px] rotate-[-5deg] place-items-center border border-byte-teal bg-[linear-gradient(135deg,#55a8a833,transparent_65%),var(--color-byte-deep)] font-display text-8xl text-byte-teal max-sm:w-[68px] max-sm:text-5xl" aria-hidden="true">?</div>
-        <div>
-          <span className="font-mono text-[.68rem] font-bold uppercase tracking-[.12em] text-byte-teal max-sm:text-[.57rem]">THE LINEUP IS IN PROGRESS</span>
-          <h3 className="my-3 max-w-xl font-display text-[clamp(1.5rem,3vw,2.45rem)] leading-[1.1] tracking-[-.06em] max-sm:text-[1.4rem]">Good conversations start with great people.</h3>
-          <p className="m-0 font-mono text-[.73rem] leading-relaxed text-byte-muted max-sm:text-[.65rem]">Speaker and mentor details will be added here once they are confirmed.</p>
+    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="speakers">
+      {/* Decorative stars */}
+      <span className="sparkle-star absolute right-12 top-10 text-3xl text-[#de432c]/60" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute left-14 top-1/2 text-2xl text-[#1c242b]/30" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-1/4 bottom-12 text-2xl text-[#1c242b]/40" aria-hidden="true">✦</span>
+
+      <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
+        {/* Section Header */}
+        <div className="mb-14">
+          <span className="border-1.5 border-[#1c242b] bg-[#387a5b] px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#1c242b]">
+            SPEAKERS &amp; MENTORS
+          </span>
+          <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black leading-tight text-[#1c242b]">
+            Good conversations start with great people.
+          </h2>
+          <p className="font-mono text-sm font-bold text-[#35464a]">
+            Speaker and mentor details will be announced shortly.
+          </p>
         </div>
-        <span className="self-start font-mono text-[.68rem] font-bold text-byte-coral max-sm:absolute max-sm:right-5 max-sm:top-5">02—</span>
+
+        {/* Staggered Speaker Cards */}
+        <div className="space-y-16 md:space-y-24">
+          {/* Speaker 1: Left */}
+          <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] items-center gap-8 md:gap-12">
+            <div className="border-2 border-[#1c242b] bg-white p-3 shadow-[8px_8px_0_#1c242b]">
+              <div className="overflow-hidden border border-[#1c242b] aspect-square">
+                <img
+                  src={speakerPhoto}
+                  alt="Guest Speaker Portrait"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            </div>
+            <div>
+              <span className="badge-3d-blue px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white">
+                SPEAKER 01
+              </span>
+              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-[#1c242b]">
+                Industry Leader &amp; Tech Architect
+              </h3>
+              <p className="mt-3 font-mono text-sm leading-relaxed text-[#35464a] max-w-xl">
+                Leading engineering initiatives, building resilient distributed systems, and mentoring the next generation of software innovators.
+              </p>
+            </div>
+          </div>
+
+          {/* Speaker 2: Right Staggered */}
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] items-center gap-8 md:gap-12 md:text-right">
+            <div className="order-2 md:order-1">
+              <span className="badge-3d-red px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white">
+                SPEAKER 02
+              </span>
+              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-[#1c242b]">
+                AI &amp; Product Specialist
+              </h3>
+              <p className="mt-3 font-mono text-sm leading-relaxed text-[#35464a] max-w-xl md:ml-auto">
+                Exploring cutting-edge advancements in machine learning, user experiences, and bridging code with real-world human impact.
+              </p>
+            </div>
+            <div className="order-1 md:order-2 border-2 border-[#1c242b] bg-[#de432c] p-6 shadow-[8px_8px_0_#1c242b] bg-dot-pattern-light">
+              <div className="aspect-[3/4] border-2 border-[#1c242b] bg-[#de432c] flex flex-col justify-between p-4 shadow-[4px_4px_0_#1c242b]">
+                <span className="font-mono text-xs font-bold text-white uppercase">BT / 02</span>
+                <div className="flex flex-col items-center">
+                  <div className="size-20 rounded-full border-2 border-[#1c242b] bg-[#1c242b] shadow-[3px_3px_0_#ffffff]" />
+                  <div className="w-32 h-16 rounded-t-full border-2 border-[#1c242b] bg-[#1c242b] -mt-1" />
+                </div>
+                <span className="font-mono text-[0.65rem] font-bold text-white uppercase tracking-widest text-center">ANNOUNCING SOON</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Speaker 3: Left Staggered */}
+          <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] items-center gap-8 md:gap-12">
+            <div className="border-2 border-[#1c242b] bg-[#387a5b] p-6 shadow-[8px_8px_0_#1c242b] bg-dot-pattern-light">
+              <div className="aspect-[3/4] border-2 border-[#1c242b] bg-[#387a5b] flex flex-col justify-between p-4 shadow-[4px_4px_0_#1c242b]">
+                <span className="font-mono text-xs font-bold text-white uppercase">BT / 03</span>
+                <div className="flex flex-col items-center">
+                  <div className="size-20 rounded-full border-2 border-[#1c242b] bg-[#1c242b] shadow-[3px_3px_0_#ffffff]" />
+                  <div className="w-32 h-16 rounded-t-full border-2 border-[#1c242b] bg-[#1c242b] -mt-1" />
+                </div>
+                <span className="font-mono text-[0.65rem] font-bold text-white uppercase tracking-widest text-center">ANNOUNCING SOON</span>
+              </div>
+            </div>
+            <div>
+              <span className="border-1.5 border-[#1c242b] bg-[#387a5b] px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#1c242b]">
+                SPEAKER 03
+              </span>
+              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-[#1c242b]">
+                Open Source &amp; Systems Builder
+              </h3>
+              <p className="mt-3 font-mono text-sm leading-relaxed text-[#35464a] max-w-xl">
+                Passionate about open technologies, community driven software development, and empowering student engineers.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
 function VoicesSection() {
-  const quotes = [
-    { text: 'Stories and reflections from past speakers will appear here.', footer: 'SPEAKER QUOTES COMING SOON', color: 'bg-byte-teal', rotate: '-rotate-1' },
-    { text: 'We’re gathering the moments that made previous talks memorable.', footer: 'BYTE TALKS COMMUNITY', color: 'bg-byte-coral', rotate: 'rotate-1 translate-y-2' },
-    { text: 'Have a story to share? Join us at the next conversation.', footer: 'SEE YOU ON CAMPUS', color: 'bg-byte-text', rotate: '-rotate-1' },
+  const stickyNotes = [
+    {
+      text: "Stories and reflections from past speakers will appear here.",
+      footer: "SPEAKER QUOTES COMING SOON",
+      bg: "bg-[#58A4B0]",
+      rotate: "-rotate-2",
+      textColor: "text-[#1c242b]",
+    },
+    {
+      text: "We’re gathering the moments that made previous talks memorable.",
+      footer: "BYTE TALKS COMMUNITY",
+      bg: "bg-[#de432c]",
+      rotate: "rotate-2",
+      textColor: "text-white",
+    },
+    {
+      text: "Have a story to share? Join us at the next conversation.",
+      footer: "SEE YOU ON CAMPUS",
+      bg: "bg-[#1c242b]",
+      rotate: "-rotate-1",
+      textColor: "text-white",
+    },
+    {
+      text: "Incredible energy from students and mentors alike across AKGEC.",
+      footer: "AKGEC TECH COMMUNITY",
+      bg: "bg-[#387A5B]",
+      rotate: "rotate-1",
+      textColor: "text-white",
+    },
+    {
+      text: "Looking forward to another round of groundbreaking ideas and discussions.",
+      footer: "BYTE TALKS 2026",
+      bg: "bg-[#E35242]",
+      rotate: "-rotate-2",
+      textColor: "text-white",
+    },
   ];
 
   return (
-    <section className={`${contentWidth} pt-[7.5rem] max-[820px]:pt-[5.5rem] max-sm:pt-[4.5rem]`}>
-      <SectionHeading eyebrow="03 / COMMUNITY">VOICES FROM PAST SPEAKERS</SectionHeading>
-      <div className="mt-10 grid grid-cols-3 gap-4 max-sm:grid-cols-1 max-sm:gap-6">
-        {quotes.map((quote) => (
-          <blockquote className={`flex min-h-[235px] flex-col justify-between border border-[#11141b] p-6 text-[#11141b] shadow-[5px_5px_0_#11141b] ${quote.color} ${quote.rotate} max-sm:min-h-[185px] max-sm:rotate-0`} key={quote.footer}>
-            <span className="font-serif text-6xl leading-[.8]" aria-hidden="true">“</span>
-            <p className="my-5 font-display text-[1.2rem] leading-snug tracking-[-.04em]">{quote.text}</p>
-            <footer className="font-mono text-[.55rem] font-bold tracking-wide">{quote.footer}</footer>
-          </blockquote>
-        ))}
+    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b] overflow-hidden">
+      {/* Decorative sparkle stars */}
+      <span className="sparkle-star absolute right-16 top-10 text-3xl text-[#1c242b]/40" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-1/3 bottom-12 text-2xl text-[#de432c]/50" aria-hidden="true">✦</span>
+
+      <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
+        {/* Sticky Notes Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start mb-16">
+          {stickyNotes.map((note) => (
+            <div
+              key={note.footer}
+              className={`border-2 border-[#1c242b] p-6 shadow-[6px_6px_0_#1c242b] transition-transform hover:scale-105 hover:z-10 ${note.bg} ${note.rotate} ${note.textColor}`}
+            >
+              <span className="font-serif text-5xl leading-none opacity-40 select-none block" aria-hidden="true">“</span>
+              <p className="my-4 font-display text-[1.18rem] md:text-[1.28rem] font-bold leading-snug">
+                {note.text}
+              </p>
+              <div className="border-t border-current/25 pt-3 mt-4 font-mono text-[0.68rem] font-bold tracking-wider">
+                {note.footer}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Microphone with boom arm asset anchored at bottom-left */}
+        <div className="relative -ml-6 md:-ml-12 max-w-[280px] md:max-w-[340px]">
+          <img
+            src={micAsset}
+            alt="Microphone asset"
+            className="w-full h-auto object-contain select-none drop-shadow-[8px_8px_0_rgba(28,36,43,0.18)]"
+          />
+        </div>
       </div>
     </section>
   );
 }
 
 function PreviousEventsSection() {
+  const previousEvents = [
+    {
+      edition: 'EDITION 2024',
+      name: 'BYTE TALKS 1.0',
+      badge: 'BT-24',
+      topColor: 'bg-[#387A5B]',
+    },
+    {
+      edition: 'EDITION 2025',
+      name: 'BYTE TALKS 2.0',
+      badge: 'BT-25',
+      topColor: 'bg-[#de432c]',
+    },
+    {
+      edition: 'EDITION 2025.2',
+      name: 'BYTE TALKS 2.5',
+      badge: 'BT-25.2',
+      topColor: 'bg-[#58A4B0]',
+    },
+  ];
+
   return (
-    <section className={`${contentWidth} pt-[7.5rem] max-[820px]:pt-[5.5rem] max-sm:pt-[4.5rem]`}>
-      <SectionHeading eyebrow="04 / THE ARCHIVE">PREVIOUS EVENTS</SectionHeading>
-      <div className="relative mt-10 grid min-h-[220px] grid-cols-[120px_1fr_auto] items-center gap-8 overflow-hidden border border-byte-text bg-byte-surface p-[clamp(1.25rem,4vw,3rem)] shadow-[8px_8px_0_#11141b] after:absolute after:bottom-[-90px] after:right-[12%] after:h-[190px] after:w-[250px] after:rounded-[50%] after:border after:border-byte-teal/30 after:content-[''] max-sm:grid-cols-[66px_1fr] max-sm:gap-4 max-sm:p-5">
-        <div className="grid size-[105px] rotate-[-12deg] place-content-center rounded-full border-2 border-dashed border-byte-coral text-center font-mono text-[.7rem] font-bold leading-relaxed text-byte-coral max-sm:size-[66px] max-sm:text-[.5rem]">ARCHIVE<br />LOADING</div>
-        <div>
-          <span className="font-mono text-[.68rem] font-bold uppercase tracking-[.12em] text-byte-teal max-sm:text-[.57rem]">A LOOK BACK</span>
-          <h3 className="my-3 max-w-xl font-display text-[clamp(1.5rem,3vw,2.45rem)] leading-[1.1] tracking-[-.06em] max-sm:text-[1.4rem]">More moments. More makers. More to come.</h3>
-          <p className="m-0 font-mono text-[.73rem] leading-relaxed text-byte-muted max-sm:text-[.65rem]">Previous-event highlights will be added when the archive is ready.</p>
+    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]">
+      <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
+        {/* Section Header */}
+        <div className="mb-12">
+          <span className="badge-3d-blue px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white">
+            04 / THE ARCHIVE
+          </span>
+          <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black text-[#1c242b]">
+            PREVIOUS EVENTS
+          </h2>
         </div>
-        <span className="relative z-[1] self-start font-mono text-[.68rem] font-bold text-byte-teal max-sm:absolute max-sm:right-5 max-sm:top-5">BT—26</span>
+
+        {/* 3 Archive Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {previousEvents.map((event) => (
+            <div
+              key={event.name}
+              className="border-2 border-[#1c242b] overflow-hidden shadow-[8px_8px_0_#1c242b] transition-transform hover:-translate-y-1"
+            >
+              {/* Top Colorful Header */}
+              <div className={`${event.topColor} p-6 border-b-2 border-[#1c242b] bg-dot-pattern-light flex justify-between items-start min-h-[140px]`}>
+                <span className="badge-3d-red px-2 py-0.5 font-mono text-[0.6rem] font-bold uppercase text-white">
+                  {event.badge}
+                </span>
+              </div>
+              {/* Bottom Dark Navy Body */}
+              <div className="bg-[#202734] p-6 text-white">
+                <span className="font-mono text-[0.65rem] font-bold uppercase tracking-wider text-[#55a8a8]">
+                  {event.edition}
+                </span>
+                <h3 className="mt-2 font-display text-2xl font-black tracking-tight text-white">
+                  {event.name}
+                </h3>
+                <button
+                  type="button"
+                  className="mt-6 inline-flex items-center gap-2 border border-white/30 bg-[#2a3446] px-4 py-2 font-mono text-[0.72rem] font-bold uppercase tracking-wider text-white shadow-[3px_3px_0_#000] hover:bg-[#344158] transition-colors"
+                >
+                  SEE DETAILS <ArrowUpRight size={14} aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
 function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const toggleFaq = (index: number) => {
+    setOpenIndex((prev) => (prev === index ? null : index));
+  };
+
   return (
-    <section className={`${contentWidth} pt-[7.5rem] max-[820px]:pt-[5.5rem] max-sm:pt-[4.5rem]`} id="faq">
-      <SectionHeading eyebrow="05 / GOOD TO KNOW">FREQUENTLY ASKED QUESTIONS</SectionHeading>
-      <div className="my-10 border-t border-byte-line">
-        {faqs.map((faq, index) => (
-          <details className="border-b border-byte-line [&[open]>summary>span:last-child]:rotate-45" key={faq.question}>
-            <summary className="grid min-h-[66px] cursor-pointer grid-cols-[50px_1fr_24px] items-center gap-3 font-mono text-[.78rem] font-bold marker:hidden focus-visible:outline-3 focus-visible:outline-byte-yellow max-sm:grid-cols-[32px_1fr_24px] max-sm:text-[.68rem]">
-              <span className="font-mono text-[.65rem] text-byte-teal">0{index + 1}</span>
-              <span>{faq.question}</span>
-              <span className="grid size-6 place-items-center border border-byte-coral text-base text-byte-coral transition-transform group-open:rotate-45" aria-hidden="true">+</span>
-            </summary>
-            <p className="mb-6 ml-[3.1rem] mr-12 mt-0 max-w-[760px] font-mono text-[.72rem] leading-[1.85] text-byte-muted max-sm:mb-5 max-sm:ml-8 max-sm:mr-4 max-sm:text-[.66rem]">{faq.answer}</p>
-          </details>
-        ))}
+    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="faq">
+      <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
+        <div className="mb-10">
+          <span className="badge-3d-red px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white">
+            05 / GOOD TO KNOW
+          </span>
+          <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black text-[#1c242b]">
+            FREQUENTLY ASKED QUESTIONS
+          </h2>
+        </div>
+
+        {/* Accordion List */}
+        <div className="space-y-4 max-w-4xl">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <div
+                key={faq.question}
+                className="border-2 border-[#1c242b] bg-[#202734] shadow-[5px_5px_0_#1c242b] transition-all"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleFaq(index)}
+                  className="w-full text-left p-5 md:p-6 flex items-center justify-between gap-4 font-mono text-[0.88rem] md:text-[0.98rem] font-bold text-white"
+                  aria-expanded={isOpen}
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="font-mono text-[0.75rem] font-bold text-[#de432c]">
+                      0{index + 1}
+                    </span>
+                    <span>{faq.question}</span>
+                  </div>
+                  <ChevronRight
+                    size={20}
+                    className={`shrink-0 text-[#de432c] transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
+                    aria-hidden="true"
+                  />
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-6 pt-1 font-mono text-[0.82rem] leading-relaxed text-white/80 border-t border-white/10">
+                    <p className="m-0 pl-8">{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-10">
+          <a
+            href="#register"
+            className="btn-3d-red inline-flex items-center gap-2 px-6 py-3.5 font-mono text-[0.82rem] font-bold uppercase tracking-wider no-underline"
+          >
+            <span>HAVE A QUESTION? REGISTER YOUR INTEREST</span>
+            <ArrowUpRight size={16} aria-hidden="true" />
+          </a>
+        </div>
       </div>
-      <a className={buttonStyle} href="#register">Have a question? Register your interest <ArrowUpRight size={16} aria-hidden="true" /></a>
     </section>
   );
 }
@@ -545,37 +994,142 @@ function RegistrationSection() {
 
 function EventFooter() {
   return (
-    <footer className="border-t border-byte-line bg-byte-deep">
-      <div className={`${contentWidth} grid grid-cols-[1.2fr_1.4fr_.7fr_1fr] items-start gap-8 py-14 max-[820px]:grid-cols-2 max-sm:gap-x-4 max-sm:gap-y-7 max-sm:py-10`}>
-        <a className="inline-flex items-center gap-2.5 whitespace-nowrap font-display text-base tracking-[-.04em]" href="#home">
-          <span className="grid size-7 place-items-center border border-byte-text bg-byte-teal text-lg leading-none text-[#10131a]">B</span>
-          <span>BYTE TALKS</span>
-        </a>
-        <p className="m-0 font-mono text-[.65rem] leading-relaxed text-byte-muted max-sm:col-span-full max-sm:row-start-2">One campus. Many perspectives.<br />See you on 30 October 2026.</p>
-        <div className="grid gap-3 font-mono text-[.58rem]">
-          <a className="transition-colors hover:text-byte-yellow" href="#about">ABOUT</a>
-          <a className="transition-colors hover:text-byte-yellow" href="#faq">FAQ</a>
-          <a className="transition-colors hover:text-byte-yellow" href="#register">REGISTER</a>
+    <footer className="relative w-full bg-[#13171e] text-white pt-16 overflow-hidden border-t-2 border-[#1c242b]">
+      <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
+        {/* Top Footer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr] gap-10 pb-16 border-b border-white/10">
+          {/* Brand & info */}
+          <div>
+            <div className="inline-flex items-center gap-3">
+              <span 
+                className="block size-6 shrink-0 border-[1.5px] border-white/40 bg-[#de432c] shadow-[2px_2px_0_#ffffff]" 
+                aria-hidden="true" 
+              />
+              <span className="font-display text-xl font-black text-white tracking-tight">
+                BYTE TALKS
+              </span>
+            </div>
+            <p className="mt-4 font-mono text-[0.8rem] leading-relaxed text-white/70 max-w-sm">
+              One campus. Many perspectives.<br />
+              Ajay Kumar Garg Engineering College, Ghaziabad.<br />
+              See you on 30 October 2026.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <span className="font-mono text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8] block mb-4">
+              QUICK LINKS
+            </span>
+            <div className="flex flex-col space-y-2.5 font-mono text-[0.82rem]">
+              <a className="text-white/80 hover:text-[#de432c] transition-colors" href="#about">About The Event</a>
+              <a className="text-white/80 hover:text-[#de432c] transition-colors" href="#speakers">Speakers &amp; Mentors</a>
+              <a className="text-white/80 hover:text-[#de432c] transition-colors" href="#faq">Frequently Asked Questions</a>
+              <a className="text-white/80 hover:text-[#de432c] transition-colors" href="#register">Register Now</a>
+            </div>
+          </div>
+
+          {/* Social */}
+          <div>
+            <span className="font-mono text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8] block mb-4">
+              CONNECT
+            </span>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://www.instagram.com/gdg_akgec/"
+                target="_blank"
+                rel="noreferrer"
+                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all"
+                aria-label="Instagram"
+              >
+                <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all"
+                target="_blank"
+                rel="noreferrer"
+                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all"
+                aria-label="LinkedIn"
+              >
+                <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </a>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noreferrer"
+                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all"
+                aria-label="GitHub"
+              >
+                <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noreferrer"
+                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all"
+                aria-label="Twitter / X"
+              >
+                <svg className="size-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="grid gap-3 font-mono text-[.58rem]">
-          <a className="inline-flex items-center gap-1 transition-colors hover:text-byte-yellow" href="https://www.instagram.com/gdg_akgec/" target="_blank" rel="noreferrer">INSTAGRAM <ArrowUpRight size={13} aria-hidden="true" /></a>
-          <a className="inline-flex items-center gap-1 transition-colors hover:text-byte-yellow" href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all" target="_blank" rel="noreferrer">LINKEDIN <ArrowUpRight size={13} aria-hidden="true" /></a>
+
+        {/* Massive Outlined Retro Typography */}
+        <div className="pt-10 pb-6 text-center select-none overflow-hidden">
+          <div className="text-stroke-footer font-display text-[clamp(4.2rem,15vw,12.5rem)] font-black leading-none whitespace-nowrap">
+            BYTE TALKS
+          </div>
         </div>
       </div>
-      <div className={`${contentWidth} flex justify-between gap-4 border-t border-byte-line/40 py-4 font-mono text-[.55rem] text-byte-muted`}>
-        <span>BYTE TALKS · AKGEC</span><a href="#home">BACK TO TOP ↑</a>
-      </div>
+
+      {/* Red accent bottom bar */}
+      <div className="h-3 w-full bg-[#de432c]" />
     </footer>
   );
 }
 
 export function ByteTalksPortal() {
   return (
-    <main className="min-h-screen overflow-hidden bg-byte-page font-mono text-byte-text selection:bg-byte-coral selection:text-[#11141b]">
-      <a className="fixed left-3 top-3 z-[100] -translate-y-[160%] bg-byte-text px-4 py-3 text-byte-page focus:translate-y-0" href="#main-content">Skip to content</a>
-      <EventHeader />
-      <div id="main-content">
+    <main className="min-h-screen overflow-hidden bg-white font-mono text-[#1c242b] selection:bg-[#de432c] selection:text-white">
+      <a className="fixed left-3 top-3 z-[100] -translate-y-[160%] bg-[#1c242b] px-4 py-3 text-white focus:translate-y-0" href="#main-content">
+        Skip to content
+      </a>
+      
+      {/* Top Hero & Header Container with Mint Teal Grid & Bottom White Divide */}
+      <div className="relative overflow-hidden bg-[#B4DDD7]">
+        {/* Continuous Graph Grid across the entire upper section */}
+        <div 
+          className="pointer-events-none absolute inset-x-0 top-0 bottom-[200px] md:bottom-[260px] lg:bottom-[320px] bg-[linear-gradient(#1c242b1a_1px,transparent_1px),linear-gradient(90deg,#1c242b1a_1px,transparent_1px)] bg-[size:38px_38px]" 
+          aria-hidden="true" 
+        />
+        {/* Crisp White Canvas starting right behind the campus sticker */}
+        <div 
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[200px] md:h-[260px] lg:h-[320px] bg-white border-t border-[#1c242b]/15" 
+          aria-hidden="true" 
+        />
+        
+        <EventHeader />
         <EventHero />
+      </div>
+
+      {/* Event Info Bar & Stats Strip */}
+      <EventInfoBar />
+      <StatsBar />
+
+      <div id="main-content">
         <AboutSection />
         <SpeakersSection />
         <VoicesSection />
