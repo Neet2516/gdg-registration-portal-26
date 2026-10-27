@@ -461,3 +461,23 @@ html.lenis, html.lenis body {
   content-visibility: auto;
   contain-intrinsic-size: 1px 700px;
 }
+
+/* Print Ticket Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-ticket,
+  #printable-ticket * {
+    visibility: visible;
+  }
+  #printable-ticket {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+}
