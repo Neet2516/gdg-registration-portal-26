@@ -1,5 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import { ArrowUpRight, CheckCircle2, ChevronRight, LoaderCircle, Menu, X } from 'lucide-react';
 import campusIllustration from '../assets/images/byte-talks/raw-05.png';
 import compassIllustration from '../assets/images/byte-talks/compass.svg';
@@ -66,6 +69,37 @@ function getEventCountdown() {
   return `${String(days).padStart(2, '0')} DAYS TO GO`;
 }
 
+function useLiveCountdown() {
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const target = new Date('2026-10-30T16:00:00+05:30').getTime();
+    const now = Date.now();
+    const diff = Math.max(0, target - now);
+    return {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+      minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+      seconds: Math.floor((diff % (1000 * 60)) / 1000),
+    };
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const target = new Date('2026-10-30T16:00:00+05:30').getTime();
+      const now = Date.now();
+      const diff = Math.max(0, target - now);
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return timeLeft;
+}
+
 function validateForm(values: FormValues): FormErrors {
   const errors: FormErrors = {};
 
@@ -104,17 +138,24 @@ function EventHeader() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className="relative z-20 w-full pt-6 pb-2">
+    <motion.header 
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      className="relative z-30 w-full pt-6 pb-2"
+    >
       <div className="mx-auto flex w-[min(1320px,calc(100%-48px))] items-center justify-between max-sm:w-[calc(100%-32px)]">
         {/* Brand */}
         <a 
-          className="inline-flex items-center gap-3 no-underline group" 
+          className="inline-flex items-center gap-3 no-underline group cursor-pointer" 
           href="#home" 
           onClick={closeMenu} 
           aria-label="BYTE TALKS home"
         >
-          <span 
-            className="block size-6 shrink-0 border-[1.5px] border-[#1c242b] bg-[#de432c] shadow-[2px_2px_0_#1c242b] transition-transform group-hover:scale-105" 
+          <motion.span 
+            whileHover={{ scale: 1.15, rotate: 4 }}
+            whileTap={{ scale: 0.95 }}
+            className="block size-6 shrink-0 border-[1.5px] border-[#1c242b] bg-[#de432c] shadow-[2px_2px_0_#1c242b]" 
             aria-hidden="true" 
           />
           <div className="flex flex-col">
@@ -128,15 +169,16 @@ function EventHeader() {
         </a>
 
         {/* Mobile toggle */}
-        <button
-          className="hidden border-2 border-[#1c242b] bg-white p-2 text-[#1c242b] shadow-[3px_3px_0_#1c242b] focus-visible:outline-2 max-md:inline-flex"
+        <motion.button
+          whileTap={{ scale: 0.92 }}
+          className="hidden border-2 border-[#1c242b] bg-white p-2 text-[#1c242b] shadow-[3px_3px_0_#1c242b] focus-visible:outline-2 max-md:inline-flex cursor-pointer"
           type="button"
           aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((open) => !open)}
         >
           {menuOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
+        </motion.button>
 
         {/* Links */}
         <nav
@@ -166,21 +208,43 @@ function EventHeader() {
           >
             Mentors
           </a>
-          <a 
-            className="btn-3d-red inline-flex items-center justify-center px-4 py-1.5 font-mono text-[0.8rem] font-bold uppercase tracking-wider text-white no-underline max-md:mt-3" 
+          <motion.a 
+            whileHover={{ x: -2, y: -2 }}
+            whileTap={{ x: 2, y: 2 }}
+            className="btn-3d-red inline-flex items-center justify-center px-4 py-1.5 font-mono text-[0.8rem] font-bold uppercase tracking-wider text-white no-underline max-md:mt-3 cursor-pointer" 
             href="#register" 
             onClick={closeMenu}
           >
             REGISTER
-          </a>
+          </motion.a>
         </nav>
       </div>
-    </header>
+    </motion.header>
   );
 }
 
 function EventHero() {
   const countdown = useMemo(getEventCountdown, []);
+
+  const heroVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.05,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.55, ease: 'easeOut' as const },
+    },
+  };
 
   return (
     <section 
@@ -192,82 +256,123 @@ function EventHero() {
         {/* Two-column Hero Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[1.12fr_0.88fr] items-start gap-8 lg:gap-10">
           {/* Left Column */}
-          <div className="relative z-10">
+          <motion.div 
+            variants={heroVariants}
+            initial="hidden"
+            animate="visible"
+            className="relative z-10"
+          >
             {/* Badges */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="badge-3d-red px-2.5 py-0.5 font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-wider text-white">
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2.5">
+              <span className="badge-3d-red px-2.5 py-0.5 font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-wider text-white inline-flex items-center gap-1.5">
+                <span className="size-1.5 rounded-full bg-white animate-pulse" />
                 REGISTRATION OPEN
               </span>
               <span className="badge-3d-blue px-2.5 py-0.5 font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-wider text-white">
                 AKGEC • GHAZIABAD
               </span>
-            </div>
+            </motion.div>
 
             {/* Giant 3D Typography */}
             <h1 id="bt-title" className="mt-4 mb-2 flex flex-col font-display font-black leading-[0.82] uppercase select-none">
-              <span className="hero-3d-red text-[clamp(4.8rem,11.2vw,9.4rem)] tracking-tight">
+              <motion.span 
+                initial={{ opacity: 0, x: -35 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                className="hero-3d-red text-[clamp(4.8rem,11.2vw,9.4rem)] tracking-tight block"
+              >
                 BYTE
-              </span>
-              <span className="hero-3d-yellow text-[clamp(4.8rem,11.2vw,9.4rem)] tracking-tight -mt-2 md:-mt-3">
+              </motion.span>
+              <motion.span 
+                initial={{ opacity: 0, x: -35 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.65, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                className="hero-3d-yellow text-[clamp(4.8rem,11.2vw,9.4rem)] tracking-tight -mt-2 md:-mt-3 block"
+              >
                 TALKS
-              </span>
-              <div className="hero-2026-box px-6 py-1.5 md:px-7 md:py-2 mt-3 md:mt-4 w-fit">
+              </motion.span>
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.88, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.28, type: 'spring', stiffness: 200, damping: 16 }}
+                className="hero-2026-box px-6 py-1.5 md:px-7 md:py-2 mt-3 md:mt-4 w-fit"
+              >
                 <span className="text-white text-[clamp(2.8rem,6.8vw,5.5rem)] font-display font-black leading-none tracking-tight block">
                   2026
                 </span>
-              </div>
+              </motion.div>
             </h1>
 
             {/* Tagline */}
-            <div className="my-5 font-mono font-bold text-[1.25rem] md:text-[1.4rem] text-[#1c242b] leading-snug">
-              <p className="m-0">Event tagline</p>
-              <p className="m-0 mt-0.5">.</p>
-            </div>
+            <motion.div variants={itemVariants} className="my-5 font-mono font-bold text-[1.25rem] md:text-[1.4rem] text-[#1c242b] leading-snug">
+              <p className="m-0">Connect · Inspire · Grow</p>
+              <p className="m-0 mt-0.5 text-xs font-semibold tracking-wider uppercase text-[#1c242b]/70">The premier technical forum at AKGEC Ghaziabad.</p>
+            </motion.div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-1 mb-8">
-              <a 
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 pt-1 mb-8">
+              <motion.a 
                 href="#register" 
-                className="btn-3d-red inline-flex items-center gap-3 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline"
+                whileHover={{ x: -2, y: -2 }}
+                whileTap={{ x: 2, y: 2 }}
+                className="btn-3d-red inline-flex items-center gap-3 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline cursor-pointer"
               >
                 <span>REGISTER NOW</span>
                 <span className="text-base leading-none" aria-hidden="true">→</span>
-              </a>
-              <a 
+              </motion.a>
+              <motion.a 
                 href="#about" 
-                className="btn-3d-white inline-flex items-center gap-2 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline"
+                whileHover={{ x: -2, y: -2 }}
+                whileTap={{ x: 2, y: 2 }}
+                className="btn-3d-white inline-flex items-center gap-2 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline cursor-pointer"
               >
                 SEE DETAILS
-              </a>
-            </div>
-          </div>
+              </motion.a>
+            </motion.div>
+          </motion.div>
 
           {/* Right Column: Compass Dial Clock Artwork */}
-          <div className="relative z-10 flex justify-center lg:justify-end -mt-2 lg:-mt-10">
-            <div className="w-[min(100%,540px)] max-lg:max-w-[440px]">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.92, rotate: -4 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-10 flex justify-center lg:justify-end -mt-2 lg:-mt-10"
+          >
+            <motion.div 
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
+              className="w-[min(100%,540px)] max-lg:max-w-[440px]"
+            >
               <img
                 src={compassIllustration}
                 alt={`BYTE TALKS countdown clock: ${countdown}`}
                 className="w-full h-auto object-contain select-none drop-shadow-[8px_8px_0px_rgba(28,36,43,0.18)]"
               />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
 
         {/* Campus Sticker Illustration positioned at bottom left-to-center */}
-        <div className="relative z-20 -mt-8 sm:-mt-16 md:-mt-26 lg:-mt-40 w-[min(98%,880px)] lg:w-[68%] -ml-1 sm:-ml-3 lg:-ml-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 35 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="relative z-20 -mt-8 sm:-mt-16 md:-mt-26 lg:-mt-40 w-[min(98%,880px)] lg:w-[68%] -ml-1 sm:-ml-3 lg:-ml-6"
+        >
           <img
             src={campusIllustration}
             alt="Illustrated AKGEC Campus Sticker"
             className="w-full h-auto object-contain select-none drop-shadow-[8px_14px_0px_rgba(28,36,43,0.25)]"
           />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
 function EventInfoBar() {
+  const timeLeft = useLiveCountdown();
+
   return (
     <div className="relative z-20 w-full bg-[#13171e] text-white">
       {/* Retro diagonal striped hazard/accent line */}
@@ -306,22 +411,39 @@ function EventInfoBar() {
           </strong>
         </div>
 
-        {/* Countdown */}
+        {/* Live Countdown */}
         <div>
-          <span className="block font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8] mb-1.5">
+          <span className="font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8] mb-1.5 flex items-center gap-1.5">
+            <span className="size-1.5 rounded-full bg-[#de432c] animate-ping" />
             REGISTRATION CLOSES IN
           </span>
-          <div className="flex items-center gap-2">
-            <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
-              07
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <div className="flex flex-col items-center">
+              <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
+                {String(timeLeft.days).padStart(2, '0')}
+              </div>
+              <span className="font-mono text-[0.55rem] font-bold text-white/60 mt-0.5">DAYS</span>
             </div>
-            <span className="font-mono text-xs font-bold text-white/70">:</span>
-            <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
-              12
+            <span className="font-mono text-xs font-bold text-white/70 -mt-3">:</span>
+            <div className="flex flex-col items-center">
+              <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
+                {String(timeLeft.hours).padStart(2, '0')}
+              </div>
+              <span className="font-mono text-[0.55rem] font-bold text-white/60 mt-0.5">HRS</span>
             </div>
-            <span className="font-mono text-xs font-bold text-white/70">:</span>
-            <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
-              35
+            <span className="font-mono text-xs font-bold text-white/70 -mt-3">:</span>
+            <div className="flex flex-col items-center">
+              <div className="grid place-content-center size-9 md:size-10 bg-white text-[#1c242b] border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
+                {String(timeLeft.minutes).padStart(2, '0')}
+              </div>
+              <span className="font-mono text-[0.55rem] font-bold text-white/60 mt-0.5">MIN</span>
+            </div>
+            <span className="font-mono text-xs font-bold text-white/70 -mt-3">:</span>
+            <div className="flex flex-col items-center">
+              <div className="grid place-content-center size-9 md:size-10 bg-[#de432c] text-white border-2 border-[#1c242b] font-display font-black text-base md:text-lg shadow-[2px_2px_0_#1c242b]">
+                {String(timeLeft.seconds).padStart(2, '0')}
+              </div>
+              <span className="font-mono text-[0.55rem] font-bold text-[#de432c] mt-0.5">SEC</span>
             </div>
           </div>
         </div>
@@ -331,25 +453,38 @@ function EventInfoBar() {
 }
 
 function StatsBar() {
+  const stats = [
+    { value: '04', label: 'DAYS' },
+    { value: '04', label: 'SPEAKERS' },
+    { value: '65', label: 'MIN PER TALK' },
+    { value: '200', label: 'SEATS ONLY' },
+  ];
+
   return (
     <div className="relative z-20 w-full border-y-2 border-[#1c242b] bg-[#de432c] text-white">
       <div className="mx-auto grid w-[min(1320px,calc(100%-48px))] grid-cols-2 md:grid-cols-4 max-sm:w-[calc(100%-32px)]">
-        <div className="border-r-2 border-[#1c242b] py-6 px-4 text-center max-sm:border-b-2">
-          <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white">04</div>
-          <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">DAYS</div>
-        </div>
-        <div className="border-r-0 md:border-r-2 border-[#1c242b] py-6 px-4 text-center max-sm:border-b-2">
-          <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white">04</div>
-          <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">SPEAKERS</div>
-        </div>
-        <div className="border-r-2 border-[#1c242b] py-6 px-4 text-center">
-          <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white">65</div>
-          <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">MIN PER TALK</div>
-        </div>
-        <div className="py-6 px-4 text-center">
-          <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white">200</div>
-          <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">SEATS ONLY</div>
-        </div>
+        {stats.map((s, idx) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: idx * 0.1 }}
+            whileHover={{ scale: 1.03 }}
+            className={`py-6 px-4 text-center transition-all ${
+              idx % 2 === 0 ? 'border-r-2 border-[#1c242b]' : ''
+            } ${idx === 1 ? 'md:border-r-2 md:border-[#1c242b]' : ''} ${
+              idx === 0 || idx === 1 ? 'max-sm:border-b-2 max-sm:border-[#1c242b]' : ''
+            }`}
+          >
+            <div className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-none text-white tracking-tight">
+              {s.value}
+            </div>
+            <div className="mt-1 font-mono text-[0.72rem] md:text-[0.78rem] font-bold uppercase tracking-wider text-white/90">
+              {s.label}
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
@@ -358,17 +493,46 @@ function StatsBar() {
 function AboutSection() {
   return (
     <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="about">
-      {/* Decorative sparkle stars */}
-      <span className="sparkle-star absolute left-8 top-12 text-2xl text-[#1c242b]/40" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute right-16 top-20 text-3xl text-[#1c242b]/30" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute left-1/4 bottom-10 text-xl text-[#de432c]/50" aria-hidden="true">✦</span>
+      {/* Decorative sparkle stars with subtle twinkle animation */}
+      <motion.span 
+        animate={{ scale: [1, 1.25, 1], opacity: [0.35, 0.75, 0.35] }} 
+        transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+        className="sparkle-star absolute left-8 top-12 text-2xl text-[#1c242b]/40 select-none" 
+        aria-hidden="true"
+      >
+        ✦
+      </motion.span>
+      <motion.span 
+        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.7, 0.3] }} 
+        transition={{ repeat: Infinity, duration: 5, delay: 1, ease: 'easeInOut' }}
+        className="sparkle-star absolute right-16 top-20 text-3xl text-[#1c242b]/30 select-none" 
+        aria-hidden="true"
+      >
+        ✦
+      </motion.span>
+      <motion.span 
+        animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.85, 0.4] }} 
+        transition={{ repeat: Infinity, duration: 3.5, delay: 0.5, ease: 'easeInOut' }}
+        className="sparkle-star absolute left-1/4 bottom-10 text-xl text-[#de432c]/50 select-none" 
+        aria-hidden="true"
+      >
+        ✦
+      </motion.span>
 
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-12 lg:gap-16">
           {/* Left: Vintage Tech Poster Card & Overview */}
-          <div>
-            {/* Vintage Tech Poster Card */}
-            <div className="relative mb-8 max-w-[420px] border-2 border-[#1c242b] bg-[#141b27] p-6 shadow-[8px_8px_0_#1c242b]">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Vintage Tech Poster Card with Neo-brutalist hover lift */}
+            <motion.div 
+              whileHover={{ y: -4, boxShadow: '12px 12px 0px #1c242b' }}
+              className="relative mb-8 max-w-[420px] border-2 border-[#1c242b] bg-[#141b27] p-6 shadow-[8px_8px_0_#1c242b] transition-all cursor-default"
+            >
               <div className="mb-4 flex items-center justify-between border-b border-white/20 pb-3 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-[#55a8a8]">
                 <span>SPECIAL EDITION</span>
                 <span>AKGEC CAMPUS</span>
@@ -392,7 +556,7 @@ function AboutSection() {
                   CSIT HALL
                 </span>
               </div>
-            </div>
+            </motion.div>
 
             {/* Badges */}
             <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -410,18 +574,28 @@ function AboutSection() {
             <p className="font-mono text-[0.88rem] md:text-[0.94rem] leading-relaxed text-[#35464a] max-w-xl">
               BYTE TALKS brings the campus community together around technology and creativity. Join us at AKGEC for an afternoon of learning, sharing, and connecting with builders and thinkers.
             </p>
-          </div>
+          </motion.div>
 
-          {/* Right: Directional Signpost Artwork */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative w-[min(100%,460px)]">
+          {/* Right: Directional Signpost Artwork with floating animation */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="flex justify-center lg:justify-end"
+          >
+            <motion.div 
+              animate={{ y: [0, -8, 0], rotate: [0, 0.5, 0] }}
+              transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
+              className="relative w-[min(100%,460px)]"
+            >
               <img
                 src={arrowMarker}
                 alt="Directional Signpost: Speaker Area, What is Byte Talks, Past Events"
                 className="w-full h-auto object-contain select-none drop-shadow-[10px_14px_0_rgba(28,36,43,0.22)]"
               />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -432,13 +606,19 @@ function SpeakersSection() {
   return (
     <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="speakers">
       {/* Decorative stars */}
-      <span className="sparkle-star absolute right-12 top-10 text-3xl text-[#de432c]/60" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute left-14 top-1/2 text-2xl text-[#1c242b]/30" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute right-1/4 bottom-12 text-2xl text-[#1c242b]/40" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-12 top-10 text-3xl text-[#de432c]/60 select-none" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute left-14 top-1/2 text-2xl text-[#1c242b]/30 select-none" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-1/4 bottom-12 text-2xl text-[#1c242b]/40 select-none" aria-hidden="true">✦</span>
 
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         {/* Section Header */}
-        <div className="mb-14">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="mb-14"
+        >
           <span className="border-1.5 border-[#1c242b] bg-[#387a5b] px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#1c242b]">
             SPEAKERS &amp; MENTORS
           </span>
@@ -448,21 +628,30 @@ function SpeakersSection() {
           <p className="font-mono text-sm font-bold text-[#35464a]">
             Speaker and mentor details will be announced shortly.
           </p>
-        </div>
+        </motion.div>
 
         {/* Staggered Speaker Cards */}
         <div className="space-y-16 md:space-y-24">
           {/* Speaker 1: Left */}
-          <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] items-center gap-8 md:gap-12">
-            <div className="border-2 border-[#1c242b] bg-white p-3 shadow-[8px_8px_0_#1c242b]">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 md:grid-cols-[320px_1fr] items-center gap-8 md:gap-12"
+          >
+            <motion.div 
+              whileHover={{ y: -4, boxShadow: '12px 12px 0px #1c242b' }}
+              className="border-2 border-[#1c242b] bg-white p-3 shadow-[8px_8px_0_#1c242b] transition-all cursor-default"
+            >
               <div className="overflow-hidden border border-[#1c242b] aspect-square">
                 <img
                   src={speakerPhoto}
                   alt="Guest Speaker Portrait"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105"
                 />
               </div>
-            </div>
+            </motion.div>
             <div>
               <span className="badge-3d-blue px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white">
                 SPEAKER 01
@@ -474,10 +663,16 @@ function SpeakersSection() {
                 Leading engineering initiatives, building resilient distributed systems, and mentoring the next generation of software innovators.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Speaker 2: Right Staggered */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] items-center gap-8 md:gap-12 md:text-right">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 md:grid-cols-[1fr_320px] items-center gap-8 md:gap-12 md:text-right"
+          >
             <div className="order-2 md:order-1">
               <span className="badge-3d-red px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white">
                 SPEAKER 02
@@ -489,7 +684,10 @@ function SpeakersSection() {
                 Exploring cutting-edge advancements in machine learning, user experiences, and bridging code with real-world human impact.
               </p>
             </div>
-            <div className="order-1 md:order-2 border-2 border-[#1c242b] bg-[#de432c] p-6 shadow-[8px_8px_0_#1c242b] bg-dot-pattern-light">
+            <motion.div 
+              whileHover={{ y: -4, boxShadow: '12px 12px 0px #1c242b' }}
+              className="order-1 md:order-2 border-2 border-[#1c242b] bg-[#de432c] p-6 shadow-[8px_8px_0_#1c242b] bg-dot-pattern-light transition-all cursor-default"
+            >
               <div className="aspect-[3/4] border-2 border-[#1c242b] bg-[#de432c] flex flex-col justify-between p-4 shadow-[4px_4px_0_#1c242b]">
                 <span className="font-mono text-xs font-bold text-white uppercase">BT / 02</span>
                 <div className="flex flex-col items-center">
@@ -498,12 +696,21 @@ function SpeakersSection() {
                 </div>
                 <span className="font-mono text-[0.65rem] font-bold text-white uppercase tracking-widest text-center">ANNOUNCING SOON</span>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Speaker 3: Left Staggered */}
-          <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] items-center gap-8 md:gap-12">
-            <div className="border-2 border-[#1c242b] bg-[#387a5b] p-6 shadow-[8px_8px_0_#1c242b] bg-dot-pattern-light">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 md:grid-cols-[320px_1fr] items-center gap-8 md:gap-12"
+          >
+            <motion.div 
+              whileHover={{ y: -4, boxShadow: '12px 12px 0px #1c242b' }}
+              className="border-2 border-[#1c242b] bg-[#387a5b] p-6 shadow-[8px_8px_0_#1c242b] bg-dot-pattern-light transition-all cursor-default"
+            >
               <div className="aspect-[3/4] border-2 border-[#1c242b] bg-[#387a5b] flex flex-col justify-between p-4 shadow-[4px_4px_0_#1c242b]">
                 <span className="font-mono text-xs font-bold text-white uppercase">BT / 03</span>
                 <div className="flex flex-col items-center">
@@ -512,7 +719,7 @@ function SpeakersSection() {
                 </div>
                 <span className="font-mono text-[0.65rem] font-bold text-white uppercase tracking-widest text-center">ANNOUNCING SOON</span>
               </div>
-            </div>
+            </motion.div>
             <div>
               <span className="border-1.5 border-[#1c242b] bg-[#387a5b] px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#1c242b]">
                 SPEAKER 03
@@ -524,7 +731,7 @@ function SpeakersSection() {
                 Passionate about open technologies, community driven software development, and empowering student engineers.
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -573,16 +780,21 @@ function VoicesSection() {
   return (
     <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b] overflow-hidden">
       {/* Decorative sparkle stars */}
-      <span className="sparkle-star absolute right-16 top-10 text-3xl text-[#1c242b]/40" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute right-1/3 bottom-12 text-2xl text-[#de432c]/50" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-16 top-10 text-3xl text-[#1c242b]/40 select-none" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-1/3 bottom-12 text-2xl text-[#de432c]/50 select-none" aria-hidden="true">✦</span>
 
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         {/* Sticky Notes Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start mb-16">
-          {stickyNotes.map((note) => (
-            <div
+          {stickyNotes.map((note, index) => (
+            <motion.div
               key={note.footer}
-              className={`border-2 border-[#1c242b] p-6 shadow-[6px_6px_0_#1c242b] transition-transform hover:scale-105 hover:z-10 ${note.bg} ${note.rotate} ${note.textColor}`}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              whileHover={{ scale: 1.04, rotate: 0, zIndex: 20 }}
+              className={`border-2 border-[#1c242b] p-6 shadow-[6px_6px_0_#1c242b] transition-shadow hover:shadow-[10px_10px_0_#1c242b] cursor-pointer ${note.bg} ${note.rotate} ${note.textColor}`}
             >
               <span className="font-serif text-5xl leading-none opacity-40 select-none block" aria-hidden="true">“</span>
               <p className="my-4 font-display text-[1.18rem] md:text-[1.28rem] font-bold leading-snug">
@@ -591,18 +803,22 @@ function VoicesSection() {
               <div className="border-t border-current/25 pt-3 mt-4 font-mono text-[0.68rem] font-bold tracking-wider">
                 {note.footer}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Microphone with boom arm asset anchored at bottom-left */}
-        <div className="relative -ml-6 md:-ml-12 max-w-[280px] md:max-w-[340px]">
+        <motion.div 
+          animate={{ y: [0, -6, 0] }}
+          transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut' }}
+          className="relative -ml-6 md:-ml-12 max-w-[280px] md:max-w-[340px]"
+        >
           <img
             src={micAsset}
             alt="Microphone asset"
             className="w-full h-auto object-contain select-none drop-shadow-[8px_8px_0_rgba(28,36,43,0.18)]"
           />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -634,21 +850,32 @@ function PreviousEventsSection() {
     <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]">
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         {/* Section Header */}
-        <div className="mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="mb-12"
+        >
           <span className="badge-3d-blue px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white">
             04 / THE ARCHIVE
           </span>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black text-[#1c242b]">
             PREVIOUS EVENTS
           </h2>
-        </div>
+        </motion.div>
 
         {/* 3 Archive Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {previousEvents.map((event) => (
-            <div
+          {previousEvents.map((event, index) => (
+            <motion.div
               key={event.name}
-              className="border-2 border-[#1c242b] overflow-hidden shadow-[8px_8px_0_#1c242b] transition-transform hover:-translate-y-1"
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              whileHover={{ y: -6, boxShadow: '12px 12px 0px #1c242b' }}
+              className="border-2 border-[#1c242b] overflow-hidden shadow-[8px_8px_0_#1c242b] transition-all"
             >
               {/* Top Colorful Header */}
               <div className={`${event.topColor} p-6 border-b-2 border-[#1c242b] bg-dot-pattern-light flex justify-between items-start min-h-[140px]`}>
@@ -664,14 +891,16 @@ function PreviousEventsSection() {
                 <h3 className="mt-2 font-display text-2xl font-black tracking-tight text-white">
                   {event.name}
                 </h3>
-                <button
+                <motion.button
+                  whileHover={{ x: -2, y: -2 }}
+                  whileTap={{ x: 2, y: 2 }}
                   type="button"
-                  className="mt-6 inline-flex items-center gap-2 border border-white/30 bg-[#2a3446] px-4 py-2 font-mono text-[0.72rem] font-bold uppercase tracking-wider text-white shadow-[3px_3px_0_#000] hover:bg-[#344158] transition-colors"
+                  className="mt-6 inline-flex items-center gap-2 border border-white/30 bg-[#2a3446] px-4 py-2 font-mono text-[0.72rem] font-bold uppercase tracking-wider text-white shadow-[3px_3px_0_#000] hover:bg-[#344158] transition-colors cursor-pointer"
                 >
                   SEE DETAILS <ArrowUpRight size={14} aria-hidden="true" />
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -689,28 +918,38 @@ function FAQSection() {
   return (
     <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="faq">
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
-        <div className="mb-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="mb-10"
+        >
           <span className="badge-3d-red px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white">
             05 / GOOD TO KNOW
           </span>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black text-[#1c242b]">
             FREQUENTLY ASKED QUESTIONS
           </h2>
-        </div>
+        </motion.div>
 
-        {/* Accordion List */}
+        {/* Accordion List with AnimatePresence */}
         <div className="space-y-4 max-w-4xl">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
-              <div
+              <motion.div
                 key={faq.question}
-                className="border-2 border-[#1c242b] bg-[#202734] shadow-[5px_5px_0_#1c242b] transition-all"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.07 }}
+                className="border-2 border-[#1c242b] bg-[#202734] shadow-[5px_5px_0_#1c242b] transition-all overflow-hidden"
               >
                 <button
                   type="button"
                   onClick={() => toggleFaq(index)}
-                  className="w-full text-left p-5 md:p-6 flex items-center justify-between gap-4 font-mono text-[0.88rem] md:text-[0.98rem] font-bold text-white"
+                  className="w-full text-left p-5 md:p-6 flex items-center justify-between gap-4 font-mono text-[0.88rem] md:text-[0.98rem] font-bold text-white hover:bg-white/5 transition-colors cursor-pointer"
                   aria-expanded={isOpen}
                 >
                   <div className="flex items-center gap-4">
@@ -721,28 +960,40 @@ function FAQSection() {
                   </div>
                   <ChevronRight
                     size={20}
-                    className={`shrink-0 text-[#de432c] transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
+                    className={`shrink-0 text-[#de432c] transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`}
                     aria-hidden="true"
                   />
                 </button>
-                {isOpen && (
-                  <div className="px-5 pb-6 pt-1 font-mono text-[0.82rem] leading-relaxed text-white/80 border-t border-white/10">
-                    <p className="m-0 pl-8">{faq.answer}</p>
-                  </div>
-                )}
-              </div>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pb-6 pt-1 font-mono text-[0.82rem] leading-relaxed text-white/80 border-t border-white/10">
+                        <p className="m-0 pl-8">{faq.answer}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             );
           })}
         </div>
 
         <div className="mt-10">
-          <a
+          <motion.a
+            whileHover={{ x: -2, y: -2 }}
+            whileTap={{ x: 2, y: 2 }}
             href="#register"
-            className="btn-3d-red inline-flex items-center gap-2 px-6 py-3.5 font-mono text-[0.82rem] font-bold uppercase tracking-wider no-underline"
+            className="btn-3d-red inline-flex items-center gap-2 px-6 py-3.5 font-mono text-[0.82rem] font-bold uppercase tracking-wider no-underline cursor-pointer"
           >
             <span>HAVE A QUESTION? REGISTER YOUR INTEREST</span>
             <ArrowUpRight size={16} aria-hidden="true" />
-          </a>
+          </motion.a>
         </div>
       </div>
     </section>
@@ -980,9 +1231,15 @@ function RegistrationSection() {
               </label>
               {errors.consent && <small className={`${errorStyle} -mt-3 block`} id="consent-error">{errors.consent}</small>}
               {notice && <p className="m-0 border-l-[3px] border-byte-yellow bg-byte-yellow/10 p-3 font-mono text-[.62rem] leading-relaxed text-byte-text" role="status" aria-live="polite">{notice}</p>}
-              <button className={`${buttonStyle} w-full disabled:cursor-wait disabled:opacity-60`} type="submit" disabled={isSubmitting}>
+              <motion.button 
+                whileHover={{ x: -2, y: -2 }}
+                whileTap={{ x: 2, y: 2 }}
+                className={`${buttonStyle} w-full disabled:cursor-wait disabled:opacity-60 cursor-pointer`} 
+                type="submit" 
+                disabled={isSubmitting}
+              >
                 {isSubmitting ? <><LoaderCircle className="animate-spin" size={16} /> SENDING VERIFICATION CODE</> : <>SEND EMAIL VERIFICATION CODE <ArrowUpRight size={16} aria-hidden="true" /></>}
-              </button>
+              </motion.button>
               <p className="m-0 font-mono text-[.52rem] leading-relaxed text-byte-muted">* REQUIRED FIELD · EMAIL VERIFICATION IS REQUIRED TO REGISTER</p>
             </form>
           )}
@@ -1035,11 +1292,13 @@ function EventFooter() {
               CONNECT
             </span>
             <div className="flex items-center gap-3">
-              <a
+              <motion.a
+                whileHover={{ x: -2, y: -2 }}
+                whileTap={{ x: 2, y: 2 }}
                 href="https://www.instagram.com/gdg_akgec/"
                 target="_blank"
                 rel="noreferrer"
-                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all"
+                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
                 aria-label="Instagram"
               >
                 <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -1047,12 +1306,14 @@ function EventFooter() {
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                 </svg>
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                whileHover={{ x: -2, y: -2 }}
+                whileTap={{ x: 2, y: 2 }}
                 href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all"
                 target="_blank"
                 rel="noreferrer"
-                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all"
+                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
                 aria-label="LinkedIn"
               >
                 <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -1060,29 +1321,33 @@ function EventFooter() {
                   <rect x="2" y="9" width="4" height="12"></rect>
                   <circle cx="4" cy="4" r="2"></circle>
                 </svg>
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                whileHover={{ x: -2, y: -2 }}
+                whileTap={{ x: 2, y: 2 }}
                 href="https://github.com"
                 target="_blank"
                 rel="noreferrer"
-                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all"
+                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
                 aria-label="GitHub"
               >
                 <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                 </svg>
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                whileHover={{ x: -2, y: -2 }}
+                whileTap={{ x: 2, y: 2 }}
                 href="https://twitter.com"
                 target="_blank"
                 rel="noreferrer"
-                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all"
+                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
                 aria-label="Twitter / X"
               >
                 <svg className="size-4 fill-current" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
-              </a>
+              </motion.a>
             </div>
           </div>
         </div>
@@ -1102,6 +1367,44 @@ function EventFooter() {
 }
 
 export function ByteTalksPortal() {
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const anchor = target?.closest('a');
+      if (anchor && anchor.hash && anchor.hash.startsWith('#')) {
+        const targetElement = document.querySelector(anchor.hash);
+        if (targetElement) {
+          e.preventDefault();
+          lenis.scrollTo(targetElement as HTMLElement, { offset: -20 });
+        }
+      }
+    };
+    document.addEventListener('click', handleAnchorClick);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      document.removeEventListener('click', handleAnchorClick);
+      lenis.destroy();
+    };
+  }, [shouldReduceMotion]);
+
   return (
     <main className="min-h-screen overflow-hidden bg-white font-mono text-[#1c242b] selection:bg-[#de432c] selection:text-white">
       <a className="fixed left-3 top-3 z-[100] -translate-y-[160%] bg-[#1c242b] px-4 py-3 text-white focus:translate-y-0" href="#main-content">

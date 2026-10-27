@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -10,10 +10,10 @@
 }
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Space Mono', monospace;
+  --font-sans: 'Space Grotesk', 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Space Mono', monospace;
   --font-oswald: 'Oswald', sans-serif;
-  --font-display: 'Archivo Black', sans-serif;
+  --font-display: 'Archivo Black', 'Space Grotesk', sans-serif;
   --color-black: #000000;
   --color-dark: #0D0E12;
   --color-border-zinc: #71717A;
@@ -353,4 +353,105 @@ div[class*="web-rope"],
 .grecaptcha-badge:hover {
   opacity: 0.95 !important;
   transform: scale(0.85) !important;
+}
+
+/* Lenis smooth scrolling rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Neo-Brutalist button & card dynamics */
+.neo-btn {
+  position: relative;
+  transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.15s cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform, box-shadow;
+}
+
+.neo-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1c242b !important;
+}
+
+.neo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #1c242b !important;
+}
+
+.neo-card {
+  transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.22s cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform, box-shadow;
+}
+
+.neo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0px #1c242b !important;
+}
+
+/* Subtle floating animation for markers and badges */
+@keyframes neo-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.8deg);
+  }
+}
+
+.animate-neo-float {
+  animation: neo-float 5s ease-in-out infinite;
+}
+
+@keyframes neo-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: neo-spin-slow 24s linear infinite;
+}
+
+@keyframes neo-pulse-gentle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.025);
+    opacity: 0.95;
+  }
+}
+
+.animate-gentle-pulse {
+  animation: neo-pulse-gentle 3.5s ease-in-out infinite;
+}
+
+/* Prefers reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-neo-float,
+  .animate-spin-slow,
+  .animate-gentle-pulse {
+    animation: none !important;
+  }
 }
