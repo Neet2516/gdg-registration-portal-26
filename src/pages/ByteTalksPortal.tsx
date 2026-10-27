@@ -306,7 +306,7 @@ function EventHero() {
 
             {/* Tagline */}
             <motion.div variants={itemVariants} className="my-5 font-mono font-bold text-[1.25rem] md:text-[1.4rem] text-[#1c242b] leading-snug">
-              <p className="m-0">Connect · Inspire · Grow</p>
+              <p className="m-0">Learn · Connect · Inspire</p>
               <p className="m-0 mt-0.5 text-xs font-semibold tracking-wider uppercase text-[#1c242b]/70">The premier technical forum at AKGEC Ghaziabad.</p>
             </motion.div>
 
