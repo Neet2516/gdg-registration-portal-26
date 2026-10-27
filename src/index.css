@@ -455,3 +455,9 @@ html.lenis, html.lenis body {
     animation: none !important;
   }
 }
+
+/* Lazy Loading Section Optimization */
+.lazy-section-container {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
+}

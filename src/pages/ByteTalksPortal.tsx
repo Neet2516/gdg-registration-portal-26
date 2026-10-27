@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import type { FormEvent } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Lenis from 'lenis';
@@ -225,6 +225,7 @@ function EventHeader() {
 
 function EventHero() {
   const countdown = useMemo(getEventCountdown, []);
+  const timeLeft = useLiveCountdown();
 
   const heroVariants = {
     hidden: { opacity: 0 },
@@ -341,13 +342,27 @@ function EventHero() {
             <motion.div 
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-              className="w-[min(100%,540px)] max-lg:max-w-[440px]"
+              className="relative w-[min(100%,540px)] max-lg:max-w-[440px] aspect-square"
             >
               <img
                 src={compassIllustration}
                 alt={`BYTE TALKS countdown clock: ${countdown}`}
-                className="w-full h-auto object-contain select-none drop-shadow-[8px_8px_0px_rgba(28,36,43,0.18)]"
+                className="w-full h-full object-contain select-none drop-shadow-[8px_8px_0px_rgba(28,36,43,0.18)]"
+                loading="eager"
+                decoding="async"
               />
+              {/* Event Countdown Display inside Compass Dark Center Circle */}
+              <div 
+                className="absolute top-[48.9%] left-[50.1%] -translate-x-1/2 -translate-y-1/2 flex items-baseline justify-center font-display font-black text-[clamp(1.05rem,2.8vw,1.95rem)] leading-none select-none pointer-events-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] tracking-tight whitespace-nowrap"
+                aria-label={`Registration closes in ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes`}
+              >
+                <span className="text-white">{String(timeLeft.days).padStart(2, '0')}</span>
+                <span className="text-[#de432c] text-[0.72em] font-black ml-0.5 mr-1.5 sm:mr-2">D</span>
+                <span className="text-white">{String(timeLeft.hours).padStart(2, '0')}</span>
+                <span className="text-[#de432c] text-[0.72em] font-black ml-0.5 mr-1.5 sm:mr-2">H</span>
+                <span className="text-white">{String(timeLeft.minutes).padStart(2, '0')}</span>
+                <span className="text-[#de432c] text-[0.72em] font-black ml-0.5">M</span>
+              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -363,6 +378,8 @@ function EventHero() {
             src={campusIllustration}
             alt="Illustrated AKGEC Campus Sticker"
             className="w-full h-auto object-contain select-none drop-shadow-[8px_14px_0px_rgba(28,36,43,0.25)]"
+            loading="eager"
+            decoding="async"
           />
         </motion.div>
       </div>
@@ -593,6 +610,8 @@ function AboutSection() {
                 src={arrowMarker}
                 alt="Directional Signpost: Speaker Area, What is Byte Talks, Past Events"
                 className="w-full h-auto object-contain select-none drop-shadow-[10px_14px_0_rgba(28,36,43,0.22)]"
+                loading="lazy"
+                decoding="async"
               />
             </motion.div>
           </motion.div>
@@ -604,7 +623,7 @@ function AboutSection() {
 
 function SpeakersSection() {
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="speakers">
+    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]">
       {/* Decorative stars */}
       <span className="sparkle-star absolute right-12 top-10 text-3xl text-[#de432c]/60 select-none" aria-hidden="true">✦</span>
       <span className="sparkle-star absolute left-14 top-1/2 text-2xl text-[#1c242b]/30 select-none" aria-hidden="true">✦</span>
@@ -649,6 +668,8 @@ function SpeakersSection() {
                   src={speakerPhoto}
                   alt="Guest Speaker Portrait"
                   className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </motion.div>
@@ -817,6 +838,8 @@ function VoicesSection() {
             src={micAsset}
             alt="Microphone asset"
             className="w-full h-auto object-contain select-none drop-shadow-[8px_8px_0_rgba(28,36,43,0.18)]"
+            loading="lazy"
+            decoding="async"
           />
         </motion.div>
       </div>
@@ -916,7 +939,7 @@ function FAQSection() {
   };
 
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="faq">
+    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]">
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -1095,7 +1118,7 @@ function RegistrationSection() {
   const selectStyle = `${inputStyle} appearance-none`;
 
   return (
-    <section className={`${contentWidth} scroll-mt-8 pb-28 pt-[7.5rem] max-[820px]:pt-[5.5rem] max-sm:pb-[4.5rem] max-sm:pt-[4.5rem]`} id="register">
+    <section className={`${contentWidth} scroll-mt-8 pb-28 pt-[7.5rem] max-[820px]:pt-[5.5rem] max-sm:pb-[4.5rem] max-sm:pt-[4.5rem]`}>
       <SectionHeading eyebrow="06 / YOUR TURN">REGISTER YOURSELF</SectionHeading>
       <div className="grid grid-cols-[.8fr_1.2fr] items-start gap-[clamp(2rem,7vw,6rem)] pt-12 max-[820px]:grid-cols-1 max-[820px]:gap-6 max-[820px]:pt-8">
         <div className="sticky top-8 max-[820px]:static">
@@ -1366,6 +1389,88 @@ function EventFooter() {
   );
 }
 
+function LazySection({
+  id,
+  className = '',
+  minHeight = '380px',
+  children,
+}: {
+  id?: string;
+  className?: string;
+  minHeight?: string;
+  children: React.ReactNode;
+}) {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // If URL hash matches this section, render immediately
+    if (id && window.location.hash === `#${id}`) {
+      setIsVisible(true);
+      return;
+    }
+
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (!('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '450px 0px' }
+    );
+
+    observer.observe(el);
+
+    // Broadcast handler for instant anchor link navigation
+    const handleLazyTarget = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (id && (customEvent.detail === `#${id}` || customEvent.detail === id)) {
+        setIsVisible(true);
+      }
+    };
+    window.addEventListener('lazy-load-target', handleLazyTarget);
+
+    const handleHashChange = () => {
+      if (id && window.location.hash === `#${id}`) {
+        setIsVisible(true);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('lazy-load-target', handleLazyTarget);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [id]);
+
+  return (
+    <div
+      ref={containerRef}
+      id={id}
+      className={`lazy-section-container ${className}`}
+      style={{ minHeight: isVisible ? undefined : minHeight }}
+    >
+      {isVisible ? (
+        children
+      ) : (
+        <div className="flex items-center justify-center py-24 text-[#1c242b]/30">
+          <LoaderCircle className="size-6 animate-spin text-[#de432c]/50" />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function ByteTalksPortal() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -1389,11 +1494,22 @@ export function ByteTalksPortal() {
       const target = e.target as HTMLElement | null;
       const anchor = target?.closest('a');
       if (anchor && anchor.hash && anchor.hash.startsWith('#')) {
-        const targetElement = document.querySelector(anchor.hash);
-        if (targetElement) {
-          e.preventDefault();
-          lenis.scrollTo(targetElement as HTMLElement, { offset: -20 });
-        }
+        const hash = anchor.hash;
+        // Wake up any lazy-loaded section immediately
+        window.dispatchEvent(new CustomEvent('lazy-load-target', { detail: hash }));
+
+        const scrollToTarget = () => {
+          const targetElement = document.querySelector(hash);
+          if (targetElement) {
+            e.preventDefault();
+            lenis.scrollTo(targetElement as HTMLElement, { offset: -20 });
+          }
+        };
+
+        requestAnimationFrame(() => {
+          scrollToTarget();
+          setTimeout(scrollToTarget, 50);
+        });
       }
     };
     document.addEventListener('click', handleAnchorClick);
@@ -1434,11 +1550,21 @@ export function ByteTalksPortal() {
 
       <div id="main-content">
         <AboutSection />
-        <SpeakersSection />
-        <VoicesSection />
-        <PreviousEventsSection />
-        <FAQSection />
-        <RegistrationSection />
+        <LazySection id="speakers" minHeight="580px">
+          <SpeakersSection />
+        </LazySection>
+        <LazySection id="voices" minHeight="450px">
+          <VoicesSection />
+        </LazySection>
+        <LazySection id="previous-events" minHeight="450px">
+          <PreviousEventsSection />
+        </LazySection>
+        <LazySection id="faq" minHeight="450px">
+          <FAQSection />
+        </LazySection>
+        <LazySection id="register" minHeight="650px">
+          <RegistrationSection />
+        </LazySection>
       </div>
       <EventFooter />
     </main>
