@@ -832,89 +832,6 @@ function VoicesSection() {
   );
 }
 
-function PreviousEventsSection() {
-  const previousEvents = [
-    {
-      edition: 'EDITION 2024',
-      name: 'BYTE TALKS 1.0',
-      badge: 'BT-24',
-      topColor: 'bg-[#387A5B]',
-    },
-    {
-      edition: 'EDITION 2025',
-      name: 'BYTE TALKS 2.0',
-      badge: 'BT-25',
-      topColor: 'bg-[#de432c]',
-    },
-    {
-      edition: 'EDITION 2025.2',
-      name: 'BYTE TALKS 2.5',
-      badge: 'BT-25.2',
-      topColor: 'bg-[#58A4B0]',
-    },
-  ];
-
-  return (
-    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]">
-      <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="mb-12"
-        >
-          <span className="badge-3d-blue px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white">
-            04 / THE ARCHIVE
-          </span>
-          <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black text-[#1c242b]">
-            PREVIOUS EVENTS
-          </h2>
-        </motion.div>
-
-        {/* 3 Archive Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {previousEvents.map((event, index) => (
-            <motion.div
-              key={event.name}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: index * 0.12 }}
-              whileHover={{ y: -6, boxShadow: '12px 12px 0px #1c242b' }}
-              className="border-2 border-[#1c242b] overflow-hidden shadow-[8px_8px_0_#1c242b] transition-all"
-            >
-              {/* Top Colorful Header */}
-              <div className={`${event.topColor} p-6 border-b-2 border-[#1c242b] bg-dot-pattern-light flex justify-between items-start min-h-[140px]`}>
-                <span className="badge-3d-red px-2 py-0.5 font-mono text-[0.6rem] font-bold uppercase text-white">
-                  {event.badge}
-                </span>
-              </div>
-              {/* Bottom Dark Navy Body */}
-              <div className="bg-[#202734] p-6 text-white">
-                <span className="font-mono text-[0.65rem] font-bold uppercase tracking-wider text-[#55a8a8]">
-                  {event.edition}
-                </span>
-                <h3 className="mt-2 font-display text-2xl font-black tracking-tight text-white">
-                  {event.name}
-                </h3>
-                <motion.button
-                  whileHover={{ x: -2, y: -2 }}
-                  whileTap={{ x: 2, y: 2 }}
-                  type="button"
-                  className="mt-6 inline-flex items-center gap-2 border border-white/30 bg-[#2a3446] px-4 py-2 font-mono text-[0.72rem] font-bold uppercase tracking-wider text-white shadow-[3px_3px_0_#000] hover:bg-[#344158] transition-colors cursor-pointer"
-                >
-                  SEE DETAILS <ArrowUpRight size={14} aria-hidden="true" />
-                </motion.button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -2181,9 +2098,6 @@ export function ByteTalksPortal() {
         </LazySection>
         <LazySection id="voices" minHeight="450px">
           <VoicesSection />
-        </LazySection>
-        <LazySection id="previous-events" minHeight="450px">
-          <PreviousEventsSection />
         </LazySection>
         <LazySection id="faq" minHeight="450px">
           <FAQSection />
