@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -13,10 +13,21 @@
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'Space Mono', monospace;
   --font-oswald: 'Oswald', sans-serif;
+  --font-display: 'Archivo Black', sans-serif;
   --color-black: #000000;
   --color-dark: #0D0E12;
   --color-border-zinc: #71717A;
   --color-error-red: #EF4444;
+  --color-byte-page: #1c1f27;
+  --color-byte-surface: #252933;
+  --color-byte-deep: #171a21;
+  --color-byte-text: #f5f0e7;
+  --color-byte-muted: #b8b9b9;
+  --color-byte-line: #777b82;
+  --color-byte-coral: #e75842;
+  --color-byte-teal: #55a8a8;
+  --color-byte-green: #147e65;
+  --color-byte-yellow: #f2c35b;
 }
 
 /* Base resets & typography */
@@ -165,7 +176,7 @@ html.lenis, html.lenis body {
 }
 
 /* Global input controls rounded corners */
-input:not([type="radio"]), select, textarea {
+input:not([type="radio"]):not(.bt-input), select:not(.bt-input), textarea:not(.bt-input) {
   border-radius: 12px !important;
 }
 

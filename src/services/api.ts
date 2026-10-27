@@ -64,7 +64,7 @@ export const sendOtp = async (payload: SendOtpPayload) => {
   });
 
   const data = await parseJsonResponse(response);
-  if (!response.ok || !data.success) {
+  if (!response.ok || !data?.success) {
     throw new Error(data?.message || 'FAILED TO INIT OTP SESSION. RETRY.');
   }
   return data;
@@ -80,7 +80,7 @@ export const verifyOtp = async (payload: VerifyOtpPayload) => {
   });
 
   const data = await parseJsonResponse(response);
-  if (!response.ok || !data.success) {
+  if (!response.ok || !data?.success) {
     throw new Error(data?.message || 'INVALID VERIFICATION KEY. ACCESS DENIED.');
   }
   return data;
@@ -96,7 +96,7 @@ export const registerStudent = async (payload: RegisterPayload) => {
   });
 
   const data = await parseJsonResponse(response);
-  if (!response.ok || !data.success) {
+  if (!response.ok || !data?.success) {
     throw new Error(data?.message || 'REGISTRATION FAILED. TRY RESENDING OTP.');
   }
   return data;

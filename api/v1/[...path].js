@@ -53,8 +53,8 @@ export default async function handler(req, res) {
     return;
   }
 
-  const upstreamBase = backendUrl.replace(/\/+$/, '');
-  const upstreamUrl = endpoint ? `${upstreamBase}/${endpoint}` : upstreamBase;
+  const upstreamBase = backendUrl.replace(/\/+$/, '').replace(/\/api\/v1$/, '');
+  const upstreamUrl = endpoint ? `${upstreamBase}/api/v1/${endpoint}` : upstreamBase;
 
   const upstreamHeaders = new Headers();
   for (const [key, value] of Object.entries(req.headers)) {

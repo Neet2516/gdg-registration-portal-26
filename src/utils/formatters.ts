@@ -1,9 +1,9 @@
 /**
- * Dynamically auto-populates university email as lowercase first name + student number + @akgec.ac.in
+ * Builds an AKGEC email from the lowercase first name and student number.
  */
 export const generateUniversityEmail = (name: string = '', studentNumber: string = ''): string => {
-  if (!studentNumber) return '';
   const firstName = name ? name.trim().split(/\s+/)[0].toLowerCase().replace(/[^a-z0-9]/g, '') : '';
+  if (!firstName || !studentNumber) return '';
   return `${firstName}${studentNumber}@akgec.ac.in`;
 };
 

@@ -146,12 +146,15 @@ Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
 ## 🌐 Environment Variables
 
-Create a `.env` file in the root directory to declare your secure backend endpoints:
+Copy `.env.example` to `.env` for local development and set `BACKEND_URL` to the backend origin (the proxy forwards `/api/v1/send-otp`, `/api/v1/verify-otp`, and `/api/v1/register`). The Vite dev proxy and Vercel gateway both preserve the backend's `/api/v1` route prefix. For Vercel deployment, set `BACKEND_URL` in the project's Environment Variables:
 
 ```env
-# Upstream target backend URL for API Proxying
-BACKEND_URL=https://your-backend-api-endpoint.com
+BACKEND_URL=https://proximety-7nt5.vercel.app
+# Optional: reCAPTCHA v3 site key used when requesting a verification code
+VITE_RECAPTCHA_SITE_KEY=
 ```
+
+The registration form derives the college email from the first name and student number, sends an email OTP, and submits the registration only after successful OTP verification.
 
 ---
 

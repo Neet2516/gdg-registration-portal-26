@@ -1,12 +1,7 @@
-import { PortalProvider } from './context/PortalContext';
-import { RecruitmentPortal } from './pages/RecruitmentPortal';
+import { ByteTalksPortal } from './pages/ByteTalksPortal';
 
 function App() {
-  return (
-    <PortalProvider>
-      <RecruitmentPortal />
-    </PortalProvider>
-  );
+  return <ByteTalksPortal />;
 }
 
 export default App;
