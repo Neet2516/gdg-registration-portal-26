@@ -376,7 +376,7 @@ function EventInfoBar() {
   const timeLeft = useLiveCountdown();
 
   return (
-    <div className="relative z-20 w-full bg-[#13171e] text-white">
+    <div className="relative z-20 w-full bg-[#1B1F27] text-white">
       {/* Retro diagonal striped hazard/accent line */}
       <div 
         className="h-2.5 w-full bg-[repeating-linear-gradient(45deg,#1c242b,#1c242b_8px,#ffffff_8px,#ffffff_16px)]" 
@@ -494,12 +494,12 @@ function StatsBar() {
 
 function AboutSection() {
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]" id="about">
+    <section className="relative w-full bg-[#1B1F27] py-16 md:py-24 text-white" id="about">
       {/* Decorative sparkle stars with subtle twinkle animation */}
       <motion.span 
         animate={{ scale: [1, 1.25, 1], opacity: [0.35, 0.75, 0.35] }} 
         transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-        className="sparkle-star absolute left-8 top-12 text-2xl text-[#1c242b]/40 select-none" 
+        className="sparkle-star absolute left-8 top-12 text-2xl text-white/30 select-none" 
         aria-hidden="true"
       >
         ✦
@@ -507,7 +507,7 @@ function AboutSection() {
       <motion.span 
         animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.7, 0.3] }} 
         transition={{ repeat: Infinity, duration: 5, delay: 1, ease: 'easeInOut' }}
-        className="sparkle-star absolute right-16 top-20 text-3xl text-[#1c242b]/30 select-none" 
+        className="sparkle-star absolute right-16 top-20 text-3xl text-white/30 select-none" 
         aria-hidden="true"
       >
         ✦
@@ -515,7 +515,7 @@ function AboutSection() {
       <motion.span 
         animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.85, 0.4] }} 
         transition={{ repeat: Infinity, duration: 3.5, delay: 0.5, ease: 'easeInOut' }}
-        className="sparkle-star absolute left-1/4 bottom-10 text-xl text-[#de432c]/50 select-none" 
+        className="sparkle-star absolute left-1/4 bottom-10 text-xl text-[#de432c]/60 select-none" 
         aria-hidden="true"
       >
         ✦
@@ -532,8 +532,8 @@ function AboutSection() {
           >
             {/* Vintage Tech Poster Card with Neo-brutalist hover lift */}
             <motion.div 
-              whileHover={{ y: -4, boxShadow: '12px 12px 0px #1c242b' }}
-              className="relative mb-8 max-w-[420px] border-2 border-[#1c242b] bg-[#141b27] p-6 shadow-[8px_8px_0_#1c242b] transition-all cursor-default"
+              whileHover={{ y: -4, boxShadow: '12px 12px 0px #000000' }}
+              className="relative mb-8 max-w-[420px] border-2 border-white/25 bg-[#141b27] p-6 shadow-[8px_8px_0_#000000] transition-all cursor-default"
             >
               <div className="mb-4 flex items-center justify-between border-b border-white/20 pb-3 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-[#55a8a8]">
                 <span>SPECIAL EDITION</span>
@@ -565,15 +565,15 @@ function AboutSection() {
               <span className="badge-3d-blue px-2.5 py-0.5 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-white">
                 CAMPUS EVENT
               </span>
-              <span className="border-1.5 border-[#1c242b] bg-[#387a5b] px-2.5 py-0.5 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#1c242b]">
+              <span className="border-1.5 border-white/30 bg-[#387a5b] px-2.5 py-0.5 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#000000]">
                 INNOVATION
               </span>
             </div>
 
-            <h2 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] font-black leading-[1.05] tracking-tight text-[#1c242b] my-4">
+            <h2 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] font-black leading-[1.05] tracking-tight text-white my-4">
               A day for fresh ideas, thoughtful conversations, and the people shaping what comes next.
             </h2>
-            <p className="font-mono text-[0.88rem] md:text-[0.94rem] leading-relaxed text-[#35464a] max-w-xl">
+            <p className="font-mono text-[0.88rem] md:text-[0.94rem] leading-relaxed text-white/80 max-w-xl">
               BYTE TALKS brings the campus community together around technology and creativity. Join us at AKGEC for an afternoon of learning, sharing, and connecting with builders and thinkers.
             </p>
           </motion.div>
@@ -608,11 +608,11 @@ function AboutSection() {
 
 function SpeakersSection() {
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]">
+    <section className="relative w-full bg-[#1B1F27] py-16 md:py-24 text-white">
       {/* Decorative stars */}
       <span className="sparkle-star absolute right-12 top-10 text-3xl text-[#de432c]/60 select-none" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute left-14 top-1/2 text-2xl text-[#1c242b]/30 select-none" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute right-1/4 bottom-12 text-2xl text-[#1c242b]/40 select-none" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute left-14 top-1/2 text-2xl text-white/30 select-none" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-1/4 bottom-12 text-2xl text-white/40 select-none" aria-hidden="true">✦</span>
 
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         {/* Section Header */}
@@ -623,13 +623,13 @@ function SpeakersSection() {
           transition={{ duration: 0.55 }}
           className="mb-14"
         >
-          <span className="border-1.5 border-[#1c242b] bg-[#387a5b] px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#1c242b]">
+          <span className="border-1.5 border-white/30 bg-[#387a5b] px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#000000]">
             SPEAKERS &amp; MENTORS
           </span>
-          <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black leading-tight text-[#1c242b]">
+          <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black leading-tight text-white">
             Good conversations start with great people.
           </h2>
-          <p className="font-mono text-sm font-bold text-[#35464a]">
+          <p className="font-mono text-sm font-bold text-white/80">
             Speaker and mentor details will be announced shortly.
           </p>
         </motion.div>
@@ -645,10 +645,10 @@ function SpeakersSection() {
             className="grid grid-cols-1 md:grid-cols-[320px_1fr] items-center gap-8 md:gap-12"
           >
             <motion.div 
-              whileHover={{ y: -4, boxShadow: '12px 12px 0px #1c242b' }}
-              className="border-2 border-[#1c242b] bg-white p-3 shadow-[8px_8px_0_#1c242b] transition-all cursor-default"
+              whileHover={{ y: -4, boxShadow: '12px 12px 0px #000000' }}
+              className="border-2 border-white/20 bg-[#141b27] p-3 shadow-[8px_8px_0_#000000] transition-all cursor-default"
             >
-              <div className="overflow-hidden border border-[#1c242b] aspect-square">
+              <div className="overflow-hidden border border-white/20 aspect-square">
                 <img
                   src={speakerPhoto}
                   alt="Guest Speaker Portrait"
@@ -662,10 +662,10 @@ function SpeakersSection() {
               <span className="badge-3d-blue px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white">
                 SPEAKER 01
               </span>
-              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-[#1c242b]">
+              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-white">
                 Industry Leader &amp; Tech Architect
               </h3>
-              <p className="mt-3 font-mono text-sm leading-relaxed text-[#35464a] max-w-xl">
+              <p className="mt-3 font-mono text-sm leading-relaxed text-white/80 max-w-xl">
                 Leading engineering initiatives, building resilient distributed systems, and mentoring the next generation of software innovators.
               </p>
             </div>
@@ -683,16 +683,16 @@ function SpeakersSection() {
               <span className="badge-3d-red px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white">
                 SPEAKER 02
               </span>
-              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-[#1c242b]">
+              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-white">
                 AI &amp; Product Specialist
               </h3>
-              <p className="mt-3 font-mono text-sm leading-relaxed text-[#35464a] max-w-xl md:ml-auto">
+              <p className="mt-3 font-mono text-sm leading-relaxed text-white/80 max-w-xl md:ml-auto">
                 Exploring cutting-edge advancements in machine learning, user experiences, and bridging code with real-world human impact.
               </p>
             </div>
             <motion.div 
-              whileHover={{ y: -4, boxShadow: '12px 12px 0px #1c242b' }}
-              className="order-1 md:order-2 border-2 border-[#1c242b] bg-[#de432c] p-6 shadow-[8px_8px_0_#1c242b] bg-dot-pattern-light transition-all cursor-default"
+              whileHover={{ y: -4, boxShadow: '12px 12px 0px #000000' }}
+              className="order-1 md:order-2 border-2 border-white/20 bg-[#de432c] p-6 shadow-[8px_8px_0_#000000] bg-dot-pattern-light transition-all cursor-default"
             >
               <div className="aspect-[3/4] border-2 border-[#1c242b] bg-[#de432c] flex flex-col justify-between p-4 shadow-[4px_4px_0_#1c242b]">
                 <span className="font-mono text-xs font-bold text-white uppercase">BT / 02</span>
@@ -714,8 +714,8 @@ function SpeakersSection() {
             className="grid grid-cols-1 md:grid-cols-[320px_1fr] items-center gap-8 md:gap-12"
           >
             <motion.div 
-              whileHover={{ y: -4, boxShadow: '12px 12px 0px #1c242b' }}
-              className="border-2 border-[#1c242b] bg-[#387a5b] p-6 shadow-[8px_8px_0_#1c242b] bg-dot-pattern-light transition-all cursor-default"
+              whileHover={{ y: -4, boxShadow: '12px 12px 0px #000000' }}
+              className="border-2 border-white/20 bg-[#387a5b] p-6 shadow-[8px_8px_0_#000000] bg-dot-pattern-light transition-all cursor-default"
             >
               <div className="aspect-[3/4] border-2 border-[#1c242b] bg-[#387a5b] flex flex-col justify-between p-4 shadow-[4px_4px_0_#1c242b]">
                 <span className="font-mono text-xs font-bold text-white uppercase">BT / 03</span>
@@ -727,13 +727,13 @@ function SpeakersSection() {
               </div>
             </motion.div>
             <div>
-              <span className="border-1.5 border-[#1c242b] bg-[#387a5b] px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#1c242b]">
+              <span className="border-1.5 border-white/20 bg-[#387a5b] px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#000000]">
                 SPEAKER 03
               </span>
-              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-[#1c242b]">
+              <h3 className="mt-3 font-display text-2xl md:text-3xl font-black text-white">
                 Open Source &amp; Systems Builder
               </h3>
-              <p className="mt-3 font-mono text-sm leading-relaxed text-[#35464a] max-w-xl">
+              <p className="mt-3 font-mono text-sm leading-relaxed text-white/80 max-w-xl">
                 Passionate about open technologies, community driven software development, and empowering student engineers.
               </p>
             </div>
@@ -784,10 +784,10 @@ function VoicesSection() {
   ];
 
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b] overflow-hidden">
+    <section className="relative w-full bg-[#1B1F27] py-16 md:py-24 text-white overflow-hidden">
       {/* Decorative sparkle stars */}
-      <span className="sparkle-star absolute right-16 top-10 text-3xl text-[#1c242b]/40 select-none" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute right-1/3 bottom-12 text-2xl text-[#de432c]/50 select-none" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-16 top-10 text-3xl text-white/30 select-none" aria-hidden="true">✦</span>
+      <span className="sparkle-star absolute right-1/3 bottom-12 text-2xl text-[#de432c]/60 select-none" aria-hidden="true">✦</span>
 
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         {/* Sticky Notes Grid */}
@@ -841,7 +841,7 @@ function FAQSection() {
   };
 
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 text-[#1c242b]">
+    <section className="relative w-full bg-[#1B1F27] py-16 md:py-24 text-white">
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -851,9 +851,9 @@ function FAQSection() {
           className="mb-10"
         >
           <span className="badge-3d-red px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white">
-            05 / GOOD TO KNOW
+            04 / GOOD TO KNOW
           </span>
-          <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black text-[#1c242b]">
+          <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-black text-white">
             FREQUENTLY ASKED QUESTIONS
           </h2>
         </motion.div>
@@ -869,7 +869,7 @@ function FAQSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: index * 0.07 }}
-                className="border-2 border-[#1c242b] bg-[#202734] shadow-[5px_5px_0_#1c242b] transition-all overflow-hidden"
+                className="border-2 border-white/20 bg-[#161c24] shadow-[5px_5px_0_#000000] transition-all overflow-hidden"
               >
                 <button
                   type="button"
@@ -1127,7 +1127,7 @@ function RegistrationSection() {
   const selectStyle = `${inputStyle} appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2355a8a8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:9px_9px] bg-[right_14px_center] bg-no-repeat pr-8`;
 
   return (
-    <section className="relative w-full bg-[#131922] py-20 md:py-28 text-white overflow-hidden scroll-mt-6">
+    <section className="relative w-full bg-[#1B1F27] py-20 md:py-28 text-white overflow-hidden scroll-mt-6">
       {/* Background Graphic: Giant Outlined Vertical Typography on Left */}
       <div className="pointer-events-none absolute left-0 top-0 bottom-0 hidden 2xl:flex flex-col justify-around select-none opacity-15 pl-4 z-0">
         <div className="font-display text-8xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.25)] [writing-mode:vertical-rl] rotate-180">
@@ -1817,7 +1817,7 @@ function RegistrationSection() {
 
 function EventFooter() {
   return (
-    <footer className="relative w-full bg-[#13171e] text-white pt-16 overflow-hidden border-t-2 border-[#1c242b]">
+    <footer className="relative w-full bg-[#1B1F27] text-white pt-16 overflow-hidden border-t border-white/10">
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         {/* Top Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr] gap-10 pb-16 border-b border-white/10">
@@ -2065,7 +2065,7 @@ export function ByteTalksPortal() {
   }, [shouldReduceMotion]);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-white font-mono text-[#1c242b] selection:bg-[#de432c] selection:text-white">
+    <main className="min-h-screen overflow-hidden bg-[#1B1F27] font-mono text-white selection:bg-[#de432c] selection:text-white">
       <a className="fixed left-3 top-3 z-[100] -translate-y-[160%] bg-[#1c242b] px-4 py-3 text-white focus:translate-y-0" href="#main-content">
         Skip to content
       </a>
@@ -2077,9 +2077,9 @@ export function ByteTalksPortal() {
           className="pointer-events-none absolute inset-x-0 top-0 bottom-[200px] md:bottom-[260px] lg:bottom-[320px] bg-[linear-gradient(#1c242b1a_1px,transparent_1px),linear-gradient(90deg,#1c242b1a_1px,transparent_1px)] bg-[size:38px_38px]" 
           aria-hidden="true" 
         />
-        {/* Crisp White Canvas starting right behind the campus sticker */}
+        {/* Crisp Dark Canvas starting right behind the campus sticker */}
         <div 
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[200px] md:h-[260px] lg:h-[320px] bg-white border-t border-[#1c242b]/15" 
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[200px] md:h-[260px] lg:h-[320px] bg-[#1B1F27] border-t border-white/10" 
           aria-hidden="true" 
         />
         
