@@ -42,7 +42,7 @@ export function EventHero() {
             variants={heroVariants}
             initial="hidden"
             animate="visible"
-            className="relative z-10"
+            className="relative z-20"
           >
             {/* Badges */}
             <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2.5">
@@ -92,8 +92,9 @@ export function EventHero() {
             </motion.div>
 
             {/* CTA Buttons */}
-            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 pt-1 mb-8">
+            <motion.div variants={itemVariants} className="relative z-30 flex flex-wrap items-center gap-4 pt-1 mb-8 pointer-events-auto">
               <motion.a 
+                id="hero-register-btn"
                 href="#register" 
                 onClick={(e) => {
                   e.preventDefault();
@@ -115,7 +116,7 @@ export function EventHero() {
                 }}
                 whileHover={{ x: -2, y: -2 }}
                 whileTap={{ x: 2, y: 2 }}
-                className="btn-3d-red inline-flex items-center gap-3 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline cursor-pointer"
+                className="btn-3d-red inline-flex items-center gap-3 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline cursor-pointer select-none"
               >
                 <span>REGISTER NOW</span>
                 <span className="text-base leading-none" aria-hidden="true">→</span>
@@ -124,7 +125,7 @@ export function EventHero() {
                 href="#about" 
                 whileHover={{ x: -2, y: -2 }}
                 whileTap={{ x: 2, y: 2 }}
-                className="btn-3d-white inline-flex items-center gap-2 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline cursor-pointer"
+                className="btn-3d-white inline-flex items-center gap-2 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline cursor-pointer select-none"
               >
                 SEE DETAILS
               </motion.a>
@@ -171,12 +172,12 @@ export function EventHero() {
           initial={{ opacity: 0, y: 35 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 -mt-8 sm:-mt-16 md:-mt-24 lg:-mt-36 w-[min(98%,880px)] lg:w-[68%] -ml-1 sm:-ml-3 lg:-ml-6 -mb-16 sm:-mb-24 md:-mb-36 lg:-mb-44 xl:-mb-52"
+          className="relative z-10 pointer-events-none select-none -mt-8 sm:-mt-16 md:-mt-24 lg:-mt-36 w-[min(98%,880px)] lg:w-[68%] -ml-1 sm:-ml-3 lg:-ml-6 -mb-16 sm:-mb-24 md:-mb-36 lg:-mb-44 xl:-mb-52"
         >
           <img
             src={campusIllustration}
             alt="Illustrated AKGEC Campus Sticker"
-            className="w-full h-auto object-contain select-none drop-shadow-[8px_14px_0px_rgba(28,36,43,0.25)]"
+            className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-[8px_14px_0px_rgba(28,36,43,0.25)]"
             loading="eager"
             decoding="async"
           />
