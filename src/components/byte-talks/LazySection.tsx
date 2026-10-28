@@ -45,7 +45,10 @@ export function LazySection({
     // Broadcast handler for instant anchor link navigation
     const handleLazyTarget = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
-      if (id && (customEvent.detail === `#${id}` || customEvent.detail === id)) {
+      if (
+        customEvent.detail === 'all' ||
+        (id && (customEvent.detail === `#${id}` || customEvent.detail === id))
+      ) {
         setIsVisible(true);
       }
     };

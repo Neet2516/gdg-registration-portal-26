@@ -33,6 +33,8 @@ export function ByteTalksPortal() {
       touchMultiplier: 1.5,
     });
 
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+
     let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
@@ -49,20 +51,31 @@ export function ByteTalksPortal() {
         e.preventDefault();
         const targetId = href.slice(1);
 
-        // Notify lazy sections to hydrate immediately before scrolling
-        window.dispatchEvent(new CustomEvent('lazy-load-target', { detail: href }));
+        // Notify all lazy sections to hydrate immediately before scrolling
+        window.dispatchEvent(new CustomEvent('lazy-load-target', { detail: 'all' }));
 
         const scrollToTarget = () => {
-          const element = document.getElementById(targetId);
-          if (element) {
-            lenis.scrollTo(element, { offset: -30, duration: 1.2 });
+          const targetEl =
+            targetId === 'register'
+              ? (document.getElementById('registration-form') || document.getElementById('register'))
+              : document.getElementById(targetId);
+
+          if (targetEl) {
+            lenis.scrollTo(targetEl, { offset: -35, duration: 1.15 });
           }
         };
 
         requestAnimationFrame(() => {
           scrollToTarget();
-          setTimeout(scrollToTarget, 50);
+          setTimeout(scrollToTarget, 80);
+          setTimeout(scrollToTarget, 260);
         });
+
+        try {
+          window.history.pushState(null, '', href);
+        } catch {
+          // ignore in sandboxed environments
+        }
       }
     };
     document.addEventListener('click', handleAnchorClick);
@@ -70,7 +83,43 @@ export function ByteTalksPortal() {
     return () => {
       cancelAnimationFrame(rafId);
       document.removeEventListener('click', handleAnchorClick);
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
       lenis.destroy();
+    };
+  }, [shouldReduceMotion]);
+
+  // Fallback anchor click handler when motion is reduced (Lenis disabled)
+  useEffect(() => {
+    if (!shouldReduceMotion) return;
+
+    const handleFallbackAnchorClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a');
+      if (!target) return;
+      const href = target.getAttribute('href');
+      if (href && href.startsWith('#') && href.length > 1) {
+        e.preventDefault();
+        const targetId = href.slice(1);
+        window.dispatchEvent(new CustomEvent('lazy-load-target', { detail: 'all' }));
+
+        const targetEl =
+          targetId === 'register'
+            ? (document.getElementById('registration-form') || document.getElementById('register'))
+            : document.getElementById(targetId);
+
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          try {
+            window.history.pushState(null, '', href);
+          } catch {
+            // ignore
+          }
+        }
+      }
+    };
+
+    document.addEventListener('click', handleFallbackAnchorClick);
+    return () => {
+      document.removeEventListener('click', handleFallbackAnchorClick);
     };
   }, [shouldReduceMotion]);
 
@@ -110,9 +159,7 @@ export function ByteTalksPortal() {
         <LazySection id="faq" minHeight="450px">
           <FAQSection />
         </LazySection>
-        <LazySection id="register" minHeight="650px">
-          <RegistrationSection />
-        </LazySection>
+        <RegistrationSection />
       </div>
       <EventFooter />
     </main>
