@@ -113,7 +113,7 @@ export function EventFooter() {
               <motion.a
                 whileHover={{ x: -2, y: -2 }}
                 whileTap={{ x: 2, y: 2 }}
-                href="https://www.instagram.com/gdg_akgec/"
+                href="https://www.instagram.com/bytetalks.akgec"
                 target="_blank"
                 rel="noreferrer"
                 className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
@@ -128,7 +128,7 @@ export function EventFooter() {
               <motion.a
                 whileHover={{ x: -2, y: -2 }}
                 whileTap={{ x: 2, y: 2 }}
-                href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all"
+                href="https://in.linkedin.com/company/google-developer-groups-on-campus-akgec"
                 target="_blank"
                 rel="noreferrer"
                 className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
@@ -143,7 +143,7 @@ export function EventFooter() {
               <motion.a
                 whileHover={{ x: -2, y: -2 }}
                 whileTap={{ x: 2, y: 2 }}
-                href="https://github.com"
+                href="https://github.com/dsc-akgec"
                 target="_blank"
                 rel="noreferrer"
                 className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"

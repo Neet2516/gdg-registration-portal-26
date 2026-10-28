@@ -31,7 +31,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           </p>
           {/* Social Links */}
           <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-x-6 gap-y-3 text-zinc-500">
-            <a href="https://www.linkedin.com/company/google-developer-groups-on-campus-akgec/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="LinkedIn">
+            <a href="https://in.linkedin.com/company/google-developer-groups-on-campus-akgec" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="LinkedIn">
               <span>LinkedIn</span>
             </a>
             <a href="https://www.instagram.com/gdg_akgec/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E11D48] transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="Instagram">
