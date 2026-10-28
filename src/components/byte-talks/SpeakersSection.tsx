@@ -4,7 +4,7 @@ import speakerPhoto from '../../assets/images/byte-talks/speaker_portrait.jpg';
 
 export function SpeakersSection() {
   return (
-    <section className="relative w-full bg-[#1B1F27] pt-14 sm:pt-18 md:pt-24 pb-16 md:pb-24 text-white overflow-hidden" id="speakers">
+    <section className="relative w-full bg-[#1B1F27] pt-16 sm:pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 text-white overflow-hidden" id="speakers">
       {/* Floating Sparkle & Diamond Stars as seen in the reference mockup */}
       <div className="absolute left-6 sm:left-12 top-6 sm:top-10 flex items-center gap-6 sm:gap-10 pointer-events-none select-none" aria-hidden="true">
         <span className="text-xl sm:text-2xl text-[#f2c35b]/90 drop-shadow-[0_0_8px_rgba(242,195,91,0.5)]">✦</span>
@@ -21,12 +21,12 @@ export function SpeakersSection() {
           <motion.div 
             animate={{ y: [0, -6, 0] }}
             transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut' }}
-            className="absolute right-0 sm:right-2 md:right-4 -top-6 sm:-top-10 md:-top-16 lg:-top-20 w-[200px] sm:w-[280px] md:w-[360px] lg:w-[420px] pointer-events-none select-none z-10"
+            className="absolute right-0 sm:-right-2 md:-right-4 lg:-right-6 -top-8 sm:-top-12 md:-top-20 lg:-top-28 xl:-top-32 w-[280px] sm:w-[380px] md:w-[480px] lg:w-[560px] xl:w-[620px] pointer-events-none select-none z-10"
           >
             <img
               src={arrowMarker}
               alt="Directional Signpost: Speaker Area, What is Commit Con?, Past Events"
-              className="w-full h-auto object-contain drop-shadow-[8px_12px_0_rgba(0,0,0,0.35)]"
+              className="w-full h-auto object-contain drop-shadow-[10px_16px_0_rgba(0,0,0,0.4)]"
               loading="eager"
               decoding="async"
             />
