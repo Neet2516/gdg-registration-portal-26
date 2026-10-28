@@ -26,8 +26,8 @@ export function EventInfoBar() {
           <span className="block font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8]">
             TIME
           </span>
-          <strong className="mt-1 block font-display text-base sm:text-xl md:text-2xl font-black text-white tracking-tight whitespace-nowrap">
-            10:00 AM
+          <strong className="mt-1 block font-display text-xs sm:text-base md:text-xl font-black text-white tracking-tight whitespace-nowrap">
+            10:00 AM – 12:30 PM
           </strong>
         </div>
 

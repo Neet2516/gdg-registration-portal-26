@@ -57,7 +57,7 @@ export function getEventCountdown(): string {
 
 export function useLiveCountdown() {
   const [timeLeft, setTimeLeft] = useState(() => {
-    const target = new Date('2026-10-30T16:00:00+05:30').getTime();
+    const target = new Date('2026-10-30T10:00:00+05:30').getTime();
     const now = Date.now();
     const diff = Math.max(0, target - now);
     return {
@@ -70,7 +70,7 @@ export function useLiveCountdown() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const target = new Date('2026-10-30T16:00:00+05:30').getTime();
+      const target = new Date('2026-10-30T10:00:00+05:30').getTime();
       const now = Date.now();
       const diff = Math.max(0, target - now);
       setTimeLeft({

@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, RotateCw, Share2, ShieldCheck, Users } from 'lucide-react';
+import QRCode from 'qrcode';
 import { BRANCHES } from '../../constants/recruitment';
 import { useRecaptchaV3 } from '../../hooks/useRecaptchaV3';
 import { registerStudent, sendOtp, verifyOtp } from '../../services/api';
@@ -11,68 +12,39 @@ import { initialForm, validateForm } from './types';
 import type { FormValues, FormErrors, RegistrationStep } from './types';
 
 export function TicketQrCode({ code }: { code: string }) {
+  const [svgString, setSvgString] = useState<string>('');
+
+  useEffect(() => {
+    const rawValue = code?.trim() || '2500000000000';
+    QRCode.toString(rawValue, {
+      type: 'svg',
+      margin: 1,
+      color: {
+        dark: '#1c242b',
+        light: '#ffffff',
+      },
+    })
+      .then((svg) => {
+        setSvgString(svg);
+      })
+      .catch((err) => {
+        console.error('Failed to generate dynamic ticket QR code:', err);
+      });
+  }, [code]);
+
   return (
-    <div className="inline-block rounded-none border-2 border-[#1c242b] bg-white p-3 shadow-[4px_4px_0_#1c242b]">
-      <svg className="size-28 sm:size-32 select-none" viewBox="0 0 100 100" fill="currentColor" aria-label={`QR Code for ${code}`}>
-        {/* Finder Pattern: Top-Left */}
-        <rect x="6" y="6" width="24" height="24" fill="#1c242b" />
-        <rect x="10" y="10" width="16" height="16" fill="white" />
-        <rect x="14" y="14" width="8" height="8" fill="#1c242b" />
-
-        {/* Finder Pattern: Top-Right */}
-        <rect x="70" y="6" width="24" height="24" fill="#1c242b" />
-        <rect x="74" y="10" width="16" height="16" fill="white" />
-        <rect x="78" y="14" width="8" height="8" fill="#1c242b" />
-
-        {/* Finder Pattern: Bottom-Left */}
-        <rect x="6" y="70" width="24" height="24" fill="#1c242b" />
-        <rect x="10" y="74" width="16" height="16" fill="white" />
-        <rect x="14" y="78" width="8" height="8" fill="#1c242b" />
-
-        {/* Timing Lines */}
-        <rect x="34" y="16" width="4" height="4" fill="#1c242b" />
-        <rect x="42" y="16" width="4" height="4" fill="#1c242b" />
-        <rect x="50" y="16" width="4" height="4" fill="#1c242b" />
-        <rect x="58" y="16" width="4" height="4" fill="#1c242b" />
-
-        <rect x="16" y="34" width="4" height="4" fill="#1c242b" />
-        <rect x="16" y="42" width="4" height="4" fill="#1c242b" />
-        <rect x="16" y="50" width="4" height="4" fill="#1c242b" />
-        <rect x="16" y="58" width="4" height="4" fill="#1c242b" />
-
-        {/* Alignment */}
-        <rect x="72" y="72" width="12" height="12" fill="#1c242b" />
-        <rect x="75" y="75" width="6" height="6" fill="white" />
-        <rect x="77" y="77" width="2" height="2" fill="#1c242b" />
-
-        {/* Modules */}
-        <rect x="36" y="36" width="5" height="5" fill="#1c242b" />
-        <rect x="45" y="36" width="5" height="5" fill="#1c242b" />
-        <rect x="54" y="36" width="5" height="5" fill="#1c242b" />
-        <rect x="63" y="36" width="5" height="5" fill="#1c242b" />
-        <rect x="36" y="45" width="5" height="5" fill="#1c242b" />
-        <rect x="45" y="45" width="5" height="5" fill="#1c242b" />
-        <rect x="54" y="45" width="5" height="5" fill="#1c242b" />
-        <rect x="63" y="45" width="5" height="5" fill="#1c242b" />
-        <rect x="72" y="45" width="5" height="5" fill="#1c242b" />
-        <rect x="81" y="45" width="5" height="5" fill="#1c242b" />
-        <rect x="36" y="54" width="5" height="5" fill="#1c242b" />
-        <rect x="45" y="54" width="5" height="5" fill="#1c242b" />
-        <rect x="54" y="54" width="5" height="5" fill="#1c242b" />
-        <rect x="72" y="36" width="5" height="5" fill="#1c242b" />
-        <rect x="81" y="36" width="5" height="5" fill="#1c242b" />
-        <rect x="36" y="63" width="5" height="5" fill="#1c242b" />
-        <rect x="45" y="63" width="5" height="5" fill="#1c242b" />
-        <rect x="54" y="63" width="5" height="5" fill="#1c242b" />
-        <rect x="63" y="63" width="5" height="5" fill="#1c242b" />
-        <rect x="36" y="72" width="5" height="5" fill="#1c242b" />
-        <rect x="45" y="72" width="5" height="5" fill="#1c242b" />
-        <rect x="54" y="72" width="5" height="5" fill="#1c242b" />
-        <rect x="36" y="81" width="5" height="5" fill="#1c242b" />
-        <rect x="45" y="81" width="5" height="5" fill="#1c242b" />
-        <rect x="54" y="81" width="5" height="5" fill="#1c242b" />
-        <rect x="63" y="81" width="5" height="5" fill="#1c242b" />
-      </svg>
+    <div className="inline-block rounded-none border-2 border-[#1c242b] bg-white p-2.5 sm:p-3 shadow-[4px_4px_0_#1c242b]">
+      {svgString ? (
+        <div
+          className="size-28 sm:size-32 select-none flex items-center justify-center [&_svg]:w-full [&_svg]:h-full"
+          dangerouslySetInnerHTML={{ __html: svgString }}
+          aria-label={`Official QR Code encoding student number: ${code}`}
+        />
+      ) : (
+        <div className="size-28 sm:size-32 bg-gray-100 flex items-center justify-center font-mono text-[9px] text-[#1c242b] font-bold">
+          GENERATING QR...
+        </div>
+      )}
     </div>
   );
 }
@@ -214,10 +186,10 @@ export function RegistrationSection() {
     toast.success('Opening Calendar', 'Redirecting to Google Calendar with session details...');
     const title = encodeURIComponent('BYTE TALKS 2026 | AKGEC');
     const details = encodeURIComponent(
-      `BYTE TALKS 2026 Admission Confirmed for ${values.fullName}. Pass ID: BT26-${values.studentNumber.slice(-4) || '2026'}. Venue: CSIT Seminar Hall, AKGEC Campus.`
+      `BYTE TALKS 2026 Admission Confirmed for ${values.fullName}. Pass ID: BT26-${values.studentNumber.slice(-4) || '2026'}. Venue: CSIT Seminar Hall, AKGEC Campus. Timing: 10:00 AM to 12:30 PM.`
     );
     const location = encodeURIComponent('CSIT Seminar Hall, AKGEC Campus, Ghaziabad');
-    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261030T103000Z/20261030T133000Z&details=${details}&location=${location}`;
+    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261030T043000Z/20261030T070000Z&details=${details}&location=${location}`;
     window.open(gcalUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -256,7 +228,7 @@ export function RegistrationSection() {
     <section id="register" className="relative w-full bg-[#1B1F27] py-20 md:py-28 text-white overflow-hidden scroll-mt-6">
       {/* Background Graphic: Left Flank - Exactly 2 Enlarged Rows/Columns of "BYTE TALKS" Typography */}
       <div 
-        className="pointer-events-none absolute left-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-start gap-6 xl:gap-12 pl-2 sm:pl-4 xl:pl-6 w-[clamp(180px,calc((100vw-680px)/2),480px)] overflow-hidden opacity-35 xl:opacity-45"
+        className="pointer-events-none absolute left-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-start gap-6 xl:gap-12 pl-2 sm:pl-4 xl:pl-6 w-[clamp(180px,calc((100vw-680px)/2),480px)] overflow-hidden opacity-35 xl:opacity-45 print:hidden"
         aria-hidden="true"
       >
         {/* Row 1 (Outer edge - Giant Bold White Outlined) */}
@@ -276,7 +248,7 @@ export function RegistrationSection() {
 
       {/* Background Graphic: Right Flank - Exactly 2 Enlarged Rows/Columns of "BYTE TALKS" Typography */}
       <div 
-        className="pointer-events-none absolute right-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-end gap-6 xl:gap-12 pr-2 sm:pr-4 xl:pr-6 w-[clamp(180px,calc((100vw-680px)/2),480px)] overflow-hidden opacity-35 xl:opacity-45"
+        className="pointer-events-none absolute right-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-end gap-6 xl:gap-12 pr-2 sm:pr-4 xl:pr-6 w-[clamp(180px,calc((100vw-680px)/2),480px)] overflow-hidden opacity-35 xl:opacity-45 print:hidden"
         aria-hidden="true"
       >
         {/* Row 2 (Inner edge - Enlarged Yellow/Gold Accent Outlined) */}
@@ -373,7 +345,7 @@ export function RegistrationSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.55 }}
-              className="text-center pt-6"
+              className="text-center pt-6 print:hidden"
             >
               <span className="badge-3d-blue px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white">
                 ADMISSION CONFIRMED
@@ -392,7 +364,7 @@ export function RegistrationSection() {
               initial={{ opacity: 0, scale: 0.92, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.6 }}
-              className="relative mx-auto max-w-[420px] overflow-hidden border-3 border-white/40 shadow-[12px_12px_0_#000000]"
+              className="relative mx-auto max-w-[420px] overflow-hidden border-3 border-white/40 shadow-[12px_12px_0_#000000] print:border-2 print:border-black print:shadow-none print:max-w-none print:w-[380px] print:my-0"
             >
               {/* Ticket Header (Red) */}
               <div className="relative bg-[#de432c] p-6 text-white border-b-2 border-white/40 bg-dot-pattern-light">
@@ -413,8 +385,8 @@ export function RegistrationSection() {
                       OCT 30, 2026
                     </span>
                   </div>
-                  <span className="font-mono text-sm font-black bg-[#1c242b] text-white px-2.5 py-1 border border-white/40">
-                    4:00 PM
+                  <span className="font-mono text-xs sm:text-sm font-black bg-[#1c242b] text-white px-2 sm:px-2.5 py-1 border border-white/40 whitespace-nowrap">
+                    10:00 AM – 12:30 PM
                   </span>
                 </div>
               </div>
@@ -486,7 +458,7 @@ export function RegistrationSection() {
             </motion.div>
 
             {/* Action Buttons Row */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2 print:hidden">
               <motion.button
                 whileHover={{ y: -2 }}
                 whileTap={{ y: 1 }}
@@ -517,7 +489,7 @@ export function RegistrationSection() {
             </div>
 
             {/* Panel 2: WHAT HAPPENS NEXT Section */}
-            <div className="pt-16 border-t border-white/15">
+            <div className="pt-16 border-t border-white/15 print:hidden">
               <div className="text-center mb-10">
                 <span className="badge-3d-red px-3 py-1 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-white">
                   IMPORTANT NEXT STEPS
@@ -557,7 +529,7 @@ export function RegistrationSection() {
                     DAY OF EVENT
                   </h4>
                   <p className="mt-2 font-mono text-xs leading-relaxed text-white/90 font-semibold">
-                    Arrive at CSIT Seminar Hall by 3:30 PM on 30 October 2026. Carry your college physical ID card and this digital pass.
+                    Arrive at CSIT Seminar Hall by 9:30 AM on 30 October 2026. Carry your college physical ID card and this digital pass.
                   </p>
                 </motion.div>
 
@@ -579,7 +551,7 @@ export function RegistrationSection() {
               </div>
 
               {/* Register Another Attendee Button */}
-              <div className="mt-12 text-center">
+              <div className="mt-12 text-center print:hidden">
                 <button
                   type="button"
                   onClick={() => {
