@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, Share2, ShieldCheck, Users } from 'lucide-react';
-import { BRANCHES, DOMAINS } from '../../constants/recruitment';
+import { BRANCHES } from '../../constants/recruitment';
 import { useRecaptchaV3 } from '../../hooks/useRecaptchaV3';
 import { registerStudent, sendOtp, verifyOtp } from '../../services/api';
 import { generateUniversityEmail } from '../../utils/formatters';
@@ -148,10 +148,6 @@ export function RegistrationSection() {
         branch: values.branch,
         phone: values.phone.trim(),
         residence: values.residence,
-        domain: values.domain,
-        githubId: values.githubId.trim(),
-        hackerrankId: values.hackerrankId.trim(),
-        unstopId: values.unstopId.trim() || undefined,
       });
       setStep('success');
       setTimeout(() => {
@@ -802,69 +798,6 @@ export function RegistrationSection() {
                       </div>
                       {errors.residence && <small className={errorStyle}>{errors.residence}</small>}
                     </fieldset>
-
-                    {/* Domain */}
-                    <label className={`${fieldLabel} col-span-full`} htmlFor="domain">
-                      <span>PRIMARY DOMAIN OF INTEREST <b className="text-[#de432c]">*</b></span>
-                      <select
-                        className={selectStyle}
-                        id="domain"
-                        value={values.domain}
-                        onChange={(event) => updateField('domain', event.target.value)}
-                        {...inputProps('domain')}
-                      >
-                        <option value="">Select primary domain</option>
-                        {DOMAINS.map((d) => (
-                          <option value={d} key={d} className="bg-[#1c242b] text-white">
-                            {d}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.domain && <small className={errorStyle}>{errors.domain}</small>}
-                    </label>
-
-                    {/* GitHub */}
-                    <label className={fieldLabel} htmlFor="githubId">
-                      <span>GITHUB USERNAME <b className="text-[#de432c]">*</b></span>
-                      <input
-                        className={inputStyle}
-                        id="githubId"
-                        autoComplete="off"
-                        placeholder="e.g. octocat"
-                        value={values.githubId}
-                        onChange={(event) => updateField('githubId', event.target.value)}
-                        {...inputProps('githubId')}
-                      />
-                      {errors.githubId && <small className={errorStyle}>{errors.githubId}</small>}
-                    </label>
-
-                    {/* HackerRank */}
-                    <label className={fieldLabel} htmlFor="hackerrankId">
-                      <span>HACKERRANK USERNAME <b className="text-[#de432c]">*</b></span>
-                      <input
-                        className={inputStyle}
-                        id="hackerrankId"
-                        autoComplete="off"
-                        placeholder="e.g. dev_coder"
-                        value={values.hackerrankId}
-                        onChange={(event) => updateField('hackerrankId', event.target.value)}
-                        {...inputProps('hackerrankId')}
-                      />
-                      {errors.hackerrankId && <small className={errorStyle}>{errors.hackerrankId}</small>}
-                    </label>
-
-                    {/* Unstop */}
-                    <label className={`${fieldLabel} col-span-full`} htmlFor="unstopId">
-                      <span>UNSTOP USERNAME <span className="font-normal text-white/40">(OPTIONAL)</span></span>
-                      <input
-                        className={inputStyle}
-                        id="unstopId"
-                        autoComplete="off"
-                        placeholder="e.g. akshat_unstop"
-                        value={values.unstopId}
-                        onChange={(event) => updateField('unstopId', event.target.value)}
-                      />
-                    </label>
                   </div>
 
                   {/* Consent checkbox */}

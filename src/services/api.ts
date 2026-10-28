@@ -21,9 +21,9 @@ export interface RegisterPayload {
   phone: string;
   unstopId?: string;
   residence: string;
-  domain: string;
-  githubId: string;
-  hackerrankId: string;
+  domain?: string;
+  githubId?: string;
+  hackerrankId?: string;
 }
 
 const buildApiUrl = (path = '') => `${API_BASE_PATH}${path}`;

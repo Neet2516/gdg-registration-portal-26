@@ -37,10 +37,6 @@ export const initialForm = {
   gender: '',
   branch: '',
   residence: '',
-  domain: '',
-  githubId: '',
-  hackerrankId: '',
-  unstopId: '',
   consent: false,
 };
 
@@ -100,10 +96,6 @@ export function validateForm(values: FormValues): FormErrors {
   if (!values.gender) errors.gender = 'Choose your gender.';
   if (!values.branch) errors.branch = 'Choose your branch.';
   if (!values.residence) errors.residence = 'Choose Day Scholar or Hosteller.';
-  if (!values.domain) errors.domain = 'Choose a domain.';
-  if (!values.githubId.trim()) errors.githubId = 'Enter your GitHub username.';
-  else if (!/^[a-zA-Z0-9-]+$/.test(values.githubId.trim())) errors.githubId = 'Use only letters, numbers, and hyphens.';
-  if (!values.hackerrankId.trim()) errors.hackerrankId = 'Enter your HackerRank username.';
   if (!values.consent) errors.consent = 'Please confirm your consent to continue.';
 
   return errors;
