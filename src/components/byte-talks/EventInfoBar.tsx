@@ -27,7 +27,7 @@ export function EventInfoBar() {
             TIME
           </span>
           <strong className="mt-1 block font-display text-base sm:text-xl md:text-2xl font-black text-white tracking-tight whitespace-nowrap">
-            4:00 PM
+            10:00 AM
           </strong>
         </div>
 

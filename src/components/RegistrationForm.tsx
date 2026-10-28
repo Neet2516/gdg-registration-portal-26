@@ -33,8 +33,8 @@ const registrationSchema = z.object({
     .refine((email) => email.toLowerCase().endsWith('@akgec.ac.in'), {
       message: 'Please use your official AKGEC university email ID.',
     }),
-  gender: z.enum(['Male', 'Female', 'Other'], {
-    error: 'Gender must be Male, Female, or Other.',
+  gender: z.enum(['Male', 'Female'], {
+    error: 'Gender must be Male or Female.',
   }),
   branch: z.enum(BRANCHES, {
     error: 'Please select a valid branch.',
@@ -240,7 +240,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
                 placeholder="SELECT GENDER"
                 error={errors.gender?.message}
                 register={register('gender')}
-                options={['Male', 'Female', 'Other']}
+                options={['Male', 'Female']}
               />
 
               <Input

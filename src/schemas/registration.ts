@@ -26,7 +26,7 @@ export const domains = [
 ] as const;
 
 export const residencyTypes = ['Day Scholar', 'Hosteller'] as const;
-export const genders = ['Male', 'Female', 'Other'] as const;
+export const genders = ['Male', 'Female'] as const;
 
 /**
  * Zod validation schema for the student recruitment registration form.
@@ -67,9 +67,9 @@ export const registrationSchema = z.object({
       message: 'Please use your official AKGEC university email ID.',
     }),
 
-  // 5. Gender: Zod Enum 'Male' | 'Female' | 'Other'.
+  // 5. Gender: Zod Enum 'Male' | 'Female'.
   gender: z.enum(genders, {
-    error: 'Gender must be Male, Female, or Other.',
+    error: 'Gender must be Male or Female.',
   }),
 
   // 6. Selection Branch: Zod Enum.

@@ -74,8 +74,8 @@ const registrationSchema = z.object({
     .refine((email) => email.toLowerCase().endsWith('@akgec.ac.in'), {
       message: 'Please use your official AKGEC university email ID.',
     }),
-  gender: z.enum(['Male', 'Female', 'Other'], {
-    error: 'Gender must be Male, Female, or Other.',
+  gender: z.enum(['Male', 'Female'], {
+    error: 'Gender must be Male or Female.',
   }),
   branch: z.enum(branches, {
     error: 'Please select a valid branch.',
@@ -474,7 +474,6 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
                   <option value="" disabled hidden>SELECT GENDER</option>
                   <option value="Male" className="bg-black text-white">Male</option>
                   <option value="Female" className="bg-black text-white">Female</option>
-                  <option value="Other" className="bg-black text-white">Other</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white">
                   <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
