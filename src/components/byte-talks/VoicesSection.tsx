@@ -70,15 +70,15 @@ export function VoicesSection() {
     offset: ['start end', 'end start'],
   });
 
-  // Smoothly rotate the microphone up to 60 degrees as user scrolls through the section
-  const targetRotation = useTransform(scrollYProgress, [0.08, 0.72], [0, 60]);
+  // Smoothly rotate the microphone up to ~58-60 degrees as user scrolls into the section
+  const targetRotation = useTransform(scrollYProgress, [0.06, 0.48], [0, -58]);
   const smoothRotation = useSpring(targetRotation, {
-    stiffness: 110,
-    damping: 24,
+    stiffness: 100,
+    damping: 22,
     restDelta: 0.001,
   });
 
-  const micRotate = shouldReduceMotion ? 25 : smoothRotation;
+  const micRotate = shouldReduceMotion ? -58 : smoothRotation;
 
   return (
     <section 
@@ -157,15 +157,15 @@ export function VoicesSection() {
       <motion.div 
         style={{
           rotate: micRotate,
-          transformOrigin: '15% 85%',
+          transformOrigin: '5% 15%',
         }}
-        className="absolute -left-12 sm:-left-16 md:-left-20 -bottom-14 sm:-bottom-16 md:-bottom-24 w-[240px] sm:w-[320px] md:w-[400px] lg:w-[460px] pointer-events-none select-none z-20"
+        className="absolute -left-4 sm:-left-6 md:-left-8 bottom-0 sm:bottom-2 md:bottom-4 w-[260px] sm:w-[320px] md:w-[380px] lg:w-[440px] pointer-events-none select-none z-20"
       >
         <img
           src={micAsset}
-          alt=""
+          alt="Microphone illustration"
           className="w-full h-auto object-contain drop-shadow-[10px_14px_0_rgba(0,0,0,0.45)]"
-          loading="lazy"
+          loading="eager"
           decoding="async"
         />
       </motion.div>
