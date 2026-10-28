@@ -4,8 +4,8 @@ export function StatsBar() {
   const stats = [
     { value: '04', label: 'hours' },
     { value: '04', label: 'speakers' },
-    { value: '65', label: 'seats booked' },
-    { value: '200', label: 'seats left' },
+    { value: '200', label: 'total seats' },
+    { value: '65', label: 'seats left' },
   ];
 
   return (
