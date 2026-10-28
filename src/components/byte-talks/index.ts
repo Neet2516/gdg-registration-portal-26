@@ -11,3 +11,4 @@ export { RegistrationSection, TicketQrCode } from './RegistrationSection';
 export { EventFooter } from './EventFooter';
 export { LazySection } from './LazySection';
 export { FloatingSparkles } from './FloatingSparkles';
+export { ByteTalksLoader } from './ByteTalksLoader';

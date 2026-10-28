@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { AnimatePresence, useReducedMotion } from 'framer-motion';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import {
@@ -15,13 +15,15 @@ import {
   EventFooter,
   LazySection,
   FloatingSparkles,
+  ByteTalksLoader,
 } from '../components/byte-talks';
 
 export function ByteTalksPortal() {
+  const [isLoading, setIsLoading] = useState(true);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (shouldReduceMotion) return;
+    if (shouldReduceMotion || isLoading) return;
 
     const lenis = new Lenis({
       duration: 1.15,
@@ -124,9 +126,16 @@ export function ByteTalksPortal() {
   }, [shouldReduceMotion]);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#1B1F27] font-mono text-white selection:bg-[#de432c] selection:text-white relative">
-      {/* Ambient Random Top-to-Bottom Floating Sparkles */}
-      <FloatingSparkles />
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <ByteTalksLoader onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
+
+      <main className="min-h-screen overflow-hidden bg-[#1B1F27] font-mono text-white selection:bg-[#de432c] selection:text-white relative">
+        {/* Ambient Random Top-to-Bottom Floating Sparkles */}
+        <FloatingSparkles />
 
       <a className="fixed left-3 top-3 z-[100] -translate-y-[160%] bg-[#1c242b] px-4 py-3 text-white focus:translate-y-0" href="#main-content">
         Skip to content
@@ -163,5 +172,6 @@ export function ByteTalksPortal() {
       </div>
       <EventFooter />
     </main>
+  </>
   );
 }
