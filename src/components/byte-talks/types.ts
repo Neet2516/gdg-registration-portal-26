@@ -20,16 +20,11 @@ export const faqs = [
   },
   {
     badge: '04',
-    question: 'Will attendees receive official certificates and GDG swag?',
-    answer: 'Yes! All confirmed attendees who check in and attend the sessions will receive an official GDG Certificate of Participation. Additionally, active participants in live Q&A, tech trivia, and project spotlights will win exclusive GDG stickers and swag items.',
-  },
-  {
-    badge: '05',
     question: 'How do I know if my seat reservation is confirmed?',
     answer: 'Due to seminar hall capacity constraints, seats are strictly capped at 200 on a first-come, first-served basis. Once you submit the registration form and verify your email, your digital admission pass (with your QR code and unique ticket number) is generated immediately on screen and sent to your email.',
   },
   {
-    badge: '06',
+    badge: '05',
     question: 'I am a 1st-year student with no tech background. Will it be useful?',
     answer: 'Absolutely! The sessions are specifically structured to help beginners demystify modern technology stacks—covering practical roadmaps for AI/ML, Cloud, Web development, open-source programs like GSoC, and preparing for future hackathons and placements.',
   },
