@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, RotateCw, Share2, ShieldCheck, Users } from 'lucide-react';
+import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, RotateCw, ShieldCheck, Users } from 'lucide-react';
 import QRCode from 'qrcode';
 import { BRANCHES } from '../../constants/recruitment';
 import { useRecaptchaV3 } from '../../hooks/useRecaptchaV3';
@@ -148,7 +148,6 @@ export function RegistrationSection() {
   const [step, setStep] = useState<RegistrationStep>('form');
   const [otp, setOtp] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [copied, setCopied] = useState(false);
   const email = generateUniversityEmail(values.fullName, values.studentNumber);
   const { executeRecaptcha } = useRecaptchaV3();
 
@@ -550,27 +549,6 @@ export function RegistrationSection() {
     window.open(gcalUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const handleShare = async () => {
-    const shareText = `I just registered for BYTE TALKS 2026 at AKGEC! Catch you on 30 Oct at CSIT Hall.`;
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'BYTE TALKS 2026 Registration Pass',
-          text: shareText,
-          url: window.location.href,
-        });
-        toast.success('Pass Shared!', 'Thank you for sharing BYTE TALKS 2026.');
-        return;
-      } catch {
-        // fallback to clipboard
-      }
-    }
-    navigator.clipboard.writeText(`${shareText} ${window.location.href}`);
-    setCopied(true);
-    toast.success('Copied to Clipboard!', 'Registration portal link and invitation copied.');
-    setTimeout(() => setCopied(false), 2500);
-  };
-
   const inputProps = (field: keyof FormValues) => ({
     'aria-invalid': Boolean(errors[field]),
     'aria-describedby': errors[field] ? `${field}-error` : undefined,
@@ -825,15 +803,6 @@ export function RegistrationSection() {
                 className="btn-3d-white inline-flex items-center gap-2 px-5 py-3 font-mono text-[0.78rem] font-bold uppercase tracking-wider text-[#1c242b] cursor-pointer"
               >
                 <Calendar size={15} /> ADD TO CALENDAR
-              </motion.button>
-              <motion.button
-                whileHover={{ y: -2 }}
-                whileTap={{ y: 1 }}
-                type="button"
-                onClick={handleShare}
-                className="btn-3d-red inline-flex items-center gap-2 px-5 py-3 font-mono text-[0.78rem] font-bold uppercase tracking-wider text-white cursor-pointer"
-              >
-                <Share2 size={15} /> {copied ? 'LINK COPIED!' : 'SHARE'}
               </motion.button>
             </div>
 
