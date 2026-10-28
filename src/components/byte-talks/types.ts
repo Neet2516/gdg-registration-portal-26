@@ -37,7 +37,6 @@ export const initialForm = {
   gender: '',
   branch: '',
   residence: '',
-  consent: false,
 };
 
 export type FormValues = typeof initialForm;
@@ -96,7 +95,6 @@ export function validateForm(values: FormValues): FormErrors {
   if (!values.gender) errors.gender = 'Choose your gender.';
   if (!values.branch) errors.branch = 'Choose your branch.';
   if (!values.residence) errors.residence = 'Choose Day Scholar or Hosteller.';
-  if (!values.consent) errors.consent = 'Please confirm your consent to continue.';
 
   return errors;
 }

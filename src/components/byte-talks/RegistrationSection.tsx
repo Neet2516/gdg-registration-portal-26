@@ -800,25 +800,6 @@ export function RegistrationSection() {
                     </fieldset>
                   </div>
 
-                  {/* Consent checkbox */}
-                  <label
-                    className={`flex items-start gap-3 border-2 p-3.5 font-mono text-[0.66rem] font-bold leading-relaxed text-white/90 bg-[#0c1017] transition-all cursor-pointer ${
-                      errors.consent ? 'border-[#de432c]' : 'border-white/20'
-                    }`}
-                  >
-                    <input
-                      className="mt-0.5 size-4 shrink-0 accent-[#55a8a8]"
-                      type="checkbox"
-                      checked={values.consent}
-                      onChange={(event) => updateField('consent', event.target.checked)}
-                      {...inputProps('consent')}
-                    />
-                    <span>
-                      I agree to the student code of conduct and confirm my physical attendance at BYTE TALKS on 30 October 2026. <b className="text-[#de432c]">*</b>
-                    </span>
-                  </label>
-                  {errors.consent && <small className={errorStyle}>{errors.consent}</small>}
-
                   {notice && (
                     <p className="m-0 border-l-[3px] border-[#f2c35b] bg-[#f2c35b]/10 p-3 font-mono text-xs text-white" role="status" aria-live="polite">
                       {notice}
