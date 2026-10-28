@@ -2,7 +2,6 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, Share2, ShieldCheck, Users } from 'lucide-react';
-import compassIllustration from '../../assets/images/byte-talks/compass.svg';
 import { BRANCHES, DOMAINS } from '../../constants/recruitment';
 import { useRecaptchaV3 } from '../../hooks/useRecaptchaV3';
 import { registerStudent, sendOtp, verifyOtp } from '../../services/api';
@@ -213,19 +212,58 @@ export function RegistrationSection() {
 
   return (
     <section id="register" className="relative w-full bg-[#1B1F27] py-20 md:py-28 text-white overflow-hidden scroll-mt-6">
-      {/* Background Graphic: Giant Outlined Vertical Typography on Left */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 hidden 2xl:flex flex-col justify-around select-none opacity-15 pl-4 z-0">
-        <div className="font-display text-8xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.25)] [writing-mode:vertical-rl] rotate-180">
-          BYTE TALKS
+      {/* Background Graphic: Left Flank - Multiple Rows/Columns of "BYTE TALKS" Typography */}
+      <div 
+        className="pointer-events-none absolute left-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-start gap-4 xl:gap-8 2xl:gap-10 pl-2 sm:pl-4 xl:pl-6 w-[clamp(140px,calc((100vw-680px)/2),420px)] overflow-hidden opacity-30 xl:opacity-40"
+        aria-hidden="true"
+      >
+        {/* Column 1 (Outer edge - Giant White Outlined) */}
+        <div className="flex flex-col gap-10 font-display text-6xl xl:text-7xl 2xl:text-8xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.4)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS'].map((text, i) => (
+            <span key={`left-col1-${i}`}>{text}</span>
+          ))}
         </div>
-        <div className="font-display text-8xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.25)] [writing-mode:vertical-rl] rotate-180">
-          BYTETALKS
+
+        {/* Column 2 (Middle - Coral Red Accent Outlined) */}
+        <div className="hidden xl:flex flex-col gap-10 font-display text-4xl xl:text-5xl 2xl:text-6xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(222,67,44,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD'].map((text, i) => (
+            <span key={`left-col2-${i}`}>{text}</span>
+          ))}
+        </div>
+
+        {/* Column 3 (Inner - Mint Teal Monospace Ticker) */}
+        <div className="hidden 2xl:flex flex-col gap-8 font-mono text-xl 2xl:text-2xl font-bold uppercase tracking-[0.25em] text-transparent [-webkit-text-stroke:1.5px_rgba(88,164,176,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['LEARN • CONNECT • INSPIRE', 'BYTE TALKS 2026 • AKGEC', 'PREMIER TECH FORUM', 'LEARN • CONNECT • INSPIRE', 'BYTE TALKS 2026 • AKGEC', 'PREMIER TECH FORUM'].map((text, i) => (
+            <span key={`left-col3-${i}`}>{text}</span>
+          ))}
         </div>
       </div>
 
-      {/* Background Graphic: Compass Peeking on Right */}
-      <div className="pointer-events-none absolute -right-28 top-20 hidden lg:block opacity-20 select-none w-[420px] z-0">
-        <img src={compassIllustration} alt="" className="w-full h-auto" />
+      {/* Background Graphic: Right Flank - Multiple Rows/Columns of "BYTE TALKS" Typography */}
+      <div 
+        className="pointer-events-none absolute right-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-end gap-4 xl:gap-8 2xl:gap-10 pr-2 sm:pr-4 xl:pr-6 w-[clamp(140px,calc((100vw-680px)/2),420px)] overflow-hidden opacity-30 xl:opacity-40"
+        aria-hidden="true"
+      >
+        {/* Column 3 (Inner - Mint Teal Monospace Ticker) */}
+        <div className="hidden 2xl:flex flex-col gap-8 font-mono text-xl 2xl:text-2xl font-bold uppercase tracking-[0.25em] text-transparent [-webkit-text-stroke:1.5px_rgba(88,164,176,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['LEARN • CONNECT • INSPIRE', 'BYTE TALKS 2026 • AKGEC', 'PREMIER TECH FORUM', 'LEARN • CONNECT • INSPIRE', 'BYTE TALKS 2026 • AKGEC', 'PREMIER TECH FORUM'].map((text, i) => (
+            <span key={`right-col3-${i}`}>{text}</span>
+          ))}
+        </div>
+
+        {/* Column 2 (Middle - Yellow / Orange Accent Outlined) */}
+        <div className="hidden xl:flex flex-col gap-10 font-display text-4xl xl:text-5xl 2xl:text-6xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(242,195,91,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD'].map((text, i) => (
+            <span key={`right-col2-${i}`}>{text}</span>
+          ))}
+        </div>
+
+        {/* Column 1 (Outer edge - Giant White Outlined) */}
+        <div className="flex flex-col gap-10 font-display text-6xl xl:text-7xl 2xl:text-8xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.4)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS'].map((text, i) => (
+            <span key={`right-col1-${i}`}>{text}</span>
+          ))}
+        </div>
       </div>
 
       {/* Scattered Floating Sparkle & Diamond Accents */}
