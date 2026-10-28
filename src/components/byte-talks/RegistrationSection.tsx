@@ -212,56 +212,42 @@ export function RegistrationSection() {
 
   return (
     <section id="register" className="relative w-full bg-[#1B1F27] py-20 md:py-28 text-white overflow-hidden scroll-mt-6">
-      {/* Background Graphic: Left Flank - Multiple Rows/Columns of "BYTE TALKS" Typography */}
+      {/* Background Graphic: Left Flank - Exactly 2 Enlarged Rows/Columns of "BYTE TALKS" Typography */}
       <div 
-        className="pointer-events-none absolute left-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-start gap-4 xl:gap-8 2xl:gap-10 pl-2 sm:pl-4 xl:pl-6 w-[clamp(140px,calc((100vw-680px)/2),420px)] overflow-hidden opacity-30 xl:opacity-40"
+        className="pointer-events-none absolute left-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-start gap-6 xl:gap-12 pl-2 sm:pl-4 xl:pl-6 w-[clamp(180px,calc((100vw-680px)/2),480px)] overflow-hidden opacity-35 xl:opacity-45"
         aria-hidden="true"
       >
-        {/* Column 1 (Outer edge - Giant White Outlined) */}
-        <div className="flex flex-col gap-10 font-display text-6xl xl:text-7xl 2xl:text-8xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.4)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
-          {['BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS'].map((text, i) => (
-            <span key={`left-col1-${i}`}>{text}</span>
+        {/* Row 1 (Outer edge - Giant Bold White Outlined) */}
+        <div className="flex flex-col gap-14 font-display text-[clamp(5rem,8.5vw,8.5rem)] font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2.5px_rgba(255,255,255,0.4)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS'].map((text, i) => (
+            <span key={`left-r1-${i}`}>{text}</span>
           ))}
         </div>
 
-        {/* Column 2 (Middle - Coral Red Accent Outlined) */}
-        <div className="hidden xl:flex flex-col gap-10 font-display text-4xl xl:text-5xl 2xl:text-6xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(222,67,44,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
-          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD'].map((text, i) => (
-            <span key={`left-col2-${i}`}>{text}</span>
-          ))}
-        </div>
-
-        {/* Column 3 (Inner - Mint Teal Monospace Ticker) */}
-        <div className="hidden 2xl:flex flex-col gap-8 font-mono text-xl 2xl:text-2xl font-bold uppercase tracking-[0.25em] text-transparent [-webkit-text-stroke:1.5px_rgba(88,164,176,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
-          {['LEARN • CONNECT • INSPIRE', 'BYTE TALKS 2026 • AKGEC', 'PREMIER TECH FORUM', 'LEARN • CONNECT • INSPIRE', 'BYTE TALKS 2026 • AKGEC', 'PREMIER TECH FORUM'].map((text, i) => (
-            <span key={`left-col3-${i}`}>{text}</span>
+        {/* Row 2 (Inner edge - Enlarged Coral Red Accent Outlined) */}
+        <div className="flex flex-col gap-12 font-display text-[clamp(3.8rem,6.5vw,6.5rem)] font-black uppercase tracking-wider text-transparent [-webkit-text-stroke:2px_rgba(222,67,44,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'GDG ON CAMPUS'].map((text, i) => (
+            <span key={`left-r2-${i}`}>{text}</span>
           ))}
         </div>
       </div>
 
-      {/* Background Graphic: Right Flank - Multiple Rows/Columns of "BYTE TALKS" Typography */}
+      {/* Background Graphic: Right Flank - Exactly 2 Enlarged Rows/Columns of "BYTE TALKS" Typography */}
       <div 
-        className="pointer-events-none absolute right-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-end gap-4 xl:gap-8 2xl:gap-10 pr-2 sm:pr-4 xl:pr-6 w-[clamp(140px,calc((100vw-680px)/2),420px)] overflow-hidden opacity-30 xl:opacity-40"
+        className="pointer-events-none absolute right-0 top-0 bottom-0 select-none z-0 hidden lg:flex items-start justify-end gap-6 xl:gap-12 pr-2 sm:pr-4 xl:pr-6 w-[clamp(180px,calc((100vw-680px)/2),480px)] overflow-hidden opacity-35 xl:opacity-45"
         aria-hidden="true"
       >
-        {/* Column 3 (Inner - Mint Teal Monospace Ticker) */}
-        <div className="hidden 2xl:flex flex-col gap-8 font-mono text-xl 2xl:text-2xl font-bold uppercase tracking-[0.25em] text-transparent [-webkit-text-stroke:1.5px_rgba(88,164,176,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
-          {['LEARN • CONNECT • INSPIRE', 'BYTE TALKS 2026 • AKGEC', 'PREMIER TECH FORUM', 'LEARN • CONNECT • INSPIRE', 'BYTE TALKS 2026 • AKGEC', 'PREMIER TECH FORUM'].map((text, i) => (
-            <span key={`right-col3-${i}`}>{text}</span>
+        {/* Row 2 (Inner edge - Enlarged Yellow/Gold Accent Outlined) */}
+        <div className="flex flex-col gap-12 font-display text-[clamp(3.8rem,6.5vw,6.5rem)] font-black uppercase tracking-wider text-transparent [-webkit-text-stroke:2px_rgba(242,195,91,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'GDG ON CAMPUS'].map((text, i) => (
+            <span key={`right-r2-${i}`}>{text}</span>
           ))}
         </div>
 
-        {/* Column 2 (Middle - Yellow / Orange Accent Outlined) */}
-        <div className="hidden xl:flex flex-col gap-10 font-display text-4xl xl:text-5xl 2xl:text-6xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(242,195,91,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
-          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD'].map((text, i) => (
-            <span key={`right-col2-${i}`}>{text}</span>
-          ))}
-        </div>
-
-        {/* Column 1 (Outer edge - Giant White Outlined) */}
-        <div className="flex flex-col gap-10 font-display text-6xl xl:text-7xl 2xl:text-8xl font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.4)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
-          {['BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS'].map((text, i) => (
-            <span key={`right-col1-${i}`}>{text}</span>
+        {/* Row 1 (Outer edge - Giant Bold White Outlined) */}
+        <div className="flex flex-col gap-14 font-display text-[clamp(5rem,8.5vw,8.5rem)] font-black uppercase tracking-widest text-transparent [-webkit-text-stroke:2.5px_rgba(255,255,255,0.4)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+          {['BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS', 'BYTE TALKS', 'BYTETALKS'].map((text, i) => (
+            <span key={`right-r1-${i}`}>{text}</span>
           ))}
         </div>
       </div>
