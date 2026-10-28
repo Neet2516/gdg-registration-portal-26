@@ -68,20 +68,12 @@ function PrintableTicketCard({ values }: { values: FormValues }) {
               {values.branch || 'CSE'}
             </span>
           </div>
-          <div>
+          <div className="col-span-2">
             <span className="font-mono text-[0.56rem] font-bold uppercase tracking-wider text-white/50 block">
               VENUE
             </span>
             <span className="font-mono text-xs font-bold text-[#e2a444]">
               CSIT SEMINAR HALL
-            </span>
-          </div>
-          <div>
-            <span className="font-mono text-[0.56rem] font-bold uppercase tracking-wider text-white/50 block">
-              PASS ID
-            </span>
-            <span className="font-mono text-xs font-bold text-[#55a8a8]">
-              BT26-{values.studentNumber.slice(-4) || '8492'}
             </span>
           </div>
         </div>
@@ -277,16 +269,281 @@ export function RegistrationSection() {
     }
   };
 
-  const handlePrintTicket = () => {
-    toast.info('Print Ticket', 'Preparing print layout for your BYTE TALKS pass...');
-    window.print();
+  const handlePrintTicket = async () => {
+    toast.info('Generating Ticket', 'Opening printable single-page pass...');
+
+    try {
+      const qrSvg = await QRCode.toString(values.studentNumber?.trim() || '2500000000000', {
+        type: 'svg',
+        margin: 1,
+        color: { dark: '#1c242b', light: '#ffffff' },
+      });
+
+      let printFrame = document.getElementById('ticket-hidden-iframe') as HTMLIFrameElement;
+      if (!printFrame) {
+        printFrame = document.createElement('iframe');
+        printFrame.id = 'ticket-hidden-iframe';
+        printFrame.style.position = 'fixed';
+        printFrame.style.right = '0';
+        printFrame.style.bottom = '0';
+        printFrame.style.width = '0';
+        printFrame.style.height = '0';
+        printFrame.style.border = '0';
+        document.body.appendChild(printFrame);
+      }
+
+      const frameDoc = printFrame.contentDocument || printFrame.contentWindow?.document;
+      if (!frameDoc) {
+        window.print();
+        return;
+      }
+
+      frameDoc.open();
+      frameDoc.write(`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>BYTE_TALKS_2026_PASS_${values.studentNumber || 'TICKET'}</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", monospace;
+      width: 100%;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .ticket-card {
+      width: 380px;
+      border: 3px solid #1c242b;
+      background: #1c242b;
+      color: #ffffff;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    .ticket-header {
+      background-color: #de432c !important;
+      padding: 22px 24px;
+      border-bottom: 2px solid rgba(255,255,255,0.4);
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .header-tag {
+      background: rgba(255,255,255,0.25);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+    .header-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 14px;
+    }
+    .event-date-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.12em;
+    }
+    .event-date {
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-top: 2px;
+      letter-spacing: -0.02em;
+    }
+    .event-time-badge {
+      background: #1c242b !important;
+      color: #ffffff !important;
+      padding: 4px 8px;
+      font-size: 11.5px;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.4);
+      white-space: nowrap;
+    }
+    .ticket-body {
+      padding: 24px 26px;
+      background: #1c242b !important;
+    }
+    .attendee-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #55a8a8;
+      letter-spacing: 0.14em;
+    }
+    .attendee-name {
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-top: 4px;
+      margin-bottom: 16px;
+      line-height: 1.1;
+      word-break: break-word;
+    }
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 14px;
+    }
+    .field-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.12em;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .field-value {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .field-value.venue {
+      color: #f2c35b;
+    }
+    .perforation {
+      border-top: 2px dashed rgba(255,255,255,0.22);
+      margin: 20px 0 18px 0;
+    }
+    .qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-box {
+      background: #ffffff !important;
+      padding: 10px;
+      border: 2px solid #1c242b;
+      width: 130px;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-box svg {
+      width: 100%;
+      height: 100%;
+    }
+    .qr-caption {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-top: 9px;
+    }
+    .ticket-footer {
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      text-align: center;
+      font-size: 8px;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="ticket-card">
+    <div class="ticket-header">
+      <div class="header-top">
+        <span class="header-tag">• BYTE TALKS 2026 •</span>
+        <span>AKGEC CAMPUS</span>
+      </div>
+      <div class="header-bottom">
+        <div>
+          <div class="event-date-label">OFFICIAL ADMISSION TICKET</div>
+          <div class="event-date">OCT 30, 2026</div>
+        </div>
+        <div class="event-time-badge">10:00 AM – 12:30 PM</div>
+      </div>
+    </div>
+    <div class="ticket-body">
+      <div class="attendee-label">ATTENDEE NAME</div>
+      <div class="attendee-name">${values.fullName || 'AKSHAT DIXIT'}</div>
+      
+      <div class="details-grid">
+        <div>
+          <span class="field-label">STUDENT NUMBER</span>
+          <span class="field-value">${values.studentNumber || '2500270100000'}</span>
+        </div>
+        <div>
+          <span class="field-label">BRANCH</span>
+          <span class="field-value">${values.branch || 'CSE'}</span>
+        </div>
+        <div style="grid-column: span 2;">
+          <span class="field-label">VENUE</span>
+          <span class="field-value venue">CSIT SEMINAR HALL</span>
+        </div>
+      </div>
+
+      <div class="perforation"></div>
+
+      <div class="qr-section">
+        <div class="qr-box">
+          ${qrSvg}
+        </div>
+        <div class="qr-caption">SCAN FOR ENTRY VERIFICATION</div>
+      </div>
+
+      <div class="ticket-footer">
+        <div>AKGEC • CSIT SEMINAR HALL • OCT 30, 2026 (10:00 AM – 12:30 PM)</div>
+        <div style="color: rgba(255,255,255,0.5); font-size: 7.5px; margin-top: 2px;">
+          Valid for single entry. Please carry your physical college ID card.
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`);
+      frameDoc.close();
+
+      setTimeout(() => {
+        printFrame.contentWindow?.focus();
+        printFrame.contentWindow?.print();
+      }, 300);
+    } catch (err) {
+      console.error('Print generation failed:', err);
+      window.print();
+    }
   };
 
   const handleAddToCalendar = () => {
     toast.success('Opening Calendar', 'Redirecting to Google Calendar with session details...');
     const title = encodeURIComponent('BYTE TALKS 2026 | AKGEC');
     const details = encodeURIComponent(
-      `BYTE TALKS 2026 Admission Confirmed for ${values.fullName}. Pass ID: BT26-${values.studentNumber.slice(-4) || '2026'}. Venue: CSIT Seminar Hall, AKGEC Campus. Timing: 10:00 AM to 12:30 PM.`
+      `BYTE TALKS 2026 Admission Confirmed for ${values.fullName}. Student Number: ${values.studentNumber}. Venue: CSIT Seminar Hall, AKGEC Campus. Timing: 10:00 AM to 12:30 PM.`
     );
     const location = encodeURIComponent('CSIT Seminar Hall, AKGEC Campus, Ghaziabad');
     const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261030T043000Z/20261030T070000Z&details=${details}&location=${location}`;
@@ -526,20 +783,12 @@ export function RegistrationSection() {
                       {values.branch || 'CSE'}
                     </span>
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <span className="font-mono text-[0.58rem] font-bold uppercase tracking-wider text-white/50 block">
                       VENUE
                     </span>
                     <span className="font-mono text-xs sm:text-sm font-bold text-[#e2a444]">
                       CSIT SEMINAR HALL
-                    </span>
-                  </div>
-                  <div>
-                    <span className="font-mono text-[0.58rem] font-bold uppercase tracking-wider text-white/50 block">
-                      PASS ID
-                    </span>
-                    <span className="font-mono text-xs sm:text-sm font-bold text-[#55a8a8]">
-                      BT26-{values.studentNumber.slice(-4) || '8492'}
                     </span>
                   </div>
                 </div>
