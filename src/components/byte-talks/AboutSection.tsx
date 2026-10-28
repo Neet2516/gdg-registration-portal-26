@@ -49,9 +49,7 @@ export function AboutSection() {
             <div className="w-full h-[3px] bg-white mt-4 mb-6" />
 
             <p className="font-mono text-sm sm:text-base leading-relaxed text-white/80 max-w-xl">
-              A short event description, preferably 3 to 5 lines.
-              <br /><br />
-              BYTE TALKS brings together forward-thinking minds, alumni innovators, and student builders. Join us at AKGEC for an afternoon of insightful conversations, architectural deep dives, and shared technical learning.
+              BYTE TALKS is the premier student-led technical forum at Ajay Kumar Garg Engineering College, designed to bridge the gap between classroom academics and production-grade software engineering. We bring together high-impact industry practitioners, open-source maintainers, and accomplished alumni for unfiltered architectural deep dives, live code breakdowns, and practical career roadmaps. It is built by developers, for developers who want to move beyond syntax and master real-world systems.
             </p>
 
             {/* Badges matching reference */}
