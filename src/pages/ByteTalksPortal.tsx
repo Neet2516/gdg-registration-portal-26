@@ -14,6 +14,7 @@ import {
   RegistrationSection,
   EventFooter,
   LazySection,
+  FloatingSparkles,
 } from '../components/byte-talks';
 
 export function ByteTalksPortal() {
@@ -74,7 +75,10 @@ export function ByteTalksPortal() {
   }, [shouldReduceMotion]);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#1B1F27] font-mono text-white selection:bg-[#de432c] selection:text-white">
+    <main className="min-h-screen overflow-hidden bg-[#1B1F27] font-mono text-white selection:bg-[#de432c] selection:text-white relative">
+      {/* Ambient Random Top-to-Bottom Floating Sparkles */}
+      <FloatingSparkles />
+
       <a className="fixed left-3 top-3 z-[100] -translate-y-[160%] bg-[#1c242b] px-4 py-3 text-white focus:translate-y-0" href="#main-content">
         Skip to content
       </a>
