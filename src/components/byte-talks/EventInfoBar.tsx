@@ -4,10 +4,10 @@ export function EventInfoBar() {
   const timeLeft = useLiveCountdown();
 
   return (
-    <div className="relative z-20 w-full bg-[#1B1F27] text-white">
-      {/* Retro diagonal striped hazard/accent line */}
+    <div className="relative z-30 w-full bg-[#1B1F27] text-white">
+      {/* Retro diagonal striped hazard/accent line matching reference */}
       <div 
-        className="h-2.5 w-full bg-[repeating-linear-gradient(45deg,#1c242b,#1c242b_8px,#ffffff_8px,#ffffff_16px)]" 
+        className="h-3 sm:h-3.5 w-full bg-[repeating-linear-gradient(-45deg,#1c242b,#1c242b_8px,#ffffff_8px,#ffffff_16px)] border-y border-[#1c242b]" 
         aria-hidden="true" 
       />
       <div className="mx-auto grid w-[min(1320px,calc(100%-48px))] grid-cols-2 md:grid-cols-4 items-center gap-6 py-6 md:py-8 max-sm:w-[calc(100%-32px)]">

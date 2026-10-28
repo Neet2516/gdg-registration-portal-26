@@ -148,12 +148,12 @@ export function EventHero() {
           </motion.div>
         </div>
 
-        {/* Campus Sticker Illustration positioned at bottom left-to-center */}
+        {/* Campus Sticker Illustration positioned at bottom left-to-center with bottom half tucked behind EventInfoBar */}
         <motion.div 
           initial={{ opacity: 0, y: 35 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-20 -mt-8 sm:-mt-16 md:-mt-26 lg:-mt-40 w-[min(98%,880px)] lg:w-[68%] -ml-1 sm:-ml-3 lg:-ml-6"
+          className="relative z-10 -mt-8 sm:-mt-16 md:-mt-24 lg:-mt-36 w-[min(98%,880px)] lg:w-[68%] -ml-1 sm:-ml-3 lg:-ml-6 -mb-16 sm:-mb-24 md:-mb-36 lg:-mb-44 xl:-mb-52"
         >
           <img
             src={campusIllustration}

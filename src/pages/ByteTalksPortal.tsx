@@ -79,16 +79,11 @@ export function ByteTalksPortal() {
         Skip to content
       </a>
       
-      {/* Top Hero & Header Container with Mint Teal Grid & Bottom Dark Divide */}
-      <div className="relative overflow-hidden bg-[#B4DDD7]">
+      {/* Top Hero & Header Container with Mint Teal Grid */}
+      <div className="relative overflow-x-clip bg-[#B4DDD7]">
         {/* Continuous Graph Grid across the entire upper section */}
         <div 
-          className="pointer-events-none absolute inset-x-0 top-0 bottom-[200px] md:bottom-[260px] lg:bottom-[320px] bg-[linear-gradient(#1c242b1a_1px,transparent_1px),linear-gradient(90deg,#1c242b1a_1px,transparent_1px)] bg-[size:38px_38px]" 
-          aria-hidden="true" 
-        />
-        {/* Crisp Dark Canvas starting right behind the campus sticker */}
-        <div 
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[200px] md:h-[260px] lg:h-[320px] bg-[#1B1F27] border-t border-white/10" 
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(#1c242b1a_1px,transparent_1px),linear-gradient(90deg,#1c242b1a_1px,transparent_1px)] bg-[size:38px_38px]" 
           aria-hidden="true" 
         />
         
