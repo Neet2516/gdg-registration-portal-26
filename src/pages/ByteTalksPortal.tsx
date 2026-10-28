@@ -14,6 +14,7 @@ import {
   RegistrationSection,
   EventFooter,
   FloatingSparkles,
+  SparkleCursorTrail,
   ByteTalksLoader,
   ToastProvider,
 } from '../components/byte-talks';
@@ -120,6 +121,9 @@ export function ByteTalksPortal() {
       </AnimatePresence>
 
       <main className="min-h-screen overflow-hidden bg-[#1B1F27] font-mono text-white selection:bg-[#de432c] selection:text-white relative">
+        {/* Custom Sparkle Cursor & Interactive Movement Trail */}
+        <SparkleCursorTrail />
+
         {/* Ambient Random Top-to-Bottom Floating Sparkles */}
         <FloatingSparkles />
 
