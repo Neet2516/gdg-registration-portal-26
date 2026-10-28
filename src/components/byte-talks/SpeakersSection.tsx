@@ -1,12 +1,36 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import arrowMarker from '../../assets/images/byte-talks/ArrowMarker.png';
 import speakerPhoto from '../../assets/images/byte-talks/speaker_portrait.jpg';
 
 export function SpeakersSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Scroll-triggered progress for this section entering viewport
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'center center'],
+  });
+
+  // Turn/swing in from right to left like a sign board on scroll
+  const targetX = useTransform(scrollYProgress, [0.08, 0.72], [140, 0]);
+  const targetRotate = useTransform(scrollYProgress, [0.08, 0.72], [22, 0]);
+
+  const smoothX = useSpring(targetX, { stiffness: 85, damping: 20 });
+  const smoothRotate = useSpring(targetRotate, { stiffness: 85, damping: 20 });
+
+  const signX = shouldReduceMotion ? 0 : smoothX;
+  const signRotate = shouldReduceMotion ? 0 : smoothRotate;
+
   return (
-    <section className="relative w-full bg-[#1B1F27] pt-16 sm:pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 text-white overflow-hidden" id="speakers">
+    <section 
+      ref={sectionRef} 
+      className="relative w-full bg-[#1B1F27] pt-16 sm:pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 text-white overflow-hidden" 
+      id="speakers"
+    >
       {/* Floating Sparkle & Diamond Stars as seen in the reference mockup */}
-      <div className="absolute left-6 sm:left-12 top-6 sm:top-10 flex items-center gap-6 sm:gap-10 pointer-events-none select-none" aria-hidden="true">
+      <div className="absolute left-6 sm:left-12 top-6 sm:top-10 flex items-center gap-6 sm:gap-10 pointer-events-none select-none z-10" aria-hidden="true">
         <span className="text-xl sm:text-2xl text-[#f2c35b]/90 drop-shadow-[0_0_8px_rgba(242,195,91,0.5)]">✦</span>
         <span className="text-sm sm:text-base text-[#de432c]/85 drop-shadow-[0_0_8px_rgba(222,67,44,0.5)]">✦</span>
         <span className="text-base sm:text-lg text-[#55a8a8]/90 drop-shadow-[0_0_8px_rgba(85,168,168,0.5)]">✦</span>
@@ -14,31 +38,33 @@ export function SpeakersSection() {
         <span className="text-sm sm:text-base text-[#de432c]/85 drop-shadow-[0_0_8px_rgba(222,67,44,0.5)]">✦</span>
       </div>
 
-      <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
-        {/* Header Block with Signpost on Right and SPEAKERS on Left */}
-        <div className="relative pt-4 pb-4">
-          {/* Directional Signpost Artwork floating on the right */}
-          <motion.div 
-            animate={{ y: [0, -6, 0] }}
-            transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut' }}
-            className="absolute right-0 sm:-right-2 md:-right-4 lg:-right-6 -top-8 sm:-top-12 md:-top-20 lg:-top-28 xl:-top-32 w-[280px] sm:w-[380px] md:w-[480px] lg:w-[560px] xl:w-[620px] pointer-events-none select-none z-10"
-          >
-            <img
-              src={arrowMarker}
-              alt="Directional Signpost: Speaker Area, What is Commit Con?, Past Events"
-              className="w-full h-auto object-contain drop-shadow-[10px_16px_0_rgba(0,0,0,0.4)]"
-              loading="eager"
-              decoding="async"
-            />
-          </motion.div>
+      {/* Directional Signpost Artwork anchored directly to the right edge of the screen */}
+      <motion.div 
+        style={{
+          x: signX,
+          rotate: signRotate,
+          transformOrigin: '80% 80%',
+        }}
+        className="absolute -right-6 sm:-right-10 md:-right-14 lg:-right-18 xl:-right-22 top-6 sm:top-8 md:top-10 lg:top-12 w-[240px] sm:w-[320px] md:w-[420px] lg:w-[500px] xl:w-[560px] pointer-events-none select-none z-20"
+      >
+        <img
+          src={arrowMarker}
+          alt="Directional Signpost: Speaker Area, What is Commit Con?, Past Events"
+          className="w-full h-auto object-contain drop-shadow-[10px_16px_0_rgba(0,0,0,0.4)]"
+          loading="eager"
+          decoding="async"
+        />
+      </motion.div>
 
+      <div className="relative z-10 mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
+        {/* Header Block with SPEAKERS on Left */}
+        <div className="relative pt-4 pb-4">
           {/* SPEAKERS Title & Solid White Underline */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
-            className="relative z-0"
           >
             <h2 className="font-display text-4xl sm:text-5xl lg:text-[3.6rem] font-black uppercase text-white tracking-tight m-0 leading-tight">
               SPEAKERS
