@@ -5,28 +5,33 @@ export const eventDate = new Date(2026, 9, 30);
 export const faqs = [
   {
     badge: '01',
-    question: 'What is Byte Talks 2026',
-    answer: 'A 24-hour student hackathon at AKGEC on 14-15 Nov 2026, organised by GDG On Campus AKGEC.',
+    question: 'What is BYTE TALKS 2026?',
+    answer: 'BYTE TALKS is the flagship tech conference and speaker forum organised by Google Developer Groups (GDG) on Campus AKGEC. It brings together leading software engineers, AI researchers, and prominent tech alumni for deep-dive technical talks, live architecture breakdowns, and industry career mentorship.',
   },
   {
-    badge: '01',
-    question: 'What is BuildOn 2026',
-    answer: 'BuildOn is the flagship innovation and prototyping hackathon organized under Byte Talks at AKGEC.',
+    badge: '02',
+    question: 'Who can attend, and is there any registration fee?',
+    answer: 'Registration is 100% free! It is open to all AKGEC students across all years (1st to 4th year) and all engineering branches (CSE, IT, CS, CS-AIML, CS-DS, ECE, ME, etc.). No prior competitive coding experience is required—curiosity to learn is all you need.',
   },
   {
-    badge: '01',
-    question: 'What is BuildOn 2026',
-    answer: 'A collaborative sprint bringing together developers, designers, and problem solvers across colleges.',
+    badge: '03',
+    question: 'What are the event timings and venue?',
+    answer: 'The event takes place on 30 October 2026 from 10:00 AM to 4:00 PM at the CSIT Seminar Hall, AKGEC Campus, Ghaziabad. Registered students are requested to report by 9:45 AM for pass verification and check-in.',
   },
   {
-    badge: '01',
-    question: 'What is BuildOn 2026',
-    answer: 'Participants get access to technical workshops, industry mentors, project evaluations, and exclusive prizes.',
+    badge: '04',
+    question: 'Will attendees receive official certificates and GDG swag?',
+    answer: 'Yes! All confirmed attendees who check in and attend the sessions will receive an official GDG Certificate of Participation. Additionally, active participants in live Q&A, tech trivia, and project spotlights will win exclusive GDG stickers and swag items.',
   },
   {
-    badge: '01',
-    question: 'What is BuildOn 2026',
-    answer: 'Registration is free and open to all enthusiastic learners. Sign up below to reserve your team spot.',
+    badge: '05',
+    question: 'How do I know if my seat reservation is confirmed?',
+    answer: 'Due to seminar hall capacity constraints, seats are strictly capped at 200 on a first-come, first-served basis. Once you submit the registration form and verify your email, your digital admission pass (with your QR code and unique ticket number) is generated immediately on screen and sent to your email.',
+  },
+  {
+    badge: '06',
+    question: 'I am a 1st-year student with no tech background. Will it be useful?',
+    answer: 'Absolutely! The sessions are specifically structured to help beginners demystify modern technology stacks—covering practical roadmaps for AI/ML, Cloud, Web development, open-source programs like GSoC, and preparing for future hackathons and placements.',
   },
 ];
 
