@@ -4,24 +4,29 @@ export const eventDate = new Date(2026, 9, 30);
 
 export const faqs = [
   {
-    question: 'What is BYTE TALKS?',
-    answer: 'A campus event for technology conversations, new ideas, and people who enjoy building and learning together.',
+    badge: '01',
+    question: 'What is Byte Talks 2026',
+    answer: 'A 24-hour student hackathon at AKGEC on 14-15 Nov 2026, organised by GDG On Campus AKGEC.',
   },
   {
-    question: 'When is the event?',
-    answer: 'BYTE TALKS is scheduled for 30 October 2026. The start time will be announced by the organizers.',
+    badge: '01',
+    question: 'What is BuildOn 2026',
+    answer: 'BuildOn is the flagship innovation and prototyping hackathon organized under Byte Talks at AKGEC.',
   },
   {
-    question: 'Where will it take place?',
-    answer: 'The event is planned for the CSIT Seminar Hall at AKGEC.',
+    badge: '01',
+    question: 'What is BuildOn 2026',
+    answer: 'A collaborative sprint bringing together developers, designers, and problem solvers across colleges.',
   },
   {
-    question: 'Who can attend?',
-    answer: 'Eligibility and entry instructions will be shared by the organizers when registration details are confirmed.',
+    badge: '01',
+    question: 'What is BuildOn 2026',
+    answer: 'Participants get access to technical workshops, industry mentors, project evaluations, and exclusive prizes.',
   },
   {
-    question: 'Can I register on this page?',
-    answer: 'Yes. Submit the form with your AKGEC details, verify the email OTP, and your registration will be sent to the event backend.',
+    badge: '01',
+    question: 'What is BuildOn 2026',
+    answer: 'Registration is free and open to all enthusiastic learners. Sign up below to reserve your team spot.',
   },
 ];
 
