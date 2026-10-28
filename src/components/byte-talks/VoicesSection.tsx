@@ -14,8 +14,8 @@ interface TestimonialCard {
 
 const testimonials: TestimonialCard[] = [
   {
-    quote: 'I came with an idea and left with a team, a prototype and a trophy.',
-    role: 'PAST PARTICIPANT • B.TECH',
+    quote: 'The depth of discussion here easily matches top-tier tech meetups.',
+    role: 'PAST KEYNOTE SPEAKER • BACKEND ARCHITECT',
     bg: 'bg-[#58A4B0]',
     textColor: 'text-[#1c242b]',
     quoteColor: 'text-[#1c242b]',
@@ -23,8 +23,8 @@ const testimonials: TestimonialCard[] = [
     gridSpan: 'lg:col-span-2',
   },
   {
-    quote: 'I came with an idea and left with a team, a prototype and a trophy.',
-    role: 'PAST PARTICIPANT • B.TECH',
+    quote: 'Seeing juniors dive straight into production bottlenecks was incredible.',
+    role: 'ALUMNI SPEAKER • GSOC MENTOR',
     bg: 'bg-[#de432c]',
     textColor: 'text-white',
     quoteColor: 'text-white',
@@ -32,8 +32,8 @@ const testimonials: TestimonialCard[] = [
     gridSpan: 'lg:col-span-2',
   },
   {
-    quote: 'I came with an idea and left with a team, a prototype and a trophy.',
-    role: 'PAST PARTICIPANT • B.TECH',
+    quote: 'We went way beyond surface-level tech into hard architectural trade-offs.',
+    role: 'GUEST SPEAKER • AI SYSTEMS LEAD',
     bg: 'bg-[#1c242b]',
     textColor: 'text-white',
     quoteColor: 'text-white',
@@ -41,8 +41,8 @@ const testimonials: TestimonialCard[] = [
     gridSpan: 'lg:col-span-2',
   },
   {
-    quote: 'I came with an idea and left with a team, a prototype and a trophy.',
-    role: 'PAST PARTICIPANT • B.TECH',
+    quote: 'The energy in the room during the live Q&A was electric and intensely technical.',
+    role: 'PAST SPEAKER • DEVOPS ENGINEER',
     bg: 'bg-[#387A5B]',
     textColor: 'text-white',
     quoteColor: 'text-white',
@@ -50,8 +50,8 @@ const testimonials: TestimonialCard[] = [
     gridSpan: 'lg:col-span-2 lg:col-start-2',
   },
   {
-    quote: 'I came with an idea and left with a team, a prototype and a trophy.',
-    role: 'PAST PARTICIPANT • B.TECH',
+    quote: 'AKGEC students ask the kind of sharp engineering questions you rarely see on campus.',
+    role: 'ALUMNI SPEAKER • CLOUD ENGINEER',
     bg: 'bg-[#de432c]',
     textColor: 'text-white',
     quoteColor: 'text-white',
