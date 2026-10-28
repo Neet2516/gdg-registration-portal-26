@@ -13,7 +13,6 @@ import {
   FAQSection,
   RegistrationSection,
   EventFooter,
-  LazySection,
   FloatingSparkles,
   ByteTalksLoader,
 } from '../components/byte-talks';
@@ -44,39 +43,27 @@ export function ByteTalksPortal() {
     }
     rafId = requestAnimationFrame(raf);
 
-    // Global interceptor for smooth anchor jumps with lazy loading support
+    // Global interceptor for smooth anchor jumps
     const handleAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('a');
       if (!target) return;
       const href = target.getAttribute('href');
       if (href && href.startsWith('#') && href.length > 1) {
-        e.preventDefault();
         const targetId = href.slice(1);
+        const targetEl =
+          targetId === 'register'
+            ? (document.getElementById('registration-form') || document.getElementById('register'))
+            : (document.getElementById(targetId) || (targetId === 'voices' ? document.getElementById('community') : null));
 
-        // Notify all lazy sections to hydrate immediately before scrolling
-        window.dispatchEvent(new CustomEvent('lazy-load-target', { detail: 'all' }));
+        if (targetEl) {
+          e.preventDefault();
+          lenis.scrollTo(targetEl, { offset: -40, duration: 1.15 });
 
-        const scrollToTarget = () => {
-          const targetEl =
-            targetId === 'register'
-              ? (document.getElementById('registration-form') || document.getElementById('register'))
-              : document.getElementById(targetId);
-
-          if (targetEl) {
-            lenis.scrollTo(targetEl, { offset: -35, duration: 1.15 });
+          try {
+            window.history.pushState(null, '', href);
+          } catch {
+            // ignore in sandboxed environments
           }
-        };
-
-        requestAnimationFrame(() => {
-          scrollToTarget();
-          setTimeout(scrollToTarget, 80);
-          setTimeout(scrollToTarget, 260);
-        });
-
-        try {
-          window.history.pushState(null, '', href);
-        } catch {
-          // ignore in sandboxed environments
         }
       }
     };
@@ -88,27 +75,25 @@ export function ByteTalksPortal() {
       delete (window as unknown as { __lenis?: Lenis }).__lenis;
       lenis.destroy();
     };
-  }, [shouldReduceMotion]);
+  }, [shouldReduceMotion, isLoading]);
 
   // Fallback anchor click handler when motion is reduced (Lenis disabled)
   useEffect(() => {
-    if (!shouldReduceMotion) return;
+    if (!shouldReduceMotion || isLoading) return;
 
     const handleFallbackAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('a');
       if (!target) return;
       const href = target.getAttribute('href');
       if (href && href.startsWith('#') && href.length > 1) {
-        e.preventDefault();
         const targetId = href.slice(1);
-        window.dispatchEvent(new CustomEvent('lazy-load-target', { detail: 'all' }));
-
         const targetEl =
           targetId === 'register'
             ? (document.getElementById('registration-form') || document.getElementById('register'))
-            : document.getElementById(targetId);
+            : (document.getElementById(targetId) || (targetId === 'voices' ? document.getElementById('community') : null));
 
         if (targetEl) {
+          e.preventDefault();
           targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
           try {
             window.history.pushState(null, '', href);
@@ -123,7 +108,7 @@ export function ByteTalksPortal() {
     return () => {
       document.removeEventListener('click', handleFallbackAnchorClick);
     };
-  }, [shouldReduceMotion]);
+  }, [shouldReduceMotion, isLoading]);
 
   return (
     <>
@@ -159,15 +144,9 @@ export function ByteTalksPortal() {
 
       <div id="main-content">
         <AboutSection />
-        <LazySection id="speakers" minHeight="580px">
-          <SpeakersSection />
-        </LazySection>
-        <LazySection id="voices" minHeight="450px">
-          <VoicesSection />
-        </LazySection>
-        <LazySection id="faq" minHeight="450px">
-          <FAQSection />
-        </LazySection>
+        <SpeakersSection />
+        <VoicesSection />
+        <FAQSection />
         <RegistrationSection />
       </div>
       <EventFooter />

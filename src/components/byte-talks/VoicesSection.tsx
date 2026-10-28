@@ -84,7 +84,8 @@ export function VoicesSection() {
     <section 
       ref={sectionRef} 
       className="relative w-full bg-[#1B1F27] pt-16 pb-28 md:pt-24 md:pb-36 text-white overflow-hidden" 
-      id="community"
+      id="voices"
+      data-alias="community"
     >
       {/* Decorative Sparkle Stars */}
       <span className="sparkle-star absolute right-16 top-10 text-3xl text-white/30 select-none pointer-events-none" aria-hidden="true">✦</span>

@@ -96,24 +96,6 @@ export function EventHero() {
               <motion.a 
                 id="hero-register-btn"
                 href="#register" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.dispatchEvent(new CustomEvent('lazy-load-target', { detail: 'all' }));
-                  const lenisInstance = (window as unknown as { __lenis?: { scrollTo: (target: HTMLElement | string, opts?: unknown) => void } }).__lenis;
-                  const target = document.getElementById('registration-form') || document.getElementById('register');
-                  if (target) {
-                    if (lenisInstance) {
-                      lenisInstance.scrollTo(target, { offset: -35, duration: 1.15 });
-                    } else {
-                      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                    try {
-                      window.history.pushState(null, '', '#register');
-                    } catch {
-                      // ignore
-                    }
-                  }
-                }}
                 whileHover={{ x: -2, y: -2 }}
                 whileTap={{ x: 2, y: 2 }}
                 className="btn-3d-red inline-flex items-center gap-3 px-6 py-3.5 font-mono text-[0.84rem] font-bold uppercase tracking-wider no-underline cursor-pointer select-none"
