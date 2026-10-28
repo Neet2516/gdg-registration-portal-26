@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, RotateCw, Share2, ShieldCheck, Users } from 'lucide-react';
 import QRCode from 'qrcode';
@@ -10,6 +11,105 @@ import { generateUniversityEmail } from '../../utils/formatters';
 import { toast } from './Toast';
 import { initialForm, validateForm } from './types';
 import type { FormValues, FormErrors, RegistrationStep } from './types';
+
+function PrintableTicketCard({ values }: { values: FormValues }) {
+  return (
+    <div className="w-[380px] bg-[#1c242b] border-2 border-[#1c242b] text-white overflow-hidden font-mono shadow-none m-0">
+      {/* Red Header */}
+      <div className="bg-[#de432c] p-5 text-white border-b-2 border-white/30">
+        <div className="flex items-center justify-between border-b border-white/20 pb-2.5">
+          <span className="font-mono text-[0.66rem] font-black uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded">
+            • BYTE TALKS 2026 •
+          </span>
+          <span className="font-mono text-[0.62rem] font-bold uppercase tracking-widest text-white/90">
+            AKGEC CAMPUS
+          </span>
+        </div>
+        <div className="mt-3.5 flex items-end justify-between">
+          <div>
+            <span className="font-mono text-[0.58rem] font-bold uppercase tracking-widest text-white/80 block">
+              OFFICIAL ADMISSION TICKET
+            </span>
+            <span className="font-display text-xl font-black text-white tracking-tight">
+              OCT 30, 2026
+            </span>
+          </div>
+          <span className="font-mono text-xs font-black bg-[#1c242b] text-white px-2 py-1 border border-white/40 whitespace-nowrap">
+            10:00 AM – 12:30 PM
+          </span>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="p-6 text-white bg-[#1c242b]">
+        <div className="mb-4">
+          <span className="font-mono text-[0.6rem] font-bold uppercase tracking-wider text-[#55a8a8] block">
+            ATTENDEE NAME
+          </span>
+          <h4 className="mt-1 font-display text-2xl font-black uppercase tracking-tight text-white leading-none">
+            {values.fullName || 'AKSHAT DIXIT'}
+          </h4>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3.5 border-t border-white/15 pt-3.5 text-left">
+          <div>
+            <span className="font-mono text-[0.56rem] font-bold uppercase tracking-wider text-white/50 block">
+              STUDENT NUMBER
+            </span>
+            <span className="font-mono text-xs font-bold text-white">
+              {values.studentNumber || '2500270100000'}
+            </span>
+          </div>
+          <div>
+            <span className="font-mono text-[0.56rem] font-bold uppercase tracking-wider text-white/50 block">
+              BRANCH
+            </span>
+            <span className="font-mono text-xs font-bold text-white">
+              {values.branch || 'CSE'}
+            </span>
+          </div>
+          <div>
+            <span className="font-mono text-[0.56rem] font-bold uppercase tracking-wider text-white/50 block">
+              VENUE
+            </span>
+            <span className="font-mono text-xs font-bold text-[#e2a444]">
+              CSIT SEMINAR HALL
+            </span>
+          </div>
+          <div>
+            <span className="font-mono text-[0.56rem] font-bold uppercase tracking-wider text-white/50 block">
+              PASS ID
+            </span>
+            <span className="font-mono text-xs font-bold text-[#55a8a8]">
+              BT26-{values.studentNumber.slice(-4) || '8492'}
+            </span>
+          </div>
+        </div>
+
+        {/* Perforation */}
+        <div className="my-5 border-t-2 border-dashed border-white/20" />
+
+        {/* QR Code */}
+        <div className="flex flex-col items-center">
+          <TicketQrCode code={values.studentNumber || 'BT2026'} />
+          <span className="mt-2.5 font-mono text-[0.58rem] font-bold uppercase tracking-widest text-white/60">
+            SCAN FOR ENTRY VERIFICATION
+          </span>
+        </div>
+
+        {/* Verification Footnote */}
+        <div className="mt-4 pt-3 border-t border-white/15 text-center">
+          <p className="font-mono text-[8.5px] text-white/70 uppercase tracking-wider m-0">
+            AKGEC • CSIT SEMINAR HALL • OCT 30, 2026 (10:00 AM – 12:30 PM)
+          </p>
+          <p className="font-mono text-[7.5px] text-white/50 m-0 mt-0.5">
+            Valid for single entry with physical college ID card.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function TicketQrCode({ code }: { code: string }) {
   const [svgString, setSvgString] = useState<string>('');
@@ -869,6 +969,13 @@ export function RegistrationSection() {
           </div>
         )}
       </div>
+
+      {step === 'success' && typeof document !== 'undefined' && createPortal(
+        <div id="ticket-print-portal" aria-hidden="true" className="hidden">
+          <PrintableTicketCard values={values} />
+        </div>,
+        document.body
+      )}
     </section>
   );
 }
