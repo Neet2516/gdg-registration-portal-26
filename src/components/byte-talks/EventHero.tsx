@@ -119,12 +119,12 @@ export function EventHero() {
             initial={{ opacity: 0, scale: 0.92, rotate: -4 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 flex justify-center lg:justify-end -mt-2 lg:-mt-10"
+            className="relative lg:z-10 flex justify-center lg:justify-end -mt-2 lg:-mt-10 max-lg:absolute max-lg:top-12 xs:max-lg:top-10 sm:max-lg:top-8 max-lg:-right-24 xs:max-lg:-right-20 sm:max-lg:-right-14 max-lg:z-10 max-lg:pointer-events-none"
           >
             <motion.div 
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-              className="relative w-[min(100%,540px)] max-lg:max-w-[440px] aspect-square"
+              className="relative w-[min(100%,540px)] max-lg:w-[270px] xs:max-lg:w-[310px] sm:max-lg:w-[370px] aspect-square"
             >
               <img
                 src={compassIllustration}
@@ -135,13 +135,13 @@ export function EventHero() {
               />
               {/* Event Countdown Display inside Compass Dark Center Circle */}
               <div 
-                className="absolute top-[48.9%] left-[50.1%] -translate-x-1/2 -translate-y-1/2 flex items-baseline justify-center font-display font-black text-[clamp(1.05rem,2.8vw,1.95rem)] leading-none select-none pointer-events-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] tracking-tight whitespace-nowrap"
+                className="absolute top-[48.9%] left-[50.1%] -translate-x-1/2 -translate-y-1/2 flex items-baseline justify-center font-display font-black text-[clamp(0.85rem,2.8vw,1.95rem)] sm:text-[clamp(1.05rem,2.8vw,1.95rem)] leading-none select-none pointer-events-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] tracking-tight whitespace-nowrap"
                 aria-label={`Registration closes in ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes`}
               >
                 <span className="text-white">{String(timeLeft.days).padStart(2, '0')}</span>
-                <span className="text-[#de432c] text-[0.72em] font-black ml-0.5 mr-1.5 sm:mr-2">D</span>
+                <span className="text-[#de432c] text-[0.72em] font-black ml-0.5 mr-1 sm:mr-2">D</span>
                 <span className="text-white">{String(timeLeft.hours).padStart(2, '0')}</span>
-                <span className="text-[#de432c] text-[0.72em] font-black ml-0.5 mr-1.5 sm:mr-2">H</span>
+                <span className="text-[#de432c] text-[0.72em] font-black ml-0.5 mr-1 sm:mr-2">H</span>
                 <span className="text-white">{String(timeLeft.minutes).padStart(2, '0')}</span>
                 <span className="text-[#de432c] text-[0.72em] font-black ml-0.5">M</span>
               </div>
