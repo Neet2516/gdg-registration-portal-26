@@ -1,4 +1,71 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+
+const letterColors = [
+  '#de432c', // B - Red-Orange
+  '#f2c35b', // Y - Warm Gold
+  '#55a8a8', // T - Mint Teal
+  '#387A5B', // E - Forest Green
+  'transparent', // space
+  '#3168e0', // T - Blue
+  '#de432c', // A - Red-Orange
+  '#f2c35b', // L - Yellow
+  '#55a8a8', // K - Teal
+  '#e75842', // S - Coral
+];
+
+interface InteractiveFooterLetterProps {
+  char: string;
+  index: number;
+}
+
+function InteractiveFooterLetter({ char, index }: InteractiveFooterLetterProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [colorCycle, setColorCycle] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
+
+  if (char === ' ') {
+    return <span className="inline-block w-[0.25em]">&nbsp;</span>;
+  }
+
+  const palette = ['#de432c', '#f2c35b', '#55a8a8', '#387A5B', '#3168e0', '#e75842', '#ffffff'];
+  const baseColor = letterColors[index] || '#de432c';
+  const activeColor = colorCycle === 0 ? baseColor : palette[(index + colorCycle) % palette.length];
+
+  return (
+    <motion.span
+      onMouseEnter={() => {
+        setIsHovered(true);
+        setColorCycle((prev) => prev + 1);
+      }}
+      onMouseLeave={() => setIsHovered(false)}
+      animate={
+        shouldReduceMotion
+          ? {}
+          : {
+              y: isHovered ? -14 : 0,
+              scale: isHovered ? 1.08 : 1,
+              rotate: isHovered ? (index % 2 === 0 ? -2.5 : 2.5) : 0,
+            }
+      }
+      transition={{
+        type: 'spring',
+        stiffness: 420,
+        damping: 17,
+      }}
+      style={{
+        color: isHovered ? activeColor : 'transparent',
+        WebkitTextStroke: isHovered ? '2.5px #1c242b' : '2px #404b5c',
+        textShadow: isHovered
+          ? `6px 8px 0px #000000, 0 0 25px ${activeColor}44`
+          : 'none',
+      }}
+      className="inline-block cursor-pointer select-none transition-[color,text-stroke] duration-150"
+    >
+      {char}
+    </motion.span>
+  );
+}
 
 export function EventFooter() {
   return (
@@ -103,10 +170,16 @@ export function EventFooter() {
           </div>
         </div>
 
-        {/* Massive Outlined Retro Typography */}
-        <div className="pt-10 pb-6 text-center select-none overflow-hidden">
-          <div className="text-stroke-footer font-display text-[clamp(4.2rem,15vw,12.5rem)] font-black leading-none whitespace-nowrap">
-            BYTE TALKS
+        {/* Massive Outlined Retro Typography with Individual Letter Hover Animation */}
+        <div className="pt-14 pb-8 text-center select-none overflow-hidden">
+          <div className="font-display text-[clamp(3.8rem,14.5vw,12rem)] font-black leading-none whitespace-nowrap tracking-wide flex justify-center items-center">
+            {'BYTE TALKS'.split('').map((char, index) => (
+              <InteractiveFooterLetter 
+                key={`${char}-${index}`} 
+                char={char} 
+                index={index} 
+              />
+            ))}
           </div>
         </div>
       </div>
