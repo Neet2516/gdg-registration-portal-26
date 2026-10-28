@@ -12,3 +12,5 @@ export { EventFooter } from './EventFooter';
 export { LazySection } from './LazySection';
 export { FloatingSparkles } from './FloatingSparkles';
 export { ByteTalksLoader } from './ByteTalksLoader';
+export { ToastProvider, toast, useToast } from './Toast';
+export type { ToastType, ToastItem, ToastOptions } from './Toast';

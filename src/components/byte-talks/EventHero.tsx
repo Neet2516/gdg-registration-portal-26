@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import campusIllustration from '../../assets/images/byte-talks/raw-05.png';
 import compassIllustration from '../../assets/images/byte-talks/compass.svg';
 import { getEventCountdown, useLiveCountdown } from './types';
@@ -7,7 +7,6 @@ import { getEventCountdown, useLiveCountdown } from './types';
 export function EventHero() {
   const countdown = useMemo(getEventCountdown, []);
   const timeLeft = useLiveCountdown();
-  const shouldReduceMotion = useReducedMotion();
 
   const heroVariants = {
     hidden: { opacity: 0 },
@@ -127,15 +126,12 @@ export function EventHero() {
               transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
               className="relative w-[min(100%,540px)] max-lg:w-[280px] xs:max-lg:w-[320px] sm:max-lg:w-[380px] aspect-square"
             >
-              <motion.img
+              <img
                 src={compassIllustration}
                 alt={`BYTE TALKS countdown clock: ${countdown}`}
                 className="w-full h-full object-contain select-none drop-shadow-[8px_8px_0px_rgba(28,36,43,0.18)]"
                 loading="eager"
                 decoding="async"
-                style={{ transformOrigin: '50.1% 48.9%' }}
-                animate={shouldReduceMotion ? {} : { rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 45, ease: 'linear' }}
               />
               {/* Event Countdown Display inside Compass Dark Center Circle */}
               <div 

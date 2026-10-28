@@ -43,11 +43,12 @@ export const registrationSchema = z.object({
       message: 'Name cannot exceed 30 characters and must contain only letters.',
     }),
 
-  // 2. Student Number: ONLY digits, realistic length range 7-13 digits.
+  // 2. Student Number: ONLY digits, starts with 25 or 26, realistic length range 7-13 digits.
   studentNumber: z
     .string({ error: 'Student number is required.' })
     .trim()
     .regex(/^\d+$/, { message: 'Student number must contain only digits.' })
+    .regex(/^(25|26)/, { message: 'Only student numbers starting with 25 or 26 are eligible (25***** / 26*****).' })
     .min(7, { message: 'Student number must be between 7 and 13 digits.' })
     .max(13, { message: 'Student number must be between 7 and 13 digits.' }),
 

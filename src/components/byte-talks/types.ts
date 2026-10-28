@@ -11,12 +11,12 @@ export const faqs = [
   {
     badge: '02',
     question: 'Who can attend, and is there any registration fee?',
-    answer: 'Registration is 100% free! It is open to all AKGEC students across all years (1st to 4th year) and all engineering branches (CSE, IT, CS, CS-AIML, CS-DS, ECE, ME, etc.). No prior competitive coding experience is required—curiosity to learn is all you need.',
+    answer: 'Registration is 100% free! It is open to all AKGEC students across 1st and 2nd year and all engineering branches (CSE, IT, CS, CS-AIML, CS-DS, ECE, ME, etc.). No prior competitive coding experience is required—curiosity to learn is all you need.',
   },
   {
     badge: '03',
     question: 'What are the event timings and venue?',
-    answer: 'The event takes place on 30 October 2026 from 10:00 AM to 4:00 PM at the CSIT Seminar Hall, AKGEC Campus, Ghaziabad. Registered students are requested to report by 9:45 AM for pass verification and check-in.',
+    answer: 'The event takes place on 30 October 2026 from 10:00 AM to 12:30 PM at the CSIT Seminar Hall, AKGEC Campus, Ghaziabad. Registered students are requested to report by 9:45 AM for pass verification and check-in.',
   },
   {
     badge: '04',
@@ -89,9 +89,31 @@ export function useLiveCountdown() {
 export function validateForm(values: FormValues): FormErrors {
   const errors: FormErrors = {};
 
-  if (values.fullName.trim().length < 2) errors.fullName = 'Enter your full name.';
-  if (!/^\d{7,13}$/.test(values.studentNumber.trim())) errors.studentNumber = 'Student number must contain 7 to 13 digits.';
-  if (!/^\d{10}$/.test(values.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number.';
+  const trimmedName = values.fullName.trim();
+  if (!trimmedName) {
+    errors.fullName = 'Enter your full name.';
+  } else if (trimmedName.length < 2) {
+    errors.fullName = 'Full name must be at least 2 characters.';
+  } else if (!/^[a-zA-Z\s.]{2,50}$/.test(trimmedName)) {
+    errors.fullName = 'Name can only contain letters and spaces.';
+  }
+
+  const trimmedStudentNumber = values.studentNumber.trim();
+  if (!trimmedStudentNumber) {
+    errors.studentNumber = 'Enter your student number.';
+  } else if (!/^(25|26)/.test(trimmedStudentNumber)) {
+    errors.studentNumber = 'Only student numbers starting with 25 or 26 are eligible (25***** / 26*****).';
+  } else if (!/^(25|26)\d{5,11}$/.test(trimmedStudentNumber)) {
+    errors.studentNumber = 'Student number must be 7 to 13 digits starting with 25 or 26.';
+  }
+
+  const trimmedPhone = values.phone.trim();
+  if (!trimmedPhone) {
+    errors.phone = 'Enter your 10-digit mobile number.';
+  } else if (!/^[6-9]\d{9}$/.test(trimmedPhone)) {
+    errors.phone = 'Enter a valid 10-digit mobile number (starts with 6-9).';
+  }
+
   if (!values.gender) errors.gender = 'Choose your gender.';
   if (!values.branch) errors.branch = 'Choose your branch.';
   if (!values.residence) errors.residence = 'Choose Day Scholar or Hosteller.';

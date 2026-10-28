@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, Share2, ShieldCheck, Users } from 'lucide-react';
+import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, RotateCw, Share2, ShieldCheck, Users } from 'lucide-react';
 import { BRANCHES } from '../../constants/recruitment';
 import { useRecaptchaV3 } from '../../hooks/useRecaptchaV3';
 import { registerStudent, sendOtp, verifyOtp } from '../../services/api';
 import { generateUniversityEmail } from '../../utils/formatters';
+import { toast } from './Toast';
 import { initialForm, validateForm } from './types';
 import type { FormValues, FormErrors, RegistrationStep } from './types';
 
@@ -99,17 +100,21 @@ export function RegistrationSection() {
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
+      const firstErrorMessage = Object.values(nextErrors)[0];
       setNotice('Please fix the highlighted fields to continue.');
+      toast.error('Form Incomplete', firstErrorMessage || 'Please fill all required fields correctly.');
       return;
     }
 
     if (!email) {
       setNotice('Enter your full name and student number to generate your college email.');
+      toast.warning('Email Missing', 'Enter your full name and student number to generate your college email.');
       return;
     }
 
     setIsSubmitting(true);
     setNotice('');
+    const loadingToastId = toast.loading('Sending Verification Code', `Dispatching 6-digit OTP to ${email}...`);
 
     try {
       const captchaToken = await executeRecaptcha('registration');
@@ -121,8 +126,13 @@ export function RegistrationSection() {
       });
       setStep('otp');
       setNotice(`A verification code was sent to ${email}`);
+      toast.dismiss(loadingToastId);
+      toast.success('Verification Code Sent!', `6-digit code dispatched to ${email}`);
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'Could not send verification code. Please try again.');
+      toast.dismiss(loadingToastId);
+      const msg = error instanceof Error ? error.message : 'Could not send verification code. Please try again.';
+      setNotice(msg);
+      toast.error('Failed to Send Code', msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -132,11 +142,13 @@ export function RegistrationSection() {
     event.preventDefault();
     if (!/^\d{6}$/.test(otp)) {
       setNotice('Enter the 6-digit code sent to your AKGEC email.');
+      toast.warning('Invalid Code', 'Please enter the complete 6-digit verification code.');
       return;
     }
 
     setIsSubmitting(true);
     setNotice('');
+    const loadingToastId = toast.loading('Verifying Pass', 'Confirming credentials and generating your admission ticket...');
 
     try {
       await verifyOtp({ email, otp });
@@ -150,6 +162,8 @@ export function RegistrationSection() {
         residence: values.residence,
       });
       setStep('success');
+      toast.dismiss(loadingToastId);
+      toast.success('Registration Confirmed!', 'Welcome to BYTE TALKS 2026. Your pass has been issued!');
       setTimeout(() => {
         const ticketEl = document.getElementById('printable-ticket');
         if (ticketEl) {
@@ -157,17 +171,47 @@ export function RegistrationSection() {
         }
       }, 300);
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'Registration failed. Please check the code and retry.');
+      toast.dismiss(loadingToastId);
+      const msg = error instanceof Error ? error.message : 'Registration failed. Please check the code and retry.';
+      setNotice(msg);
+      toast.error('Verification Failed', msg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    const loadingToastId = toast.loading('Resending Code', `Sending fresh OTP to ${email}...`);
+    try {
+      const captchaToken = await executeRecaptcha('registration');
+      await sendOtp({
+        name: values.fullName.trim(),
+        email,
+        studentNumber: values.studentNumber.trim(),
+        captchaToken,
+      });
+      toast.dismiss(loadingToastId);
+      toast.success('Code Resent!', `A fresh verification code was sent to ${email}`);
+      setNotice(`A fresh verification code was sent to ${email}`);
+    } catch (error) {
+      toast.dismiss(loadingToastId);
+      const msg = error instanceof Error ? error.message : 'Could not resend verification code.';
+      setNotice(msg);
+      toast.error('Resend Failed', msg);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handlePrintTicket = () => {
+    toast.info('Print Ticket', 'Preparing print layout for your BYTE TALKS pass...');
     window.print();
   };
 
   const handleAddToCalendar = () => {
+    toast.success('Opening Calendar', 'Redirecting to Google Calendar with session details...');
     const title = encodeURIComponent('BYTE TALKS 2026 | AKGEC');
     const details = encodeURIComponent(
       `BYTE TALKS 2026 Admission Confirmed for ${values.fullName}. Pass ID: BT26-${values.studentNumber.slice(-4) || '2026'}. Venue: CSIT Seminar Hall, AKGEC Campus.`
@@ -186,6 +230,7 @@ export function RegistrationSection() {
           text: shareText,
           url: window.location.href,
         });
+        toast.success('Pass Shared!', 'Thank you for sharing BYTE TALKS 2026.');
         return;
       } catch {
         // fallback to clipboard
@@ -193,6 +238,7 @@ export function RegistrationSection() {
     }
     navigator.clipboard.writeText(`${shareText} ${window.location.href}`);
     setCopied(true);
+    toast.success('Copied to Clipboard!', 'Registration portal link and invitation copied.');
     setTimeout(() => setCopied(false), 2500);
   };
 
@@ -397,7 +443,7 @@ export function RegistrationSection() {
                       STUDENT NUMBER
                     </span>
                     <span className="font-mono text-xs sm:text-sm font-bold text-white">
-                      {values.studentNumber || '2300270100000'}
+                      {values.studentNumber || '2500270100000'}
                     </span>
                   </div>
                   <div>
@@ -541,6 +587,7 @@ export function RegistrationSection() {
                     setValues(initialForm);
                     setOtp('');
                     setNotice('');
+                    toast.info('Form Reset', 'Ready for a new student registration.');
                   }}
                   className="font-mono text-xs font-bold uppercase tracking-wider text-white/60 hover:text-white underline underline-offset-4 cursor-pointer"
                 >
@@ -641,16 +688,28 @@ export function RegistrationSection() {
                       )}
                     </motion.button>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setStep('form');
-                        setNotice('');
-                      }}
-                      className="justify-self-center border-0 bg-transparent font-mono text-xs font-bold uppercase tracking-wider text-white/60 hover:text-white underline underline-offset-4 cursor-pointer mt-1"
-                    >
-                      ← Back to edit details
-                    </button>
+                    <div className="flex items-center justify-between gap-4 mt-2 pt-2 border-t border-white/10">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStep('form');
+                          setNotice('');
+                          toast.info('Edit Mode', 'Returned to registration form.');
+                        }}
+                        className="border-0 bg-transparent font-mono text-xs font-bold uppercase tracking-wider text-white/60 hover:text-white underline underline-offset-4 cursor-pointer"
+                      >
+                        ← Back to edit
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleResendOtp}
+                        disabled={isSubmitting}
+                        className="inline-flex items-center gap-1.5 border-0 bg-transparent font-mono text-xs font-bold uppercase tracking-wider text-[#55a8a8] hover:text-[#76cfcf] cursor-pointer disabled:opacity-50"
+                      >
+                        <RotateCw size={13} className={isSubmitting ? 'animate-spin' : ''} /> Resend Code
+                      </button>
+                    </div>
                   </form>
                 </div>
               ) : (
@@ -682,14 +741,19 @@ export function RegistrationSection() {
 
                     {/* Student Number */}
                     <label className={fieldLabel} htmlFor="studentNumber">
-                      <span>STUDENT NUMBER <b className="text-[#de432c]">*</b></span>
+                      <div className="flex items-baseline justify-between">
+                        <span>STUDENT NUMBER <b className="text-[#de432c]">*</b></span>
+                        <span className="font-mono text-[0.56rem] text-white/50 normal-case tracking-normal">
+                          Starts with 25 or 26
+                        </span>
+                      </div>
                       <input
                         className={inputStyle}
                         id="studentNumber"
                         inputMode="numeric"
                         autoComplete="off"
                         maxLength={13}
-                        placeholder="e.g. 2300270100000"
+                        placeholder="e.g. 2500270100000 or 2600270100000"
                         value={values.studentNumber}
                         onChange={(event) => updateField('studentNumber', event.target.value.replace(/\D/g, '').slice(0, 13))}
                         {...inputProps('studentNumber')}
