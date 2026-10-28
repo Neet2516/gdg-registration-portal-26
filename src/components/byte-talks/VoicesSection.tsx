@@ -159,7 +159,7 @@ export function VoicesSection() {
           rotate: micRotate,
           transformOrigin: '5% 15%',
         }}
-        className="absolute -left-4 sm:-left-6 md:-left-8 bottom-0 sm:bottom-2 md:bottom-4 w-[260px] sm:w-[320px] md:w-[380px] lg:w-[440px] pointer-events-none select-none z-20"
+        className="absolute -left-28 xs:-left-32 sm:-left-36 md:-left-44 lg:-left-52 bottom-0 sm:bottom-2 md:bottom-4 w-[150px] xs:w-[180px] sm:w-[240px] md:w-[320px] lg:w-[420px] pointer-events-none select-none z-20"
       >
         <img
           src={micAsset}
