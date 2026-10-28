@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 
 export function StatsBar() {
   const stats = [
-    { value: '04', label: 'hours' },
-    { value: '04', label: 'speakers' },
+    { value: '2.5', label: 'hours' },
+    { value: '02', label: 'speakers' },
     { value: '200', label: 'total seats' },
   ];
 
