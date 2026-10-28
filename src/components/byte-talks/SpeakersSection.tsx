@@ -4,28 +4,30 @@ import speakerPhoto from '../../assets/images/byte-talks/speaker_portrait.jpg';
 
 export function SpeakersSection() {
   return (
-    <section className="relative w-full bg-[#1B1F27] pt-8 pb-16 md:pb-24 text-white overflow-hidden" id="speakers">
+    <section className="relative w-full bg-[#1B1F27] pt-14 sm:pt-18 md:pt-24 pb-16 md:pb-24 text-white overflow-hidden" id="speakers">
       {/* Floating Sparkle & Diamond Stars as seen in the reference mockup */}
-      <span className="sparkle-star absolute left-8 top-12 text-2xl text-[#f2c35b] select-none pointer-events-none" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute left-24 top-24 text-lg text-[#de432c] select-none pointer-events-none" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute left-40 top-16 text-sm text-[#55a8a8] select-none pointer-events-none" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute left-60 top-28 text-xl text-[#f2c35b] select-none pointer-events-none" aria-hidden="true">✦</span>
-      <span className="sparkle-star absolute left-80 top-14 text-sm text-[#de432c] select-none pointer-events-none" aria-hidden="true">✦</span>
+      <div className="absolute left-6 sm:left-12 top-6 sm:top-10 flex items-center gap-6 sm:gap-10 pointer-events-none select-none" aria-hidden="true">
+        <span className="text-xl sm:text-2xl text-[#f2c35b]/90 drop-shadow-[0_0_8px_rgba(242,195,91,0.5)]">✦</span>
+        <span className="text-sm sm:text-base text-[#de432c]/85 drop-shadow-[0_0_8px_rgba(222,67,44,0.5)]">✦</span>
+        <span className="text-base sm:text-lg text-[#55a8a8]/90 drop-shadow-[0_0_8px_rgba(85,168,168,0.5)]">✦</span>
+        <span className="text-xl sm:text-2xl text-[#f2c35b]/90 drop-shadow-[0_0_8px_rgba(242,195,91,0.5)]">✦</span>
+        <span className="text-sm sm:text-base text-[#de432c]/85 drop-shadow-[0_0_8px_rgba(222,67,44,0.5)]">✦</span>
+      </div>
 
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         {/* Header Block with Signpost on Right and SPEAKERS on Left */}
-        <div className="relative pt-8 pb-4">
+        <div className="relative pt-4 pb-4">
           {/* Directional Signpost Artwork floating on the right */}
           <motion.div 
-            animate={{ y: [0, -6, 0], rotate: [0, 0.5, 0] }}
-            transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
-            className="absolute right-0 -top-16 sm:-top-24 md:-top-32 w-[220px] sm:w-[300px] md:w-[380px] lg:w-[420px] pointer-events-none select-none z-10"
+            animate={{ y: [0, -6, 0] }}
+            transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut' }}
+            className="absolute right-0 sm:right-2 md:right-4 -top-6 sm:-top-10 md:-top-16 lg:-top-20 w-[200px] sm:w-[280px] md:w-[360px] lg:w-[420px] pointer-events-none select-none z-10"
           >
             <img
               src={arrowMarker}
               alt="Directional Signpost: Speaker Area, What is Commit Con?, Past Events"
               className="w-full h-auto object-contain drop-shadow-[8px_12px_0_rgba(0,0,0,0.35)]"
-              loading="lazy"
+              loading="eager"
               decoding="async"
             />
           </motion.div>
@@ -38,11 +40,11 @@ export function SpeakersSection() {
             transition={{ duration: 0.55 }}
             className="relative z-0"
           >
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black uppercase text-white tracking-tight">
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-[3.6rem] font-black uppercase text-white tracking-tight m-0 leading-tight">
               SPEAKERS
             </h2>
             {/* White underline spanning across */}
-            <div className="w-full h-[2.5px] bg-white mt-4 mb-12 sm:mb-16" />
+            <div className="w-full h-[2px] bg-white mt-4 sm:mt-5 mb-12 sm:mb-16" />
           </motion.div>
         </div>
 
