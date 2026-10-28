@@ -1,7 +1,68 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import arrowMarker from '../../assets/images/byte-talks/ArrowMarker.png';
-import speakerPhoto from '../../assets/images/byte-talks/speaker_portrait.jpg';
+import speaker1Img from '../../assets/images/speakers/speaker1.png';
+import speaker2Img from '../../assets/images/speakers/speaker2.png';
+
+interface Speaker {
+  name: string;
+  badge: string;
+  role: string;
+  company: string;
+  prevCompany: string;
+  education: string;
+  image: string;
+  linkedin: string;
+  description: string;
+  quote: string;
+  skills: string[];
+  theme: {
+    accent: string;
+    badgeBg: string;
+    quoteBorder: string;
+  };
+}
+
+const SPEAKERS: Speaker[] = [
+  {
+    name: 'Yash Khare',
+    badge: 'ALUMNI KEYNOTE • AKGEC 2020-2024',
+    role: 'Software Engineer',
+    company: 'TraqCheck',
+    prevCompany: 'Ex-Keploy (GSoC Mentor)',
+    education: 'Ajay Kumar Garg Engineering College (2020–2024)',
+    image: speaker1Img,
+    linkedin: 'https://www.linkedin.com/in/khareyash05',
+    description:
+      'Software Engineer with deep experience in backend systems, software testing, and open-source contributions. Formerly associated with Keploy and now at TraqCheck, focusing on autonomous AI agents, recruitment intelligence technology, and high-performance backend systems.',
+    quote: 'From open-source contributor at AKGEC to architecting production AI agent systems.',
+    skills: ['Go', 'Backend Architecture', 'AI Agents', 'Open Source', 'API Development', 'Software Testing'],
+    theme: {
+      accent: '#de432c',
+      badgeBg: 'border-[#de432c] text-[#de432c] bg-[#de432c]/10',
+      quoteBorder: 'border-[#de432c]',
+    },
+  },
+  {
+    name: 'Akaash Tripathee',
+    badge: 'AI GUEST OF HONOR • TFUG LEAD',
+    role: 'AI/ML Systems Engineer',
+    company: 'Headfield Solutions Pvt. Ltd.',
+    prevCompany: 'Former SWE Intern @ Paytm',
+    education: 'Organizer, TensorFlow User Group Ghaziabad • AWS Community Builder 2026',
+    image: speaker2Img,
+    linkedin: 'https://www.linkedin.com/in/akaash-t-bb9211212',
+    description:
+      'AI Systems Engineer focused on real-time conversational AI, autonomous voice agents, multimodal systems, and agentic infrastructure. As Community Manager for TensorFlow User Group (TFUG) Ghaziabad, he leads an active network of over 10,000 developers, hosting technical workshops and AI bootcamps.',
+    quote: 'Demystifying real-time voice agents, multimodal LLM pipelines, and the future of agentic AI.',
+    skills: ['Generative AI', 'Voice AI', 'Python & FastAPI', 'Gemini APIs', 'RAG & MCP', 'WebSockets', 'Cloud Computing'],
+    theme: {
+      accent: '#55a8a8',
+      badgeBg: 'border-[#55a8a8] text-[#55a8a8] bg-[#55a8a8]/10',
+      quoteBorder: 'border-[#55a8a8]',
+    },
+  },
+];
 
 export function SpeakersSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -74,103 +135,98 @@ export function SpeakersSection() {
           </motion.div>
         </div>
 
-        {/* Featured Speaker: AKAASH TRIPATHEE */}
-        <div className="space-y-16 md:space-y-24">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.6 }}
-            className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[340px_1fr] items-center gap-8 md:gap-14"
-          >
-            {/* Speaker Photo with Neo-brutalist white offset backer */}
-            <div className="relative w-full max-w-[320px] mx-auto md:mx-0">
-              <div 
-                className="absolute inset-0 translate-x-3.5 translate-y-3.5 bg-white border-2 border-white" 
-                aria-hidden="true" 
-              />
-              <div className="relative border-2 border-white bg-[#141b27] overflow-hidden aspect-[4/5]">
-                <img
-                  src={speakerPhoto}
-                  alt="Akaash Tripathee - Guest of Honor"
-                  className="w-full h-full object-cover object-top select-none transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                  decoding="async"
+        {/* Keynote Speakers List */}
+        <div className="space-y-16 sm:space-y-20">
+          {SPEAKERS.map((speaker, idx) => (
+            <motion.div 
+              key={speaker.name}
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, delay: idx * 0.15 }}
+              className="grid grid-cols-1 lg:grid-cols-[340px_1fr] xl:grid-cols-[380px_1fr] items-center gap-8 md:gap-12 lg:gap-16 border-b border-white/15 pb-16 last:border-b-0 last:pb-0"
+            >
+              {/* Speaker Poster Artwork with Neo-brutalist offset backer */}
+              <div className="relative w-full max-w-[340px] sm:max-w-[380px] mx-auto lg:mx-0">
+                <div 
+                  className="absolute inset-0 translate-x-3 translate-y-3 sm:translate-x-4 sm:translate-y-4 bg-white border-2 border-[#1c242b] shadow-[6px_6px_0_#000000]" 
+                  aria-hidden="true" 
                 />
+                <div className="relative border-2 border-white bg-[#141b27] overflow-hidden aspect-[4/5] shadow-[8px_8px_0_#000000]">
+                  <img
+                    src={speaker.image}
+                    alt={`${speaker.name} - ${speaker.role}`}
+                    className="w-full h-full object-cover object-top select-none transition-transform duration-500 hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* Speaker Info */}
-            <div>
-              <span className="inline-block border border-[#55a8a8] bg-[#55a8a8]/15 px-2.5 py-0.5 font-mono text-[0.66rem] font-bold uppercase tracking-wider text-[#55a8a8]">
-                GUEST OF HONOR
-              </span>
-              <h3 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-white tracking-tight">
-                AKAASH TRIPATHEE
-              </h3>
-              <p className="mt-4 font-mono text-sm sm:text-[0.95rem] leading-relaxed text-white/80 max-w-xl">
-                Aakash Tripathee is an AI and Automation Engineer specializing in building scalable LLM and RAG applications. Additionally, he serves as the Community Manager for the TensorFlow User Group (TFUG) Ghaziabad, leading a network of over 10,000 developers.
-              </p>
+              {/* Speaker Details */}
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span className={`inline-block border px-3 py-1 font-mono text-[0.68rem] font-bold uppercase tracking-wider ${speaker.theme.badgeBg}`}>
+                    {speaker.badge}
+                  </span>
+                  <span className="badge-3d-blue px-2.5 py-0.5 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-white">
+                    KEYNOTE SESSION
+                  </span>
+                </div>
 
-              {/* Motivating Tagline Quote with Teal Bar */}
-              <div className="mt-6 flex items-start gap-3 pl-3.5 border-l-4 border-[#55a8a8]">
-                <p className="font-mono text-sm sm:text-base font-semibold text-white/95 italic">
-                  &ldquo;A motivating tag line here&rdquo;
+                <div>
+                  <h3 className="m-0 font-display text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-white tracking-tight">
+                    {speaker.name}
+                  </h3>
+                  <p className="mt-1 font-mono text-sm sm:text-base font-bold text-[#f2c35b]">
+                    {speaker.role} • <span className="text-white">{speaker.company}</span>{' '}
+                    <span className="text-white/60 font-medium">({speaker.prevCompany})</span>
+                  </p>
+                </div>
+
+                <p className="font-mono text-sm sm:text-[0.92rem] leading-relaxed text-white/80 max-w-2xl m-0">
+                  {speaker.description}
                 </p>
-              </div>
-            </div>
-          </motion.div>
 
-          {/* Additional Speaker Slots / Announcing Soon Teaser Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-white/10">
-            {/* Slot 02 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55 }}
-              className="border-2 border-white/20 bg-[#141b27] p-6 shadow-[6px_6px_0_#000000] flex items-center gap-6"
-            >
-              <div className="size-20 shrink-0 border-2 border-white/20 bg-[#de432c] flex items-center justify-center font-display font-black text-2xl text-white">
-                02
-              </div>
-              <div>
-                <span className="badge-3d-red px-2 py-0.5 font-mono text-[0.6rem] font-bold uppercase text-white">
-                  SPEAKER 02
-                </span>
-                <h4 className="mt-1 font-display text-xl font-black text-white">
-                  ANNOUNCING SOON
-                </h4>
-                <p className="mt-1 font-mono text-xs text-white/70">
-                  AI &amp; Product Architect from top tech ecosystem.
-                </p>
+                {/* Skill & Domain Tags */}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {speaker.skills.map((skill) => (
+                    <span 
+                      key={skill}
+                      className="border border-white/20 bg-white/5 px-2.5 py-1 font-mono text-[0.68rem] font-bold text-white/90 uppercase tracking-wide shadow-[2px_2px_0_rgba(0,0,0,0.4)]"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Motivating Tagline Quote with Accent Bar */}
+                <div className={`mt-5 flex items-start gap-3 pl-3.5 border-l-4 ${speaker.theme.quoteBorder} bg-white/[0.02] py-2`}>
+                  <p className="font-mono text-xs sm:text-sm font-semibold text-white/90 italic m-0">
+                    &ldquo;{speaker.quote}&rdquo;
+                  </p>
+                </div>
+
+                {/* Social Connect Button */}
+                <div className="pt-2">
+                  <motion.a 
+                    whileHover={{ x: -2, y: -2 }}
+                    whileTap={{ x: 2, y: 2 }}
+                    href={speaker.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-3d-white inline-flex items-center gap-2.5 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[#1c242b] no-underline cursor-pointer"
+                  >
+                    <svg className="size-4 fill-[#0077b5]" viewBox="0 0 24 24">
+                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z" />
+                    </svg>
+                    <span>CONNECT ON LINKEDIN</span>
+                    <span className="text-sm font-bold" aria-hidden="true">↗</span>
+                  </motion.a>
+                </div>
               </div>
             </motion.div>
-
-            {/* Slot 03 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-              className="border-2 border-white/20 bg-[#387a5b] px-6 py-6 shadow-[6px_6px_0_#000000] flex items-center gap-6"
-            >
-              <div className="size-20 shrink-0 border-2 border-white/20 bg-[#387a5b] flex items-center justify-center font-display font-black text-2xl text-white">
-                03
-              </div>
-              <div>
-                <span className="border-1.5 border-white/20 bg-[#387a5b] px-2 py-0.5 font-mono text-[0.6rem] font-bold uppercase text-white shadow-[2px_2px_0_#000000]">
-                  SPEAKER 03
-                </span>
-                <h4 className="mt-1 font-display text-xl font-black text-white">
-                  ANNOUNCING SOON
-                </h4>
-                <p className="mt-1 font-mono text-xs text-white/70">
-                  Open Source Leader &amp; Distributed Systems Specialist.
-                </p>
-              </div>
-            </motion.div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
