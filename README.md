@@ -1,4 +1,4 @@
-# 🌌 PROXIMITY 6.0 | GDG AKGEC Recruitment Portal
+# 🌌 bytetalks 6.0 | GDG AKGEC Recruitment Portal
 
 An interactive, high-fidelity, retro-brutalist cosmic recruitment portal built for **Google Developer Groups (GDG) AKGEC**. This application acts as the gateway for students to register for the multi-tiered recruitment process, evaluating analytical, coding, and technical capabilities.
 
