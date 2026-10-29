@@ -48,19 +48,32 @@ const parseJsonResponse = async (response: Response) => {
     return JSON.parse(text);
   } catch {
     if (text.trim().startsWith('<!DOCTYPE html>') || text.trim().startsWith('<html')) {
-      throw new Error('ROUTING ERROR: Received HTML page instead of API response. This indicates a routing mismatch or redirection to index.html.');
+      throw new Error('Connection interrupted by security gateway. Please refresh and try again.');
     }
     throw new Error('INVALID RESPONSE RECEIVED FROM SECURE GATEWAY.');
   }
 };
 
+const fetchWithRetry = async (url: string, options: RequestInit): Promise<Response> => {
+  let response = await fetch(url, options);
+  if (response.status === 502 || response.status === 504) {
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    try {
+      response = await fetch(url, options);
+    } catch {
+      // Keep original response on retry failure
+    }
+  }
+  return response;
+};
+
 export const sendOtp = async (payload: SendOtpPayload) => {
-  const response = await fetch(buildApiUrl('/send-otp'), {
+  const response = await fetchWithRetry(buildApiUrl('/send-otp'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   const data = await parseJsonResponse(response);
@@ -71,12 +84,12 @@ export const sendOtp = async (payload: SendOtpPayload) => {
 };
 
 export const verifyOtp = async (payload: VerifyOtpPayload) => {
-  const response = await fetch(buildApiUrl('/verify-otp'), {
+  const response = await fetchWithRetry(buildApiUrl('/verify-otp'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   const data = await parseJsonResponse(response);
@@ -87,12 +100,12 @@ export const verifyOtp = async (payload: VerifyOtpPayload) => {
 };
 
 export const registerStudent = async (payload: RegisterPayload) => {
-  const response = await fetch(buildApiUrl('/register'), {
+  const response = await fetchWithRetry(buildApiUrl('/register'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   const data = await parseJsonResponse(response);

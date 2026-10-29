@@ -63,7 +63,21 @@ export default async function handler(req, res) {
     }
 
     const lowerKey = key.toLowerCase();
-    if (['host', 'connection', 'content-length'].includes(lowerKey)) {
+    if ([
+      'host',
+      'connection',
+      'content-length',
+      'cdn-loop',
+      'cf-ray',
+      'cf-connecting-ip',
+      'cf-visitor',
+      'cf-ew-via',
+      'cf-worker',
+      'x-vercel-id',
+      'x-vercel-cache',
+      'x-forwarded-proto',
+      'x-forwarded-host',
+    ].includes(lowerKey)) {
       continue;
     }
 
