@@ -47,8 +47,8 @@ export function EventHero() {
             {/* Badges */}
             <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2.5">
               <span className="badge-3d-red px-2.5 py-0.5 font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-wider text-white inline-flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-white animate-pulse" />
-                REGISTRATION OPEN
+                <span className="size-1.5 rounded-full bg-white" />
+                REGISTRATION CLOSED
               </span>
               <span className="badge-3d-blue px-2.5 py-0.5 font-mono text-[0.62rem] md:text-[0.68rem] font-bold uppercase tracking-wider text-white">
                 AKGEC • GHAZIABAD

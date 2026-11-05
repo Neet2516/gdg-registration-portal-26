@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { createPortal } from 'react-dom';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Mail, RotateCw, ShieldCheck, Users } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight, Calendar, Check, Download, LoaderCircle, Lock, Mail, RotateCw, ShieldCheck, Users, X } from 'lucide-react';
 import QRCode from 'qrcode';
 import { BRANCHES } from '../../constants/recruitment';
-import { useRecaptchaV3 } from '../../hooks/useRecaptchaV3';
-import { registerStudent, sendOtp, verifyOtp } from '../../services/api';
 import { generateUniversityEmail } from '../../utils/formatters';
 import { toast } from './Toast';
-import { initialForm, validateForm } from './types';
+import { initialForm } from './types';
 import type { FormValues, FormErrors, RegistrationStep } from './types';
 
 function PrintableTicketCard({ values }: { values: FormValues }) {
@@ -147,9 +145,13 @@ export function RegistrationSection() {
   const [notice, setNotice] = useState('');
   const [step, setStep] = useState<RegistrationStep>('form');
   const [otp, setOtp] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmitting = false;
+  const [showClosedModal, setShowClosedModal] = useState(false);
   const email = generateUniversityEmail(values.fullName, values.studentNumber);
-  const { executeRecaptcha } = useRecaptchaV3();
+
+  const REGISTRATION_CLOSED_TITLE = 'REGISTRATION CLOSED';
+  const REGISTRATION_CLOSED_MESSAGE =
+    'Registration for BYTE TALKS 2026 is officially closed. All seats have been filled. Thank you for your overwhelming interest!';
 
   const updateField = <K extends keyof FormValues>(field: K, value: FormValues[K]) => {
     setValues((current) => ({ ...current, [field]: value }));
@@ -157,115 +159,24 @@ export function RegistrationSection() {
     setNotice('');
   };
 
+  const notifyRegistrationClosed = () => {
+    setNotice(`${REGISTRATION_CLOSED_TITLE}: ${REGISTRATION_CLOSED_MESSAGE}`);
+    setShowClosedModal(true);
+    toast.error(REGISTRATION_CLOSED_TITLE, REGISTRATION_CLOSED_MESSAGE, { duration: 6000 });
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const nextErrors = validateForm(values);
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0) {
-      const firstErrorMessage = Object.values(nextErrors)[0];
-      setNotice('Please fix the highlighted fields to continue.');
-      toast.error('Form Incomplete', firstErrorMessage || 'Please fill all required fields correctly.');
-      return;
-    }
-
-    if (!email) {
-      setNotice('Enter your full name and student number to generate your college email.');
-      toast.warning('Email Missing', 'Enter your full name and student number to generate your college email.');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setNotice('');
-    const loadingToastId = toast.loading('Sending Verification Code', `Dispatching 6-digit OTP to ${email}...`);
-
-    try {
-      const captchaToken = await executeRecaptcha('registration');
-      await sendOtp({
-        name: values.fullName.trim(),
-        email,
-        studentNumber: values.studentNumber.trim(),
-        captchaToken,
-      });
-      setStep('otp');
-      setNotice(`A verification code was sent to ${email}`);
-      toast.dismiss(loadingToastId);
-      toast.success('Verification Code Sent!', `6-digit code dispatched to ${email}`);
-    } catch (error) {
-      toast.dismiss(loadingToastId);
-      const msg = error instanceof Error ? error.message : 'Could not send verification code. Please try again.';
-      setNotice(msg);
-      toast.error('Failed to Send Code', msg);
-    } finally {
-      setIsSubmitting(false);
-    }
+    notifyRegistrationClosed();
   };
 
   const handleOtpSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!/^\d{6}$/.test(otp)) {
-      setNotice('Enter the 6-digit code sent to your AKGEC email.');
-      toast.warning('Invalid Code', 'Please enter the complete 6-digit verification code.');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setNotice('');
-    const loadingToastId = toast.loading('Verifying Pass', 'Confirming credentials and generating your admission ticket...');
-
-    try {
-      await verifyOtp({ email, otp });
-      await registerStudent({
-        name: values.fullName.trim(),
-        studentNumber: values.studentNumber.trim(),
-        email,
-        gender: values.gender,
-        branch: values.branch,
-        phone: values.phone.trim(),
-        residence: values.residence,
-      });
-      setStep('success');
-      toast.dismiss(loadingToastId);
-      toast.success('Registration Confirmed!', 'Welcome to BYTE TALKS 2026. Your pass has been issued!');
-      setTimeout(() => {
-        const ticketEl = document.getElementById('printable-ticket');
-        if (ticketEl) {
-          ticketEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 300);
-    } catch (error) {
-      toast.dismiss(loadingToastId);
-      const msg = error instanceof Error ? error.message : 'Registration failed. Please check the code and retry.';
-      setNotice(msg);
-      toast.error('Verification Failed', msg);
-    } finally {
-      setIsSubmitting(false);
-    }
+    notifyRegistrationClosed();
   };
 
   const handleResendOtp = async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    const loadingToastId = toast.loading('Resending Code', `Sending fresh OTP to ${email}...`);
-    try {
-      const captchaToken = await executeRecaptcha('registration');
-      await sendOtp({
-        name: values.fullName.trim(),
-        email,
-        studentNumber: values.studentNumber.trim(),
-        captchaToken,
-      });
-      toast.dismiss(loadingToastId);
-      toast.success('Code Resent!', `A fresh verification code was sent to ${email}`);
-      setNotice(`A fresh verification code was sent to ${email}`);
-    } catch (error) {
-      toast.dismiss(loadingToastId);
-      const msg = error instanceof Error ? error.message : 'Could not resend verification code.';
-      setNotice(msg);
-      toast.error('Resend Failed', msg);
-    } finally {
-      setIsSubmitting(false);
-    }
+    notifyRegistrationClosed();
   };
 
   const handlePrintTicket = async () => {
@@ -955,9 +866,28 @@ export function RegistrationSection() {
                     </label>
 
                     {notice && (
-                      <p className="m-0 border-l-[3px] border-[#f2c35b] bg-[#f2c35b]/10 p-3 font-mono text-xs text-white" role="status" aria-live="polite">
-                        {notice}
-                      </p>
+                      <div
+                        className={`p-3.5 font-mono text-xs ${
+                          notice.includes(REGISTRATION_CLOSED_TITLE)
+                            ? 'border-2 border-[#de432c] bg-[#de432c]/15 text-white shadow-[4px_4px_0_#de432c]'
+                            : 'border-l-[3px] border-[#f2c35b] bg-[#f2c35b]/10 text-white'
+                        }`}
+                        role="status"
+                        aria-live="polite"
+                      >
+                        {notice.includes(REGISTRATION_CLOSED_TITLE) ? (
+                          <div className="space-y-1">
+                            <div className="font-bold text-[#ff6b57] flex items-center gap-2 uppercase text-[0.82rem] tracking-wider">
+                              <Lock size={15} /> REGISTRATION CLOSED
+                            </div>
+                            <p className="m-0 text-white/90 leading-relaxed text-[0.78rem]">
+                              {REGISTRATION_CLOSED_MESSAGE}
+                            </p>
+                          </div>
+                        ) : (
+                          notice
+                        )}
+                      </div>
                     )}
 
                     <motion.button
@@ -1154,9 +1084,28 @@ export function RegistrationSection() {
                   </div>
 
                   {notice && (
-                    <p className="m-0 border-l-[3px] border-[#f2c35b] bg-[#f2c35b]/10 p-3 font-mono text-xs text-white" role="status" aria-live="polite">
-                      {notice}
-                    </p>
+                    <div
+                      className={`p-3.5 font-mono text-xs ${
+                        notice.includes(REGISTRATION_CLOSED_TITLE)
+                          ? 'border-2 border-[#de432c] bg-[#de432c]/15 text-white shadow-[4px_4px_0_#de432c]'
+                          : 'border-l-[3px] border-[#f2c35b] bg-[#f2c35b]/10 text-white'
+                      }`}
+                      role="status"
+                      aria-live="polite"
+                    >
+                      {notice.includes(REGISTRATION_CLOSED_TITLE) ? (
+                        <div className="space-y-1">
+                          <div className="font-bold text-[#ff6b57] flex items-center gap-2 uppercase text-[0.82rem] tracking-wider">
+                            <Lock size={15} /> REGISTRATION CLOSED
+                          </div>
+                          <p className="m-0 text-white/90 leading-relaxed text-[0.78rem]">
+                            {REGISTRATION_CLOSED_MESSAGE}
+                          </p>
+                        </div>
+                      ) : (
+                        notice
+                      )}
+                    </div>
                   )}
 
                   {/* Submit Button */}
@@ -1187,6 +1136,83 @@ export function RegistrationSection() {
           </div>
         )}
       </div>
+
+      {/* REGISTRATION CLOSED POPUP DIALOG */}
+      <AnimatePresence>
+        {showClosedModal && (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4"
+            onClick={() => setShowClosedModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 15 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full max-w-md border-3 border-[#1c242b] bg-[#FAF8F5] shadow-[10px_10px_0_#000000] text-[#1c242b] overflow-hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="closed-modal-title"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Retro Window Titlebar */}
+              <div className="bg-[#1c242b] px-4 py-2.5 flex items-center justify-between border-b-2 border-[#1c242b]">
+                <div className="flex items-center gap-2">
+                  <span className="size-3 rounded-full bg-[#de432c]" />
+                  <span className="size-3 rounded-full bg-[#f2c35b]" />
+                  <span className="size-3 rounded-full bg-[#387a5b]" />
+                </div>
+                <span className="font-mono text-[0.62rem] font-bold uppercase tracking-wider text-white/70">
+                  BYTE_TALKS // NOTICE.EXE
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setShowClosedModal(false)}
+                  className="text-white/70 hover:text-white cursor-pointer p-0.5"
+                  aria-label="Close"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 sm:p-8 text-center space-y-4">
+                <div className="mx-auto size-16 rounded-full bg-[#de432c]/10 text-[#de432c] flex items-center justify-center border-2 border-[#1c242b] shadow-[3px_3px_0_#1c242b]">
+                  <Lock size={30} className="stroke-[2.5]" />
+                </div>
+
+                <div>
+                  <span className="inline-block px-2.5 py-0.5 mb-2 font-mono text-[0.62rem] font-bold uppercase tracking-wider bg-[#de432c] text-white border border-[#1c242b]">
+                    STATUS: OFFICIALLY CLOSED
+                  </span>
+                  <h3
+                    id="closed-modal-title"
+                    className="font-display text-2xl sm:text-3xl font-black uppercase text-[#de432c] leading-tight tracking-tight"
+                  >
+                    REGISTRATION CLOSED
+                  </h3>
+                </div>
+
+                <p className="font-mono text-[0.82rem] font-bold leading-relaxed text-[#2c373d]">
+                  {REGISTRATION_CLOSED_MESSAGE}
+                </p>
+
+                <div className="pt-2">
+                  <motion.button
+                    whileHover={{ x: -2, y: -2 }}
+                    whileTap={{ x: 2, y: 2 }}
+                    type="button"
+                    onClick={() => setShowClosedModal(false)}
+                    className="w-full btn-3d-red py-3 font-mono text-[0.82rem] font-black uppercase tracking-wider cursor-pointer select-none"
+                  >
+                    UNDERSTOOD
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {step === 'success' && typeof document !== 'undefined' && createPortal(
         <div id="ticket-print-portal" aria-hidden="true" className="hidden">
