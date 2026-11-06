@@ -72,101 +72,62 @@ export function EventFooter() {
     <footer className="relative w-full bg-[#1B1F27] text-white pt-16 overflow-hidden border-t border-white/10">
       <div className="mx-auto w-[min(1320px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]">
         {/* Top Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr] gap-10 pb-16 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-10 pb-14 border-b border-white/10">
           {/* Brand & info */}
-          <div>
+          <div className="space-y-4 max-w-md">
             <div className="inline-flex items-center gap-3">
               <span 
                 className="block size-6 shrink-0 border-[1.5px] border-white/40 bg-[#de432c] shadow-[2px_2px_0_#ffffff]" 
                 aria-hidden="true" 
               />
-              <span className="font-display text-xl font-black text-white tracking-tight">
-                BYTE TALKS
+              <span className="font-display text-2xl font-black text-white tracking-tight">
+                BYTE TALKS 2026
               </span>
             </div>
-            <p className="mt-4 font-mono text-[0.8rem] leading-relaxed text-white/70 max-w-sm">
+
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[0.62rem] font-bold uppercase tracking-wider text-[#1c242b] bg-[#fed766] px-2 py-0.5 border border-[#1c242b] shadow-[1.5px_1.5px_0_#ffffff]">
+                AKGEC GHAZIABAD
+              </span>
+              <span className="font-mono text-[0.62rem] font-bold uppercase tracking-wider text-white bg-white/10 px-2 py-0.5 border border-white/20">
+                CSIT SEMINAR HALL
+              </span>
+            </div>
+
+            <p className="font-mono text-[0.82rem] leading-relaxed text-white/70">
               One campus. Many perspectives.<br />
-              Ajay Kumar Garg Engineering College, Ghaziabad.<br />
-              See you on 30 October 2026.
+              The premier technical and leadership forum organized by Google Developer Groups on Campus AKGEC.
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <span className="font-mono text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8] block mb-4">
-              QUICK LINKS
-            </span>
-            <div className="flex flex-col space-y-2.5 font-mono text-[0.82rem]">
-              <a className="text-white/80 hover:text-[#de432c] transition-colors" href="#about">About The Event</a>
-              <a className="text-white/80 hover:text-[#de432c] transition-colors" href="#speakers">Speakers &amp; Mentors</a>
-              <a className="text-white/80 hover:text-[#de432c] transition-colors" href="#faq">Frequently Asked Questions</a>
-              <a className="text-white/80 hover:text-[#de432c] transition-colors" href="#register">Register Now</a>
+          {/* Social - Instagram Card */}
+          <div className="border-2 border-white/20 bg-white/5 p-5 sm:p-6 shadow-[5px_5px_0_#000000] max-w-sm w-full">
+            <div className="flex items-center justify-between mb-2.5">
+              <span className="font-mono text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8]">
+                OFFICIAL INSTAGRAM
+              </span>
+              <span className="size-2 rounded-full bg-[#de432c] animate-pulse" />
             </div>
-          </div>
-
-          {/* Social */}
-          <div>
-            <span className="font-mono text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[#55a8a8] block mb-4">
-              CONNECT
-            </span>
-            <div className="flex items-center gap-3">
-              <motion.a
-                whileHover={{ x: -2, y: -2 }}
-                whileTap={{ x: 2, y: 2 }}
-                href="https://www.instagram.com/bytetalks.akgec"
-                target="_blank"
-                rel="noreferrer"
-                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
-                aria-label="Instagram"
-              >
-                <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </motion.a>
-              <motion.a
-                whileHover={{ x: -2, y: -2 }}
-                whileTap={{ x: 2, y: 2 }}
-                href="https://in.linkedin.com/company/google-developer-groups-on-campus-akgec"
-                target="_blank"
-                rel="noreferrer"
-                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
-                aria-label="LinkedIn"
-              >
-                <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                  <rect x="2" y="9" width="4" height="12"></rect>
-                  <circle cx="4" cy="4" r="2"></circle>
-                </svg>
-              </motion.a>
-              <motion.a
-                whileHover={{ x: -2, y: -2 }}
-                whileTap={{ x: 2, y: 2 }}
-                href="https://github.com/dsc-akgec"
-                target="_blank"
-                rel="noreferrer"
-                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
-                aria-label="GitHub"
-              >
-                <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                </svg>
-              </motion.a>
-              <motion.a
-                whileHover={{ x: -2, y: -2 }}
-                whileTap={{ x: 2, y: 2 }}
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                className="grid size-10 place-content-center border-2 border-white/30 bg-white/5 text-white hover:bg-[#de432c] hover:border-[#de432c] shadow-[3px_3px_0_#000000] transition-all cursor-pointer"
-                aria-label="Twitter / X"
-              >
-                <svg className="size-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </motion.a>
-            </div>
+            <p className="font-mono text-xs text-white/70 leading-relaxed mb-4">
+              Catch speaker spotlights, backstage moments &amp; official community updates.
+            </p>
+            <motion.a
+              whileHover={{ x: -2, y: -2 }}
+              whileTap={{ x: 2, y: 2 }}
+              href="https://www.instagram.com/bytetalks.akgec"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-3d-red flex items-center justify-center gap-2.5 w-full py-3 font-mono text-[0.82rem] font-bold uppercase tracking-wider text-white no-underline shadow-[3px_3px_0_#000000] cursor-pointer"
+              aria-label="Follow @bytetalks.akgec on Instagram"
+            >
+              <svg className="size-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              <span>@bytetalks.akgec</span>
+              <span className="text-sm leading-none" aria-hidden="true">→</span>
+            </motion.a>
           </div>
         </div>
 
@@ -181,6 +142,16 @@ export function EventFooter() {
               />
             ))}
           </div>
+        </div>
+
+        {/* Bottom Sub-bar */}
+        <div className="pt-4 pb-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-white/50 text-center sm:text-left">
+          <p className="m-0">
+            © 2026 BYTE TALKS • GDG ON CAMPUS AKGEC. ALL RIGHTS RESERVED.
+          </p>
+          <p className="m-0 text-[#f2c35b]/80">
+            OCTOBER 30, 2026 • CSIT SEMINAR HALL
+          </p>
         </div>
       </div>
 

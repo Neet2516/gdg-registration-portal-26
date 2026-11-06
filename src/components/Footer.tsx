@@ -1,3 +1,5 @@
+import React from 'react';
+import { ArrowUpRight, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 import gdgLogo from '../assets/images/gdg-logo.png';
 
 interface FooterProps {
@@ -6,89 +8,112 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
   return (
-    <footer className={`relative py-16 bg-black text-zinc-400 font-sans z-10 ${className}`}>
+    <footer className={`relative py-16 bg-black text-zinc-400 font-sans z-10 overflow-hidden ${className}`}>
       
-      {/* Horizontal web divider line for the footer */}
-      <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-[#E11D48]/30 to-transparent"></div>
+      {/* Horizontal glowing gradient divider line */}
+      <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-[#E11D48]/40 to-transparent"></div>
 
-      <div className="max-w-6xl mx-auto px-8 grid grid-cols-1 md:grid-cols-12 gap-12 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12 relative z-10">
         
-        {/* Brand Column (5 cols) */}
-        <div className="md:col-span-5 space-y-6 text-left">
-          <div className="flex items-center gap-3">
-            <img src={gdgLogo} alt="GDG Logo" loading="lazy" className="w-20 h-20 object-contain animate-pulse" />
-            <div className="space-y-0.5">
-              <h3 className="font-oswald text-2xl text-white tracking-wider uppercase leading-none">
-                GDG AKGEC
-              </h3>
-              <p className="font-mono text-xs text-[#E11D48] tracking-widest uppercase font-bold">
-                Google Developer Groups
-              </p>
+        {/* Main Grid: Brand + Community Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          
+          {/* Brand & Instagram Column (6 cols) */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <div className="flex items-center gap-3.5">
+              <img 
+                src={gdgLogo} 
+                alt="GDG Logo" 
+                loading="lazy" 
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-[0_0_20px_rgba(225,29,72,0.25)]" 
+              />
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-oswald text-2xl sm:text-3xl text-white tracking-wider uppercase leading-none">
+                    GDG AKGEC
+                  </h3>
+                  <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 font-mono text-[0.62rem] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
+                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> ACTIVE
+                  </span>
+                </div>
+                <p className="font-mono text-xs text-[#E11D48] tracking-widest uppercase font-bold">
+                  Google Developer Groups • On Campus
+                </p>
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 leading-relaxed max-w-lg">
+              Google Developer Groups AKGEC is a student-led university community of developers, designers, and builders. We empower the next generation of engineers through open source, workshops, hackathons, and real-world tech systems.
+            </p>
+
+            {/* Instagram Connect Card */}
+            <div className="pt-2">
+              <a 
+                href="https://www.instagram.com/gdg_akgec/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group inline-flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl border border-zinc-800 bg-zinc-950 hover:bg-zinc-900 hover:border-pink-500/50 text-white transition-all duration-200 shadow-md hover:shadow-pink-500/15 cursor-pointer select-none"
+                title="Follow GDG AKGEC on Instagram"
+              >
+                <div className="size-9 rounded-lg bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white shadow group-hover:scale-105 transition-transform">
+                  <svg className="size-5 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="font-mono text-[0.65rem] font-bold uppercase tracking-wider text-zinc-400 group-hover:text-pink-400 transition-colors">
+                    Official Instagram
+                  </span>
+                  <span className="font-mono text-sm font-semibold text-white tracking-tight flex items-center gap-1.5">
+                    @gdg_akgec 
+                    <ArrowUpRight size={14} className="text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
+                </div>
+              </a>
             </div>
           </div>
-          <p className="text-sm text-zinc-400 leading-relaxed max-w-sm">
-            Google Developer Groups AKGEC is a university community of developers, designers, and creators. We shape the builders of the multiverse through open-source software, design sprints, and systems engineering.
-          </p>
-          {/* Social Links */}
-          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-x-6 gap-y-3 text-zinc-500">
-            <a href="https://in.linkedin.com/company/google-developer-groups-on-campus-akgec" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="LinkedIn">
-              <span>LinkedIn</span>
-            </a>
-            <a href="https://www.instagram.com/gdg_akgec/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E11D48] transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="Instagram">
-              <span>Instagram</span>
-            </a>
-            <a href="https://github.com/dsc-akgec" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="GitHub">
-              <span>GitHub</span>
-            </a>
-            <a href="https://gdgakgec.org/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-150 font-mono text-xs uppercase font-bold tracking-wider" title="GDG Portal">
-              <span>GDG Portal</span>
-            </a>
+
+          {/* Statement & Campus Info Card (6 cols) */}
+          <div className="lg:col-span-6 space-y-4 text-left">
+            <div className="rounded-2xl border border-zinc-800/90 bg-zinc-950/70 p-6 sm:p-7 space-y-4 backdrop-blur-xs shadow-xl">
+              <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
+                <div className="flex items-center gap-2 text-white">
+                  <ShieldCheck size={16} className="text-[#E11D48]" />
+                  <h4 className="font-oswald text-sm sm:text-base tracking-widest uppercase">
+                    COMMUNITY &amp; AFFILIATION
+                  </h4>
+                </div>
+                <span className="font-mono text-[0.62rem] font-bold uppercase tracking-wider text-zinc-400 px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded">
+                  EST. 2019
+                </span>
+              </div>
+
+              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                Google Developer Groups (GDG) are program-supported independent communities. GDG AKGEC operates independently under Ajay Kumar Garg Engineering College, Ghaziabad. Google is a registered trademark of Google LLC.
+              </p>
+
+              <div className="pt-2 flex items-start gap-2.5 text-zinc-400 font-mono text-xs">
+                <MapPin size={15} className="text-[#E11D48] shrink-0 mt-0.5" />
+                <span>
+                  Ajay Kumar Garg Engineering College, 27th Km Milestone, Delhi-Meerut Expressway, Ghaziabad, UP 201009
+                </span>
+              </div>
+            </div>
           </div>
+
         </div>
 
-        {/* Links Column 1: Coordinates (3 cols) */}
-        <div className="md:col-span-3 space-y-4 text-left">
-          <h4 className="font-oswald text-base text-white tracking-widest uppercase pb-2 border-b border-zinc-800">
-            COORDINATES
-          </h4>
-          <ul className="space-y-3.5 text-sm">
-            <li>
-              <a href="#hero" className="hover:text-[#E11D48] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                HOME
-              </a>
-            </li>
-            <li>
-              <a href="#domains" className="hover:text-[#2563EB] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                GUILD
-              </a>
-            </li>
-            <li>
-              <a href="#evaluation-path" className="hover:text-[#7C3AED] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                EVALUATION PATH
-              </a>
-            </li>
-            <li>
-              <a href="#faq" className="hover:text-[#FACC15] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                INTEL FAQ
-              </a>
-            </li>
-            <li>
-              <a href="#registration-terminal" className="hover:text-[#10B981] transition-colors duration-150 uppercase tracking-wider font-mono text-xs block">
-                GATEWAY REGISTER
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* Links Column 2: Legal & Info (4 cols) */}
-        <div className="md:col-span-4 space-y-4 text-left">
-          <h4 className="font-oswald text-base text-white tracking-widest uppercase pb-2 border-b border-zinc-800">
-            COMMUNITY STATEMENT
-          </h4>
-          <p className="text-xs text-zinc-500 leading-relaxed">
-            Google Developer Groups (GDG) are program-supported independent communities. GDG AKGEC operates independently under Ajay Kumar Garg Engineering College, Ghaziabad. Google is a registered trademark of Google LLC.
+        {/* Bottom Sub-bar */}
+        <div className="pt-8 border-t border-zinc-900/90 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-zinc-400 text-center sm:text-left">
+          <p className="m-0">
+            © {new Date().getFullYear()} GDG AKGEC. All rights reserved.
           </p>
-
+          <p className="m-0 flex items-center gap-1.5 text-zinc-400">
+            <Sparkles size={13} className="text-[#E11D48]" />
+            <span>Built by &amp; for the builder community</span>
+          </p>
         </div>
 
       </div>
