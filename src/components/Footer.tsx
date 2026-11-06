@@ -37,7 +37,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                   </span>
                 </div>
                 <p className="font-mono text-xs text-[#E11D48] tracking-widest uppercase font-bold">
-                  Google Developer Groups • On Campus
+                  Google Developer Groups
                 </p>
               </div>
             </div>

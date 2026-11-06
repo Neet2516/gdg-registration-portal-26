@@ -96,7 +96,8 @@ export function EventFooter() {
 
             <p className="font-mono text-[0.82rem] leading-relaxed text-white/70">
               One campus. Many perspectives.<br />
-              The premier technical and leadership forum organized by Google Developer Groups on Campus AKGEC.
+              Ajay Kumar Garg Engineering College, Ghaziabad.<br />
+              See you on 30 October 2026.
             </p>
           </div>
 
@@ -147,7 +148,7 @@ export function EventFooter() {
         {/* Bottom Sub-bar */}
         <div className="pt-4 pb-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-white/50 text-center sm:text-left">
           <p className="m-0">
-            © 2026 BYTE TALKS • GDG ON CAMPUS AKGEC. ALL RIGHTS RESERVED.
+            © 2026 BYTE TALKS. ALL RIGHTS RESERVED.
           </p>
           <p className="m-0 text-[#f2c35b]/80">
             OCTOBER 30, 2026 • CSIT SEMINAR HALL
