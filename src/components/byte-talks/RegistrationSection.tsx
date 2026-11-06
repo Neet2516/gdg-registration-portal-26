@@ -486,7 +486,7 @@ export function RegistrationSection() {
 
         {/* Row 2 (Inner edge - Enlarged Coral Red Accent Outlined) */}
         <div className="flex flex-col gap-12 font-display text-[clamp(3.8rem,6.5vw,6.5rem)] font-black uppercase tracking-wider text-transparent [-webkit-text-stroke:2px_rgba(222,67,44,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
-          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'GDG ON CAMPUS'].map((text, i) => (
+          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'AKGEC CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'AKGEC CAMPUS'].map((text, i) => (
             <span key={`left-r2-${i}`}>{text}</span>
           ))}
         </div>

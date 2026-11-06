@@ -6,7 +6,7 @@ export const faqs = [
   {
     badge: '01',
     question: 'What is BYTE TALKS 2026?',
-    answer: 'BYTE TALKS is the flagship tech conference and speaker forum organised by Google Developer Groups (GDG) on Campus AKGEC. It brings together leading software engineers, AI researchers, and prominent tech alumni for deep-dive technical talks, live architecture breakdowns, and industry career mentorship.',
+    answer: 'BYTE TALKS is the flagship tech conference and speaker forum. It brings together leading software engineers, AI researchers, and prominent tech alumni for deep-dive technical talks, live architecture breakdowns, and industry career mentorship.',
   },
   {
     badge: '02',
