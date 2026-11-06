@@ -499,7 +499,7 @@ export function RegistrationSection() {
       >
         {/* Row 2 (Inner edge - Enlarged Yellow/Gold Accent Outlined) */}
         <div className="flex flex-col gap-12 font-display text-[clamp(3.8rem,6.5vw,6.5rem)] font-black uppercase tracking-wider text-transparent [-webkit-text-stroke:2px_rgba(242,195,91,0.6)] [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
-          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'GDG ON CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'GDG ON CAMPUS'].map((text, i) => (
+          {['BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'AKGEC CAMPUS', 'BYTE TALKS 2026', 'AKGEC GHAZIABAD', 'BYTE TALKS 2026', 'AKGEC CAMPUS'].map((text, i) => (
             <span key={`right-r2-${i}`}>{text}</span>
           ))}
         </div>
@@ -774,7 +774,7 @@ export function RegistrationSection() {
                     COMMUNITY ACCESS
                   </h4>
                   <p className="mt-2 font-mono text-xs leading-relaxed text-white/90 font-semibold">
-                    Join GDG AKGEC campus community, participate in pre-talk discussions, and get real-time announcements.
+                    Join the campus community, participate in pre-talk discussions, and get real-time announcements.
                   </p>
                 </motion.div>
               </div>
